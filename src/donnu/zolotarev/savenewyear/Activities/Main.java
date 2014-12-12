@@ -1,5 +1,8 @@
-package donnu.zolotarev.savenewyear;
+package donnu.zolotarev.savenewyear.Activities;
 
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.BaseScene;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -7,16 +10,16 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
-public class Main extends BaseGameActivity {
+public class Main extends SimpleBaseGameActivity {
 
 
     private Camera camera;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
-        camera = new Camera(0,0,Constants.CAMERA_WIDTH,Constants.CAMERA_HEIGHT);
+        camera = new Camera(0,0, Constants.CAMERA_WIDTH,Constants.CAMERA_HEIGHT);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED,
                 new FillResolutionPolicy()
                 ,camera);
@@ -24,20 +27,18 @@ public class Main extends BaseGameActivity {
         return engineOptions;
     }
 
+
     @Override
-    public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws Exception {
+    protected void onCreateResources() {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
         MusicFactory.setAssetBasePath("mfx/");
-       // TextureLoader.loadTexture(this,getEngine());
+        TextureManager.initTextures(this, getEngine());
     }
 
     @Override
-    public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
-
+    protected Scene onCreateScene() {
+        return new BaseScene(this);
     }
 
-    @Override
-    public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 
-    }
 }

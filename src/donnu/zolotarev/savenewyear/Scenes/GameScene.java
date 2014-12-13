@@ -3,8 +3,9 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
+import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.background.AutoParallaxBackground;
@@ -19,18 +20,23 @@ public class GameScene extends BaseScene {
     private static final int FRONT_LAYER_SPEED = 40;
     private static final int BACKGROUND_LAYER_SPEED = 15;
     private static final int GAME_LAYER_SPEED = 30;
+    private final ISimpleClick onClickRestart;
+    private boolean enablePauseMenu = true;
+    private boolean isShowMenuScene = false;
+
+    private PauseMenuScene pauseMenu;
+
+    public GameScene(Main main, ISimpleClick onClickRestart) {
+        super(main);
+        this. onClickRestart = onClickRestart;
+        TextureManager.loadGameSprites();
+        createBackGround();
+        initOthers();
+    }
 
     private enum LAYERS{
         GAME_LAYER,
         FRONT_LAYER
-    }
-
-    public GameScene(Main main) {
-        super(main);
-
-        TextureManager.loadGameSprites();
-        createBackGround();
-        initOthers();
     }
 
     private void initOthers() {
@@ -52,6 +58,7 @@ public class GameScene extends BaseScene {
         AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,10);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
        autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
+
         setBackground(autoParallaxBackground);
 
         ParallaxLayer parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
@@ -75,9 +82,32 @@ public class GameScene extends BaseScene {
 
     @Override
     public void onKeyPressed(int keyCode, KeyEvent event) {
-         /*   clearChildScene();
-            detachChildren();
-            detachSelf();*/
-
+        if (enablePauseMenu){
+            if (!isShowMenuScene){
+                isShowMenuScene = true;
+                if (pauseMenu == null) {
+                    pauseMenu = new PauseMenuScene(main, onClickResume, onClickRestart, onClickExit);
+                }
+                setChildScene(pauseMenu, false, true, true);
+            }else{
+                isShowMenuScene = false;
+                clearChildScene();
+                //back();
+            }
+        }
     }
+
+    private final ISimpleClick onClickResume = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            clearChildScene();
+            isShowMenuScene = false;
+        }
+    };
+    private ISimpleClick onClickExit =  new ISimpleClick() {
+        @Override
+        public void onClick() {
+            back();
+        }
+    };
 }

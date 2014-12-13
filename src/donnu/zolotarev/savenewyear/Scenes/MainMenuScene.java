@@ -5,6 +5,7 @@ import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.R;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
@@ -35,12 +36,12 @@ public class MainMenuScene extends BaseScene {
         }
     };
 
-    private GameScene activeScene;
+   // private GameScene activeScene;
     ISimpleClick onClickPlay = new ISimpleClick() {
         @Override
         public void onClick() {
-            activeScene = new GameScene(main);
-            setChildScene(activeScene, false, true, true);
+            //activeScene = ;
+            onClickRestart.onClick();
         }
     };
 
@@ -85,12 +86,19 @@ public class MainMenuScene extends BaseScene {
 
     @Override
     public void onKeyPressed(int keyCode, KeyEvent event) {
-        if (activeScene != null) {
-            activeScene.onKeyPressed(keyCode, event);
-            back();
-            activeScene = null;
+        if (getChildScene() != null) {
+            ((IActivityCallback)getChildScene()).onKeyPressed(keyCode, event);
+
         }else{
             main.finish();
         }
     }
+
+    private ISimpleClick onClickRestart =  new ISimpleClick() {
+        @Override
+        public void onClick() {
+            clearChildScene();
+            setChildScene(new GameScene(main,onClickRestart), false, true, true);
+        }
+    };
 }

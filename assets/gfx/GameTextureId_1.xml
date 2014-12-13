@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="gameAtlas1.png" type="bitmap" width="512" height="512" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:e8a2f365ff52555941f2412c601a9608:a11d370ce8698ae48e8fd2473b4e0d14:b21bfae171360790d64b1df938a3390d$ -->
+    <textureregion id="0" src="Hero.png" x="2" y="2" width="292" height="362" rotated="false" trimmed="true" srcx="2" srcy="3" srcwidth="296" srcheight="370"/>
+    <textureregion id="1" src="road.png" x="2" y="366" width="128" height="86" rotated="true" trimmed="true" srcx="0" srcy="3" srcwidth="128" srcheight="92"/>
+</texture>

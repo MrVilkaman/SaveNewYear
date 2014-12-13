@@ -1,11 +1,17 @@
 package donnu.zolotarev.savenewyear.Textures;
 
 import android.content.Context;
+import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
 import org.andengine.engine.Engine;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.util.texturepack.TexturePack;
+import org.andengine.util.texturepack.TexturePackLoader;
+import org.andengine.util.texturepack.TexturePackTextureRegionLibrary;
+import org.andengine.util.texturepack.exception.TexturePackParseException;
 
 public class TextureManager {
 
@@ -16,11 +22,12 @@ public class TextureManager {
 
     private static BitmapTextureAtlas gameBGTexture;
     private static BitmapTextureAtlas gameFGTexture;
-    private static BitmapTextureAtlas testTexture;
+    private static TexturePack texturePack1;
 
     private static TextureRegion gameBG;
     private static TextureRegion gameFG;
-    private static TextureRegion road;
+    private static ITiledTextureRegion road;
+    private static ITiledTextureRegion hero;
 
     public static void initTextures(Context context, Engine engine){
         org.andengine.opengl.texture.TextureManager tm = engine.getTextureManager();
@@ -31,25 +38,30 @@ public class TextureManager {
         gameFGTexture = new BitmapTextureAtlas(tm, 2048, 242, TextureOptions.BILINEAR);
         gameFG = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameFGTexture, context, GAME_FG_TEXTURE, 0, 0);
 
-        testTexture = new BitmapTextureAtlas(tm, 512, 512, TextureOptions.BILINEAR);
-        road = BitmapTextureAtlasTextureRegionFactory.createFromAsset(testTexture, context, GAME_ROAD_TEXTURE, 0, 0);
+
+        try {
+            texturePack1 = new TexturePackLoader(context.getAssets(),tm).loadFromAsset("gfx/GameTextureId_1.xml", "gfx/");
+            TexturePackTextureRegionLibrary lib = texturePack1.getTexturePackTextureRegionLibrary();
+            road = lib.getTiled(GameTextureId_1.ROAD_ID);
+            hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
+        } catch (TexturePackParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public static void loadGameSprites(){
         gameFGTexture.load();
         gameBGTexture.load();
-        testTexture.load();
+        texturePack1.loadTexture();
     }
 
     public static void unloadGameSprites(){
         gameFGTexture.unload();
-        testTexture.unload();
         gameBGTexture.unload();
     }
 
     public static void clear(){
-        testTexture.clearTextureAtlasSources();
         gameFGTexture.clearTextureAtlasSources();
         gameBGTexture.clearTextureAtlasSources();
     }
@@ -62,7 +74,11 @@ public class TextureManager {
         return gameFG;
     }
 
-    public static TextureRegion getRoad() {
+    public static ITiledTextureRegion getRoad() {
         return road;
+    }
+
+    public static ITiledTextureRegion getHero() {
+        return hero;
     }
 }

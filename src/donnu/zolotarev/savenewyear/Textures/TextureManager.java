@@ -5,11 +5,14 @@ import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
 import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
 import org.andengine.engine.Engine;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.util.color.Color;
 import org.andengine.util.texturepack.TexturePack;
 import org.andengine.util.texturepack.TexturePackLoader;
 import org.andengine.util.texturepack.TexturePackTextureRegionLibrary;
@@ -35,6 +38,8 @@ public class TextureManager {
     private static ITiledTextureRegion buttons;
     private static ITiledTextureRegion gameTitle;
     private static TextureRegion menuBG;
+
+    private static Font font;
 
     public static void initTextures(Context context, Engine engine){
         org.andengine.opengl.texture.TextureManager tm = engine.getTextureManager();
@@ -70,6 +75,9 @@ public class TextureManager {
             e.printStackTrace();
         }
 
+        font = FontFactory.createFromAsset(engine.getFontManager(), tm, 256, 256, context.getAssets(), "gfx/BuxtonSketch.ttf", 64, true,
+                Color.WHITE_ABGR_PACKED_INT);
+        font.load();
     }
 
     public static void loadGameSprites(){
@@ -125,4 +133,7 @@ public class TextureManager {
         return menuBG;
     }
 
+    public static Font getFont() {
+        return font;
+    }
 }

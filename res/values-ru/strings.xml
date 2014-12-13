@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="localizade">RUS</string>
+    <string name="main_menu_play">Играть</string>
+    <string name="main_menu_setting">Настройки</string>
 </resources>

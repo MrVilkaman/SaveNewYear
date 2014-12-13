@@ -2,4 +2,6 @@
 <resources>
     <string name="localizade">ENG</string>
     <string name="app_name">Main</string>
+    <string name="main_menu_play">Играть</string>
+    <string name="main_menu_setting">Настройки</string>
 </resources>

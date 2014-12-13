@@ -2,7 +2,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.ParallaxLayer;
+import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
@@ -28,7 +28,6 @@ public class GameScene extends BaseScene {
         super(main);
 
         TextureManager.loadGameSprites();
-        initLayers();
         createBackGround();
         initOthers();
     }
@@ -41,7 +40,9 @@ public class GameScene extends BaseScene {
         animatedSprite.animate(new long[]{dur,dur,dur,dur,dur,dur},new int[]{0,1,2,3,2,1},true);
         attachToLayer(LAYERS.GAME_LAYER, animatedSprite);
     }
-    private void initLayers() {
+
+    @Override
+    protected void initLayers() {
         attachChild(new Entity());
         attachChild(new Entity());
     }
@@ -67,7 +68,7 @@ public class GameScene extends BaseScene {
         attachToLayer(LAYERS.GAME_LAYER,parallaxLayer);
     }
 
-    private void attachToLayer(LAYERS layer, IEntity entity){
+    protected void attachToLayer(LAYERS layer, IEntity entity){
         getChildByIndex(layer.ordinal()).attachChild(entity);
     }
 }

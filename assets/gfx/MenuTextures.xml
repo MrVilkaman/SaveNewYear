@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="MenuTextures.png" type="bitmap" width="1024" height="512" pixelformat="RGBA_4444" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:86bcf3a21e2cc3c8bbc50edd8c9a5967:259ceb7f950a2be373f1a6bb5dc0a2ea:6b9dce098c95b19b1d1f4aeeba911180$ -->
+    <textureregion id="0" src="Buttons.png" x="2" y="131" width="540" height="199" rotated="false" trimmed="true" srcx="4" srcy="3" srcwidth="546" srcheight="204"/>
+    <textureregion id="1" src="GameName.png" x="2" y="332" width="677" height="165" rotated="false" trimmed="true" srcx="9" srcy="4" srcwidth="694" srcheight="170"/>
+    <textureregion id="2" src="GameNameRUS.png" x="2" y="2" width="850" height="127" rotated="false" trimmed="true" srcx="3" srcy="1" srcwidth="855" srcheight="132"/>
+</texture>

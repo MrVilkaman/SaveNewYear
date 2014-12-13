@@ -1,7 +1,9 @@
 package donnu.zolotarev.savenewyear.Textures;
 
 import android.content.Context;
+import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
+import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
 import org.andengine.engine.Engine;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -18,16 +20,21 @@ public class TextureManager {
 
     private static final String GAME_BG_TEXTURE = "background.jpg";
     private static final String GAME_FG_TEXTURE = "frontground.png";
-    private static final String GAME_ROAD_TEXTURE = "road.png";
+    private static final String MENU_BG_TEXTURE = "menubackground.jpg";
 
     private static BitmapTextureAtlas gameBGTexture;
     private static BitmapTextureAtlas gameFGTexture;
+    private static BitmapTextureAtlas menuBGTexture;
     private static TexturePack texturePack1;
+    private static TexturePack texturePack2;
 
     private static TextureRegion gameBG;
     private static TextureRegion gameFG;
     private static ITiledTextureRegion road;
     private static ITiledTextureRegion hero;
+    private static ITiledTextureRegion buttons;
+    private static ITiledTextureRegion gameTitle;
+    private static TextureRegion menuBG;
 
     public static void initTextures(Context context, Engine engine){
         org.andengine.opengl.texture.TextureManager tm = engine.getTextureManager();
@@ -38,12 +45,27 @@ public class TextureManager {
         gameFGTexture = new BitmapTextureAtlas(tm, 2048, 242, TextureOptions.BILINEAR);
         gameFG = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameFGTexture, context, GAME_FG_TEXTURE, 0, 0);
 
+        menuBGTexture = new BitmapTextureAtlas(tm, 1280, 768, TextureOptions.BILINEAR);
+        menuBG = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuBGTexture, context, MENU_BG_TEXTURE, 0, 0);
 
         try {
             texturePack1 = new TexturePackLoader(context.getAssets(),tm).loadFromAsset("gfx/GameTextureId_1.xml", "gfx/");
             TexturePackTextureRegionLibrary lib = texturePack1.getTexturePackTextureRegionLibrary();
             road = lib.getTiled(GameTextureId_1.ROAD_ID);
             hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
+        } catch (TexturePackParseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            texturePack2 = new TexturePackLoader(context.getAssets(),tm).loadFromAsset("gfx/MenuTextures.xml", "gfx/");
+            TexturePackTextureRegionLibrary lib = texturePack2.getTexturePackTextureRegionLibrary();
+            buttons = lib.getTiled(MenuTextures.BUTTONS_ID,1,2);
+            if (context.getResources().getString(R.string.localizade).equals("RUS")) {
+                gameTitle = lib.getTiled(MenuTextures.GAMENAMERUS_ID);
+            }else{
+                gameTitle = lib.getTiled(MenuTextures.GAMENAME_ID);
+            }
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -59,11 +81,20 @@ public class TextureManager {
     public static void unloadGameSprites(){
         gameFGTexture.unload();
         gameBGTexture.unload();
+        texturePack1.unloadTexture();
+
+    }
+    public static void loadMenuSprites() {
+        menuBGTexture.load();
+        texturePack2.loadTexture();
     }
 
     public static void clear(){
+        menuBGTexture.unload();
+        texturePack2.unloadTexture();
         gameFGTexture.clearTextureAtlasSources();
         gameBGTexture.clearTextureAtlasSources();
+        menuBGTexture.clearTextureAtlasSources();
     }
 
     public static TextureRegion getGameBG() {
@@ -81,4 +112,17 @@ public class TextureManager {
     public static ITiledTextureRegion getHero() {
         return hero;
     }
+
+    public static ITiledTextureRegion getButtons() {
+        return buttons;
+    }
+
+    public static ITiledTextureRegion getGameTitle() {
+        return gameTitle;
+    }
+
+    public static TextureRegion getMenuBG() {
+        return menuBG;
+    }
+
 }

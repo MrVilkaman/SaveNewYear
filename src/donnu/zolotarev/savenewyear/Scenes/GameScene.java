@@ -27,7 +27,6 @@ public class GameScene extends BaseScene {
     public GameScene(Main main) {
         super(main);
 
-
         TextureManager.loadGameSprites();
         initLayers();
         createBackGround();
@@ -39,7 +38,6 @@ public class GameScene extends BaseScene {
         AnimatedSprite animatedSprite = new AnimatedSprite(200, Constants.CAMERA_HEIGHT - TextureManager.getGameFG().getHeight()-130
                 , he, main.getVertexBufferObjectManager());
         int dur = 100; // hero speed anim
-//       animatedSprite.animate(new long[]{dur,dur,dur,dur},new int[]{1,2,3,4},true);
         animatedSprite.animate(new long[]{dur,dur,dur,dur,dur,dur},new int[]{0,1,2,3,2,1},true);
         attachToLayer(LAYERS.GAME_LAYER, animatedSprite);
     }

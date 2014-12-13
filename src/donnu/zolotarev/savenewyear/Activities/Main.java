@@ -1,7 +1,7 @@
 package donnu.zolotarev.savenewyear.Activities;
 
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Scenes.BaseScene;
+import donnu.zolotarev.savenewyear.Scenes.GameScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
@@ -37,7 +37,7 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-        return new BaseScene(this);
+        return new GameScene(this);
     }
 
 

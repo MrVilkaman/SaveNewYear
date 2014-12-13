@@ -44,6 +44,11 @@ public class TextureManager {
         gameBGTexture.unload();
     }
 
+    public static void clear(){
+        gameFGTexture.clearTextureAtlasSources();
+        gameBGTexture.clearTextureAtlasSources();
+    }
+
     public static TextureRegion getGameBG() {
         return gameBG;
     }

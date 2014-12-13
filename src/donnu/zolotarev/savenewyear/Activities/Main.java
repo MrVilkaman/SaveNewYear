@@ -1,6 +1,8 @@
 package donnu.zolotarev.savenewyear.Activities;
 
+import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.audio.music.MusicFactory;
@@ -16,6 +18,7 @@ public class Main extends SimpleBaseGameActivity {
 
 
     private Camera camera;
+    private BaseScene mainMenu;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -37,7 +40,8 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-        return new MainMenuScene(this);
+        mainMenu =  new MainMenuScene(this);
+        return mainMenu;
     }
 
 
@@ -46,5 +50,37 @@ public class Main extends SimpleBaseGameActivity {
         TextureManager.unloadGameSprites();
         TextureManager.clear();
         super.onDestroyResources();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mainMenu != null){
+            mainMenu.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        /*try {
+            MusicLoader.getSound().pause();
+        } catch (MusicReleasedException e) {
+        }*/
+        if (mainMenu != null){
+            mainMenu.onPause();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK ) && event.getAction() == KeyEvent.ACTION_DOWN){
+            if (mainMenu != null){
+                mainMenu.onKeyPressed(keyCode, event);
+            }
+            return true;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 }

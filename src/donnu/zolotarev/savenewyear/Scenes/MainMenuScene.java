@@ -1,5 +1,6 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
@@ -16,12 +17,32 @@ import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
 
 public class MainMenuScene extends BaseScene {
-
     private enum LAYERS{
         TITLE_LAYER,
         SHOW_LAYER,
         BATTON_LAYER
     }
+
+    private ISimpleClick onClickSetting = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            main.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(main, "Пока не готово =( ", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    };
+
+    private GameScene activeScene;
+    ISimpleClick onClickPlay = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            activeScene = new GameScene(main);
+            setChildScene(activeScene, false, true, true);
+        }
+    };
 
     public MainMenuScene(Main main) {
         super(main);
@@ -44,33 +65,14 @@ public class MainMenuScene extends BaseScene {
         String text = main.getString(R.string.main_menu_play);
 
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), new ISimpleClick() {
-            @Override
-            public void onClick() {
-                 main.runOnUiThread(new Runnable() {
-                     @Override
-                     public void run() {
-                         Toast.makeText(main,"!!!", Toast.LENGTH_SHORT).show();
-                     }
-                 });
-            }
-        }), Constants.CAMERA_WIDTH / 2 - 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.RIGHT, HALIGMENT.CENTER);
+                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 - 50,
+                Constants.CAMERA_HEIGHT-100, WALIGMENT.RIGHT, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER,btn1);
 
         text = main.getString(R.string.main_menu_setting);
         RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), new ISimpleClick() {
-            @Override
-            public void onClick() {
-                main.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(main,"!!!2", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
+                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickSetting), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
     }
@@ -79,5 +81,16 @@ public class MainMenuScene extends BaseScene {
 
     protected void attachToLayer(LAYERS layer, IEntity entity){
         getChildByIndex(layer.ordinal()).attachChild(entity);
+    }
+
+    @Override
+    public void onKeyPressed(int keyCode, KeyEvent event) {
+        if (activeScene != null) {
+            activeScene.onKeyPressed(keyCode, event);
+            back();
+            activeScene = null;
+        }else{
+            main.finish();
+        }
     }
 }

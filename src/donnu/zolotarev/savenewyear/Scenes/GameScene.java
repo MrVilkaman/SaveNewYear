@@ -1,5 +1,6 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
@@ -70,5 +71,13 @@ public class GameScene extends BaseScene {
 
     protected void attachToLayer(LAYERS layer, IEntity entity){
         getChildByIndex(layer.ordinal()).attachChild(entity);
+    }
+
+    @Override
+    public void onKeyPressed(int keyCode, KeyEvent event) {
+         /*   clearChildScene();
+            detachChildren();
+            detachSelf();*/
+
     }
 }

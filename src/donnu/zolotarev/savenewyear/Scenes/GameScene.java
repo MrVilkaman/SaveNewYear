@@ -1,6 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
+import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Hero;
@@ -11,7 +12,10 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
+import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.IOnSceneTouchListener;
@@ -25,6 +29,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -39,6 +44,8 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     private static final int GAME_LAYER_SPEED = 30;
 
     private static final int GROUND_Y = 500;
+    private ObjectCollisionController<ICollisionObject> treeCollection;
+    private boolean flag2 = true;
 
     private enum LAYERS{
         ROAD_LAYER,
@@ -46,10 +53,6 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
         FRONT_LAYER,
         HUD_LAYER
     }
-
-
-
-
 
     private final ISimpleClick onClickRestart;
     private boolean enablePauseMenu = true;
@@ -88,6 +91,34 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
                 return false;
             }
         });
+
+        registerUpdateHandler(new IUpdateHandler(){
+
+            @Override
+            public void onUpdate(float pSecondsElapsed) {
+                ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
+//                for (int i = objects.size()-1; 0<=i;i--){
+                if (objects.size() != 0) {
+                    if (flag2) {
+                        flag2 = false;
+                        main.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(main, "!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }else {
+                    flag2 = true;
+                }
+//                }
+            }
+
+            @Override
+            public void reset() {
+
+            }
+        });
     }
 
     private void createHUD() {
@@ -105,6 +136,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     }
 
     private void initOthers() {
+        treeCollection =  new ObjectCollisionController<ICollisionObject>();
         hero = new Hero(main,this);
     }
 
@@ -144,6 +176,16 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     @Override
     public void attachToGameLayers(IEntity entity) {
         attachToLayer(LAYERS.GAME_LAYER,entity);
+    }
+
+    @Override
+    public void attachSelfToCollection(ICollisionObject collisionObject) {
+        treeCollection.add(collisionObject);
+    }
+
+    @Override
+    public void detachSelfFromCollection(ICollisionObject collisionObject) {
+        treeCollection.remove(collisionObject);
     }
 
     @Override
@@ -212,4 +254,6 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
         }
         super.onManagedUpdate(pSecondsElapsed);
     }
+
+
 }

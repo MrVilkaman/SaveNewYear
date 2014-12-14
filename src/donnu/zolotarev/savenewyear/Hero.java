@@ -21,38 +21,33 @@ public class Hero {
     private final Sprite shedow;
 
     // todo убрать константу!
-    private float GROUND_Y = 380;
+    private float groundY = 380;
 
     private boolean isFly = false;
 
     public Hero(Main main,IHaveGameLayers gameLayers) {
         ITiledTextureRegion he = TextureManager.getHero();
-        animatedSprite = new AnimatedSprite(HERO_X, GROUND_Y
+        animatedSprite = new AnimatedSprite(HERO_X, groundY
                 , he, main.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
                 // todo проверка по двум точкам
-                if(  GROUND_Y < mY){
-                    if (isFly) {
+                if(  groundY < mY){
                         shedow.setScaleX(1f);
                         physicsHandler.setVelocityY(0);
-                        mY = GROUND_Y;
+                        mY = groundY;
                         physicsHandler.setAccelerationY(0);
-                    }
                     isFly = false;
                 }else{
-                    if (!isFly) {
                         physicsHandler.setAccelerationY(GRAVITY_SPEED);
-                    }
-                    shedow.setScale(1-(GROUND_Y - mY) / GROUND_Y);
-                    isFly = true;
+                    shedow.setScale(1-(groundY - mY) / groundY);
                 }
 
             }
         };
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
-        shedow = new Sprite(HERO_X+15,GROUND_Y+animatedSprite.getHeight()-20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
+        shedow = new Sprite(HERO_X+15, groundY +animatedSprite.getHeight()-20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
 
         physicsHandler = new PhysicsHandler(animatedSprite);
         animatedSprite.registerUpdateHandler(physicsHandler);
@@ -64,12 +59,18 @@ public class Hero {
 
     public void jump(){
         if (!isFly) {
-            animatedSprite.setY(GROUND_Y - 10);
+            animatedSprite.setY(groundY - 10);
             physicsHandler.setVelocityY(-JUMP_SPEED);
         }
+        isFly = true;
+
     }
 
     public IEntity getSprite() {
         return animatedSprite;
+    }
+
+    public void setGroundY(float groundY) {
+        this.groundY = groundY;
     }
 }

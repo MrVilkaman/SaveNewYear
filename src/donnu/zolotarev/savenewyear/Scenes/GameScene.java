@@ -30,6 +30,14 @@ import java.util.Locale;
 public class GameScene extends BaseScene implements IHaveGameLayers {
 
 
+    private static final float PARALLAX_CHANGE_PER_SECOND = 10;
+    private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
+
+    private static final int FRONT_LAYER_SPEED = 32;
+    private static final int BACKGROUND_LAYER_SPEED = 15;
+    private static final int GAME_LAYER_SPEED = 30;
+
+    private static final int GROUND_Y = 380;
 
     private enum LAYERS{
         ROAD_LAYER,
@@ -38,11 +46,9 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
         HUD_LAYER
     }
 
-    private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
-    private static final int FRONT_LAYER_SPEED = 40;
-    private static final int BACKGROUND_LAYER_SPEED = 15;
-    private static final int GAME_LAYER_SPEED = 30;
+
+
 
     private final ISimpleClick onClickRestart;
     private boolean enablePauseMenu = true;
@@ -109,21 +115,21 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     }
 
     private void createBackGround() {
-        AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,10);
+        AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,PARALLAX_CHANGE_PER_SECOND);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
        autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
 
         setBackground(autoParallaxBackground);
 
         ParallaxLayer parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
-        parallaxLayer.setParallaxChangePerSecond(8);
+        parallaxLayer.setParallaxChangePerSecond(PARALLAX_CHANGE_PER_SECOND);
         parallaxLayer.setParallaxScrollFactor(1);
         IAreaShape frontground = new Sprite(0, Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight(), TextureManager.getGameFG(),main.getVertexBufferObjectManager());
         parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-FRONT_LAYER_SPEED, frontground,false,1));
         attachToLayer(LAYERS.FRONT_LAYER,parallaxLayer);
 
         parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
-        parallaxLayer.setParallaxChangePerSecond(10);
+        parallaxLayer.setParallaxChangePerSecond(PARALLAX_CHANGE_PER_SECOND);
         parallaxLayer.setParallaxScrollFactor(1);
         Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight()-15,TextureManager.getRoad(),main.getVertexBufferObjectManager());
         parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_SPEED, sprite));

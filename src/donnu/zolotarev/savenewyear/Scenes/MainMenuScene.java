@@ -53,9 +53,9 @@ public class MainMenuScene extends BaseScene {
 
     @Override
     protected void initLayers() {
-        attachChild(new Entity());
-        attachChild(new Entity());
-        attachChild(new Entity());
+        for (LAYERS l:LAYERS.values()){
+            attachChild(new Entity());
+        }
     }
 
     private void initBackground() {

@@ -4,7 +4,10 @@ import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
+import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
+import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
@@ -13,6 +16,7 @@ import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.shape.IAreaShape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
 public class GameScene extends BaseScene {
@@ -20,26 +24,41 @@ public class GameScene extends BaseScene {
     private static final int FRONT_LAYER_SPEED = 40;
     private static final int BACKGROUND_LAYER_SPEED = 15;
     private static final int GAME_LAYER_SPEED = 30;
+
     private final ISimpleClick onClickRestart;
     private boolean enablePauseMenu = true;
     private boolean isShowMenuScene = false;
 
     private PauseMenuScene pauseMenu;
+    private Text timerScore;
+    private float gameTime = 0;
 
     public GameScene(Main main, ISimpleClick onClickRestart) {
         super(main);
         this. onClickRestart = onClickRestart;
         TextureManager.loadGameSprites();
         createBackGround();
+        createHUD();
         initOthers();
+    }
+
+    private void createHUD() {
+        timerScore = new Text(0,0, TextureManager.getFont(),"00:00.00",main.getVertexBufferObjectManager());
+       // timerScore.setScale(2f);
+        timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
+                ,Constants.CAMERA_WIDTH/2,0, WALIGMENT.CENTER, HALIGMENT.TOP);
+        attachToLayer(LAYERS.HUD_LAYER, timerScore);
     }
 
     private enum LAYERS{
         GAME_LAYER,
-        FRONT_LAYER
+        FRONT_LAYER,
+        HUD_LAYER
     }
 
     private void initOthers() {
+
+        ///todo Убрать в отдельный класс
         ITiledTextureRegion he = TextureManager.getHero();
         AnimatedSprite animatedSprite = new AnimatedSprite(200, Constants.CAMERA_HEIGHT - TextureManager.getGameFG().getHeight()-130
                 , he, main.getVertexBufferObjectManager());
@@ -50,8 +69,9 @@ public class GameScene extends BaseScene {
 
     @Override
     protected void initLayers() {
-        attachChild(new Entity());
-        attachChild(new Entity());
+        for (LAYERS l:LAYERS.values()){
+            attachChild(new Entity());
+        }
     }
 
     private void createBackGround() {
@@ -110,4 +130,16 @@ public class GameScene extends BaseScene {
             back();
         }
     };
+
+
+    @Override
+    protected void onManagedUpdate(float pSecondsElapsed) {
+
+        if (!isShowMenuScene) {
+            gameTime += pSecondsElapsed;
+            // todo оптимизировать по памяти
+                timerScore.setText(String.format("%.1f", gameTime));
+        }
+        super.onManagedUpdate(pSecondsElapsed);
+    }
 }

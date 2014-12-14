@@ -31,6 +31,8 @@ public class TextureManager {
     private static TexturePack texturePack1;
     private static TexturePack texturePack2;
 
+    private static Font font;
+
     private static TextureRegion gameBG;
     private static TextureRegion gameFG;
     private static ITiledTextureRegion road;
@@ -38,8 +40,12 @@ public class TextureManager {
     private static ITiledTextureRegion buttons;
     private static ITiledTextureRegion gameTitle;
     private static TextureRegion menuBG;
+    private static ITiledTextureRegion pauseButton;
+    private static ITiledTextureRegion showBalls;
+    private static ITiledTextureRegion present;
+    private static ITiledTextureRegion waterHoll;
+    private static ITiledTextureRegion newYearTree;
 
-    private static Font font;
 
     public static void initTextures(Context context, Engine engine){
         org.andengine.opengl.texture.TextureManager tm = engine.getTextureManager();
@@ -58,6 +64,10 @@ public class TextureManager {
             TexturePackTextureRegionLibrary lib = texturePack1.getTexturePackTextureRegionLibrary();
             road = lib.getTiled(GameTextureId_1.ROAD_ID);
             hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
+            showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,1,3);
+            present = lib.getTiled(GameTextureId_1.PRESENT_ID);
+            waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
+            newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -71,6 +81,7 @@ public class TextureManager {
             }else{
                 gameTitle = lib.getTiled(MenuTextures.GAMENAME_ID);
             }
+            pauseButton = lib.getTiled(MenuTextures.PAUSE_BUTTON_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }

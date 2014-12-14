@@ -142,10 +142,10 @@ public  class EasyLayoutsFactory {
                 dx = 0;
                 break;
             case CENTER:
-                dx = (int)iMenuItem.getWidth()/2;
+                dx = (int)iMenuItem.getWidthScaled()/2 ;
                 break;
             case RIGHT:
-                dx = (int)iMenuItem.getWidth();
+                dx = (int)iMenuItem.getWidthScaled();
                 break;
         }
 
@@ -154,10 +154,10 @@ public  class EasyLayoutsFactory {
                 dy = 0;
                 break;
             case CENTER:
-                dy = (int)iMenuItem.getHeight()/2;
+                dy = (int)iMenuItem.getHeightScaled()/2;
                 break;
             case BOTTOM:
-                dy = (int)iMenuItem.getHeight();
+                dy = (int)iMenuItem.getHeightScaled();
                 break;
         }
         iMenuItem.setPosition(x - dx,y - dy);

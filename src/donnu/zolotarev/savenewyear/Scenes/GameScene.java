@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Hero;
+import donnu.zolotarev.savenewyear.IHaveGameLayers;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
@@ -26,7 +27,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class GameScene extends BaseScene {
+public class GameScene extends BaseScene implements IHaveGameLayers {
+
+
+
+    private enum LAYERS{
+        ROAD_LAYER,
+        GAME_LAYER,
+        FRONT_LAYER,
+        HUD_LAYER
+    }
 
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -87,17 +97,8 @@ public class GameScene extends BaseScene {
         attachToLayer(LAYERS.HUD_LAYER, btn2);
     }
 
-    private enum LAYERS{
-        ROAD_LAYER,
-        GAME_LAYER,
-        FRONT_LAYER,
-        HUD_LAYER
-    }
-
     private void initOthers() {
-        hero = new Hero(main);
-        ///todo Убрать в отдельный класс
-        attachToLayer(LAYERS.GAME_LAYER, hero.getSprite());
+        hero = new Hero(main,this);
     }
 
     @Override
@@ -124,13 +125,18 @@ public class GameScene extends BaseScene {
         parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
         parallaxLayer.setParallaxChangePerSecond(10);
         parallaxLayer.setParallaxScrollFactor(1);
-        Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight(),TextureManager.getRoad(),main.getVertexBufferObjectManager());
+        Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight()-15,TextureManager.getRoad(),main.getVertexBufferObjectManager());
         parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_SPEED, sprite));
         attachToLayer(LAYERS.ROAD_LAYER,parallaxLayer);
     }
 
     protected void attachToLayer(LAYERS layer, IEntity entity){
         getChildByIndex(layer.ordinal()).attachChild(entity);
+    }
+
+    @Override
+    public void attachToGameLayers(IEntity entity) {
+        attachToLayer(LAYERS.GAME_LAYER,entity);
     }
 
     @Override

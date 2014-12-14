@@ -47,6 +47,7 @@ public class TextureManager {
     private static ITiledTextureRegion waterHoll;
     private static ITiledTextureRegion newYearTree;
     private static IFont bigFont;
+    private static ITiledTextureRegion heroShedow;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -70,6 +71,7 @@ public class TextureManager {
             present = lib.getTiled(GameTextureId_1.PRESENT_ID);
             waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
+            heroShedow = lib.getTiled(GameTextureId_1.HERO_SHEDOW_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -176,5 +178,9 @@ public class TextureManager {
 
     public static IFont getBigFont() {
         return bigFont;
+    }
+
+    public static ITiledTextureRegion getHeroShedow() {
+        return heroShedow;
     }
 }

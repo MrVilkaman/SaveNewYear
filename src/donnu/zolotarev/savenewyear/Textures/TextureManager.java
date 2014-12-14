@@ -7,6 +7,7 @@ import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
 import org.andengine.engine.Engine;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.font.IFont;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -45,6 +46,7 @@ public class TextureManager {
     private static ITiledTextureRegion present;
     private static ITiledTextureRegion waterHoll;
     private static ITiledTextureRegion newYearTree;
+    private static IFont bigFont;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -88,6 +90,10 @@ public class TextureManager {
 
         font = FontFactory.createFromAsset(engine.getFontManager(), tm, 256, 256, context.getAssets(), "gfx/BuxtonSketch.ttf", 64, true,
                 Color.WHITE_ABGR_PACKED_INT);
+        bigFont = FontFactory.createFromAsset(engine.getFontManager(), tm, 300, 300, context.getAssets(), "gfx/BuxtonSketchNumbers.ttf", 128, true,
+                Color.WHITE_ABGR_PACKED_INT);
+
+        bigFont.load();
         font.load();
     }
 
@@ -166,5 +172,9 @@ public class TextureManager {
 
     public static ITiledTextureRegion getNewYearTree() {
         return newYearTree;
+    }
+
+    public static IFont getBigFont() {
+        return bigFont;
     }
 }

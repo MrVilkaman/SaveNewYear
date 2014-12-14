@@ -20,7 +20,13 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class GameScene extends BaseScene {
+
+    private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
     private static final int FRONT_LAYER_SPEED = 40;
     private static final int BACKGROUND_LAYER_SPEED = 15;
@@ -41,6 +47,8 @@ public class GameScene extends BaseScene {
             showPause();
         }
     };
+    private int updateTimerCounter = 0;
+
 
     public GameScene(Main main, ISimpleClick onClickRestart) {
         super(main);
@@ -52,10 +60,11 @@ public class GameScene extends BaseScene {
     }
 
     private void createHUD() {
-        timerScore = new Text(0,0, TextureManager.getFont(),"00:00.00",main.getVertexBufferObjectManager());
-       // timerScore.setScale(2f);
+        timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
+        //timerScore.setScale(2f);
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
-                ,Constants.CAMERA_WIDTH/2,0, WALIGMENT.CENTER, HALIGMENT.TOP);
+                ,Constants.CAMERA_WIDTH/2,-10, WALIGMENT.CENTER, HALIGMENT.TOP);
+
         attachToLayer(LAYERS.HUD_LAYER, timerScore);
 
         RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getPauseButton()
@@ -150,13 +159,20 @@ public class GameScene extends BaseScene {
     };
 
 
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.S", Locale.ENGLISH);
+    Date date = new Date(0);
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
 
         if (!isShowMenuScene) {
             gameTime += pSecondsElapsed;
             // todo оптимизировать по памяти
-                timerScore.setText(String.format("%.1f", gameTime));
+            if (updateTimerCounter < 0) {
+                date.setTime((int)(gameTime*1000));
+                timerScore.setText(sdf.format(date));
+                updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
+            }
+            updateTimerCounter--;
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

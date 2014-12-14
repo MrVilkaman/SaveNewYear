@@ -6,6 +6,7 @@ import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.IHaveGameLayers;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.TreeItem;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
@@ -37,7 +38,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     private static final int BACKGROUND_LAYER_SPEED = 15;
     private static final int GAME_LAYER_SPEED = 30;
 
-    private static final int GROUND_Y = 380;
+    private static final int GROUND_Y = 500;
 
     private enum LAYERS{
         ROAD_LAYER,
@@ -69,7 +70,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     private Hero hero;
 
 
-    public GameScene(Main main, ISimpleClick onClickRestart) {
+    public GameScene(final Main main, ISimpleClick onClickRestart) {
         super(main);
         this. onClickRestart = onClickRestart;
         TextureManager.loadGameSprites();
@@ -183,6 +184,8 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
 
     SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.S", Locale.ENGLISH);
     Date date = new Date(0);
+
+    private boolean flag = true;
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
 
@@ -195,6 +198,17 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
             }
             updateTimerCounter--;
+            if ((int)(gameTime*300%300)==0 &&flag) {
+                flag = false;
+                TreeItem item = new TreeItem(main,GameScene.this);
+                item.setStart(561);
+            }else {
+                flag = true;
+            }
+
+
+            //todo !!
+
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

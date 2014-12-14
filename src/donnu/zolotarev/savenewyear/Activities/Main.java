@@ -47,8 +47,8 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     public void onDestroyResources() throws Exception {
-        TextureManager.unloadGameSprites();
-        TextureManager.clear();
+      /*  TextureManager.unloadGameSprites();
+        TextureManager.clear();*/
         super.onDestroyResources();
     }
 

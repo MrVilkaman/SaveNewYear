@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
@@ -11,14 +12,15 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.AutoParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.shape.IAreaShape;
 import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
-import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import org.andengine.input.touch.TouchEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +50,7 @@ public class GameScene extends BaseScene {
         }
     };
     private int updateTimerCounter = 0;
+    private Hero hero;
 
 
     public GameScene(Main main, ISimpleClick onClickRestart) {
@@ -57,6 +60,17 @@ public class GameScene extends BaseScene {
         createBackGround();
         createHUD();
         initOthers();
+
+        setOnSceneTouchListener(new IOnSceneTouchListener() {
+            @Override
+            public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+                    hero.jump();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void createHUD() {
@@ -74,20 +88,16 @@ public class GameScene extends BaseScene {
     }
 
     private enum LAYERS{
+        ROAD_LAYER,
         GAME_LAYER,
         FRONT_LAYER,
         HUD_LAYER
     }
 
     private void initOthers() {
-
+        hero = new Hero(main);
         ///todo Убрать в отдельный класс
-        ITiledTextureRegion he = TextureManager.getHero();
-        AnimatedSprite animatedSprite = new AnimatedSprite(200, Constants.CAMERA_HEIGHT - TextureManager.getGameFG().getHeight()-130
-                , he, main.getVertexBufferObjectManager());
-        int dur = 100; // hero speed anim
-        animatedSprite.animate(new long[]{dur,dur,dur,dur,dur,dur},new int[]{0,1,2,3,2,1},true);
-        attachToLayer(LAYERS.GAME_LAYER, animatedSprite);
+        attachToLayer(LAYERS.GAME_LAYER, hero.getSprite());
     }
 
     @Override
@@ -116,7 +126,7 @@ public class GameScene extends BaseScene {
         parallaxLayer.setParallaxScrollFactor(1);
         Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight(),TextureManager.getRoad(),main.getVertexBufferObjectManager());
         parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_SPEED, sprite));
-        attachToLayer(LAYERS.GAME_LAYER,parallaxLayer);
+        attachToLayer(LAYERS.ROAD_LAYER,parallaxLayer);
     }
 
     protected void attachToLayer(LAYERS layer, IEntity entity){

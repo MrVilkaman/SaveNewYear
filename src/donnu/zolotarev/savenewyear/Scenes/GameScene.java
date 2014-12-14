@@ -14,6 +14,7 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.background.AutoParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.shape.IAreaShape;
+import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
@@ -33,6 +34,14 @@ public class GameScene extends BaseScene {
     private Text timerScore;
     private float gameTime = 0;
 
+
+    private ISimpleClick onClickPause = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            showPause();
+        }
+    };
+
     public GameScene(Main main, ISimpleClick onClickRestart) {
         super(main);
         this. onClickRestart = onClickRestart;
@@ -48,6 +57,11 @@ public class GameScene extends BaseScene {
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
                 ,Constants.CAMERA_WIDTH/2,0, WALIGMENT.CENTER, HALIGMENT.TOP);
         attachToLayer(LAYERS.HUD_LAYER, timerScore);
+
+        RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getPauseButton()
+                , main.getVertexBufferObjectManager(),null,null, onClickPause),Constants.CAMERA_WIDTH-20, 20, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        registerTouchArea(btn2);
+        attachToLayer(LAYERS.HUD_LAYER, btn2);
     }
 
     private enum LAYERS{
@@ -104,17 +118,21 @@ public class GameScene extends BaseScene {
     public void onKeyPressed(int keyCode, KeyEvent event) {
         if (enablePauseMenu){
             if (!isShowMenuScene){
-                isShowMenuScene = true;
-                if (pauseMenu == null) {
-                    pauseMenu = new PauseMenuScene(main, onClickResume, onClickRestart, onClickExit);
-                }
-                setChildScene(pauseMenu, false, true, true);
+                showPause();
             }else{
                 isShowMenuScene = false;
                 clearChildScene();
                 //back();
             }
         }
+    }
+
+    private void showPause() {
+        isShowMenuScene = true;
+        if (pauseMenu == null) {
+            pauseMenu = new PauseMenuScene(main, onClickResume, onClickRestart, onClickExit);
+        }
+        setChildScene(pauseMenu, false, true, true);
     }
 
     private final ISimpleClick onClickResume = new ISimpleClick() {

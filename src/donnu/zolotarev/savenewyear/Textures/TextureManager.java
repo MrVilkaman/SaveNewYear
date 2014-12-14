@@ -147,4 +147,24 @@ public class TextureManager {
     public static Font getFont() {
         return font;
     }
+
+    public static ITiledTextureRegion getPauseButton() {
+        return pauseButton;
+    }
+
+    public static ITiledTextureRegion getShowBalls() {
+        return showBalls;
+    }
+
+    public static ITiledTextureRegion getPresent() {
+        return present;
+    }
+
+    public static ITiledTextureRegion getWaterHoll() {
+        return waterHoll;
+    }
+
+    public static ITiledTextureRegion getNewYearTree() {
+        return newYearTree;
+    }
 }

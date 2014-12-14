@@ -118,7 +118,9 @@ public  class EasyLayoutsFactory {
                     setCurrentTileIndex(0);
                     click.onClick();
                 }else if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN){
-                   setCurrentTileIndex(1);
+                    if (getTileCount()!=1) {
+                        setCurrentTileIndex(1);
+                    }
                 }else{
                     setCurrentTileIndex(0);
                 }

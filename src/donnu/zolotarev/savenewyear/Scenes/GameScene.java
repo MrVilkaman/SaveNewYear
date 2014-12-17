@@ -6,11 +6,12 @@ import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
+import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Hero;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IHaveGameLayers;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -38,19 +39,25 @@ import org.andengine.ui.activity.BaseGameActivity;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCreate {
+public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
-    private static final int FRONT_LAYER_SPEED = 55;
-    private static final int BACKGROUND_LAYER_SPEED = 15;
-    private static final int GAME_LAYER_SPEED = 50;
+    private static final float BACKGROUND_LAYER_SPEED = 0.4f;
+    private static final float FRONT_LAYER_COEF = 1.1f;
+    private static final float GAME_LAYER_COEF = 1f;
 
     private static final int GROUND_Y = 500;
     private ObjectCollisionController<ICollisionObject> treeCollection;
     private boolean flag2 = true;
+
+    private ParallaxLayer parallaxFG;
+    private ParallaxLayer parallaxRoad;
+    private AutoParallaxBackground autoParallaxBackground;
+
+    private float gameSpeed = 500;
 
 
     private enum LAYERS{
@@ -142,6 +149,24 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     }
 
     @Override
+    public float getGameSpeed() {
+        return gameSpeed;
+    }
+
+    @Override
+    public void updateGameSpeed(){
+        gameSpeed *=1.1f;
+        parallaxRoad.setParallaxChangePerSecond(gameSpeed);
+        parallaxFG.setParallaxChangePerSecond(gameSpeed);
+        autoParallaxBackground.setParallaxChangePerSecond(gameSpeed);
+        ArrayList<ICollisionObject> col = treeCollection.get();
+        for (int i = col.size()-1; 0<=i;i--){
+            BaseUnit it =  (BaseUnit)col.get(i);
+            it.updateSpeed();
+        }
+    }
+
+    @Override
     public void initNextUnit() {
         IBarrier item;
         double r = Math.random();
@@ -181,25 +206,25 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     private void createBackGround() {
         BaseGameActivity main = GameContex.getCurrent();
-        AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,PARALLAX_CHANGE_PER_SECOND);
+         autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,PARALLAX_CHANGE_PER_SECOND);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
        autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
-
         setBackground(autoParallaxBackground);
 
-        ParallaxLayer parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
-        parallaxLayer.setParallaxChangePerSecond(PARALLAX_CHANGE_PER_SECOND);
-        parallaxLayer.setParallaxScrollFactor(1);
+        parallaxFG = new ParallaxLayer(main.getEngine().getCamera(), true);
+        parallaxFG.setParallaxChangePerSecond(gameSpeed);
+        parallaxFG.setParallaxScrollFactor(1);
         IAreaShape frontground = new Sprite(0, Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight(), TextureManager.getGameFG(),main.getVertexBufferObjectManager());
-        parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-FRONT_LAYER_SPEED, frontground,false,1));
-        attachToLayer(LAYERS.FRONT_LAYER,parallaxLayer);
+        parallaxFG.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-FRONT_LAYER_COEF, frontground, false, 1));
+        attachToLayer(LAYERS.FRONT_LAYER, parallaxFG);
 
-        parallaxLayer = new ParallaxLayer(main.getEngine().getCamera(), true);
-        parallaxLayer.setParallaxChangePerSecond(PARALLAX_CHANGE_PER_SECOND);
-        parallaxLayer.setParallaxScrollFactor(1);
+        parallaxRoad = new ParallaxLayer(main.getEngine().getCamera(), true);
+        parallaxRoad.setParallaxChangePerSecond(gameSpeed);
+        parallaxRoad.setParallaxScrollFactor(1);
         Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight()-15,TextureManager.getRoad(),main.getVertexBufferObjectManager());
-        parallaxLayer.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_SPEED, sprite));
-        attachToLayer(LAYERS.ROAD_LAYER,parallaxLayer);
+        parallaxRoad.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF, sprite));
+        attachToLayer(LAYERS.ROAD_LAYER, parallaxRoad);
+
     }
 
     protected void attachToLayer(LAYERS layer, IEntity entity){
@@ -281,7 +306,6 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
             }
             updateTimerCounter--;
             waveController.update(pSecondsElapsed);
-
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

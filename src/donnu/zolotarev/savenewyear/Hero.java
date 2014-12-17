@@ -1,7 +1,7 @@
 package donnu.zolotarev.savenewyear;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IHaveGameLayers;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
@@ -68,7 +68,7 @@ public class Hero implements ICollisionObject{
         rect.setScale(0.60f, 0.8f);
         rect.setColor(Color.GREEN);
         rect.setAlpha(0.5f);
- //       rect.setVisible(false);
+        rect.setVisible(false);
         animatedSprite.attachChild(rect);
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
         shedow = new Sprite(HERO_X+15, groundY -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
@@ -76,7 +76,7 @@ public class Hero implements ICollisionObject{
         physicsHandler = new PhysicsHandler(animatedSprite);
         animatedSprite.registerUpdateHandler(physicsHandler);
 
-        IHaveGameLayers gameLayers = SceneContext.getActiveScene();
+        IActiveGameScene gameLayers = SceneContext.getActiveScene();
         gameLayers.attachToGameLayers(shedow, isFly);
         gameLayers.attachToGameLayers(animatedSprite, isFly);
     }

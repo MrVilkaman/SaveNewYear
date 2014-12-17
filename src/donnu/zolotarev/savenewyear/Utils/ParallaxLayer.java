@@ -74,6 +74,10 @@ public class ParallaxLayer extends Entity {
         this.mParallaxScrollFactor = pParallaxScrollFactor;
     }
 
+    public float getmParallaxChangePerSecond() {
+        return mParallaxChangePerSecond;
+    }
+
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
     // ===========================================================
@@ -110,6 +114,8 @@ public class ParallaxLayer extends Entity {
         this.mParallaxValue += this.mParallaxChangePerSecond * pSecondsElapsed;
         super.onManagedUpdate(pSecondsElapsed);
     }
+
+
 
     // ===========================================================
     // Methods

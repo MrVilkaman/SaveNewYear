@@ -7,9 +7,13 @@ public class WaveController implements IWaveController {
     private boolean isStart = false;
     private ICanUnitCreate unitCreate;
 
-    private float minTime = 0.8f;
+    private float minTime = 0.9f;
     private float maxTime = 3f;
     private float currentTime = minTime;
+
+    private float timeToNextUpdate = 5f;
+    private float currentTimeToNextUpdate = timeToNextUpdate;
+
 
     public WaveController(ICanUnitCreate unitCreate) {
         this.unitCreate = unitCreate;
@@ -22,6 +26,13 @@ public class WaveController implements IWaveController {
             if(currentTime <0){
                 unitCreate.initNextUnit();
                 currentTime = getNewTime();
+            }
+            currentTimeToNextUpdate -=delta;
+            if(currentTimeToNextUpdate <0){
+                unitCreate.updateGameSpeed();
+                minTime *=0.95;
+                maxTime *=0.90;
+                currentTimeToNextUpdate = timeToNextUpdate;
             }
         }
     }

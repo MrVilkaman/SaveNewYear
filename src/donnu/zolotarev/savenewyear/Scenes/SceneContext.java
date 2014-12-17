@@ -1,16 +1,16 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IHaveGameLayers;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 
 public class SceneContext {
 
-    private static IHaveGameLayers activeScene;
+    private static IActiveGameScene activeScene;
 
-    public static IHaveGameLayers getActiveScene() {
+    public static IActiveGameScene getActiveScene() {
         return activeScene;
     }
 
-    public static void setActiveScene(IHaveGameLayers activeScene) {
+    public static void setActiveScene(IActiveGameScene activeScene) {
         SceneContext.activeScene = activeScene;
     }
 }

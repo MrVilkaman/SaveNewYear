@@ -1,6 +1,6 @@
 package donnu.zolotarev.savenewyear;
 
-import donnu.zolotarev.savenewyear.Barriers.IBarrierCenter;
+import donnu.zolotarev.savenewyear.Barriers.Menegment.IBarrierCenter;
 
 public class ObjectPoolContex {
 

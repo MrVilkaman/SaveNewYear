@@ -1,6 +1,8 @@
-package donnu.zolotarev.savenewyear;
+package donnu.zolotarev.savenewyear.Barriers;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
@@ -13,7 +15,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
-public class TreeItem  implements ICollisionObject {
+public class TreeItem  implements ICollisionObject,IBarrier {
 
     //todo это должно передваться из сцены и быть синхронизированно с движением дорожки и другими объектами!
     private final static float MOVE_SPEED_Y = 500;
@@ -48,9 +50,9 @@ public class TreeItem  implements ICollisionObject {
         physicsHandler.setVelocityX(-MOVE_SPEED_Y);
     }
 
-    public void setStart(float y){
+    public void setStart(){
         SceneContext.getActiveScene().attachSelfToCollection(this);
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,y-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight());
         sprite.setIgnoreUpdate(false);
         sprite.setVisible(true);
         physicsHandler.setEnabled(true);
@@ -73,5 +75,10 @@ public class TreeItem  implements ICollisionObject {
     @Override
     public RectangularShape getShape() {
         return rect;
+    }
+
+    @Override
+    public BarrierKind getKind() {
+        return BarrierKind.TREE;
     }
 }

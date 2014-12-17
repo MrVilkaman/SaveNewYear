@@ -1,5 +1,6 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.content.Context;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
@@ -50,6 +51,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float GAME_LAYER_COEF = 1f;
 
     private static final int GROUND_Y = 500;
+    private static final String MAX_TIME = "MAX_TIME";
+    private static final String PREF_NAME = "PREF_NAME";
     private ObjectCollisionController<ICollisionObject> treeCollection;
     private boolean flag2 = true;
 
@@ -74,7 +77,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private PauseMenuScene pauseMenu;
     private Text timerScore;
     private float gameTime = 0;
-    private Date bestTime = new Date(55501);
+
+    private Date bestTime = new Date(0);
 
     private ISimpleClick onClickPause = new ISimpleClick() {
         @Override
@@ -136,6 +140,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         ObjectPoolContex.setBarrierCenter(new BarrierCenter());
         waveController = new WaveController(this);
         waveController.start();
+
+        loadGame();
     }
 
     private void onGameOver() {
@@ -144,8 +150,12 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         if (pauseMenu == null) {
             pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
         }
-        pauseMenu.setTime(date,bestTime, true);
+        pauseMenu.setTime(date, bestTime, true);
         setChildScene(pauseMenu, false, true, true);
+        if (bestTime.getTime() < date.getTime()) {
+            bestTime = date;
+        }
+        saveGame();
     }
 
     @Override
@@ -291,8 +301,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         }
     };
 
-
-
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
 
@@ -319,5 +327,17 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     public void onDetached() {
         SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
+    }
+
+    private void saveGame(){
+       GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
+               .putLong(MAX_TIME, bestTime.getTime())
+               .commit();
+    }
+
+    private void loadGame(){
+        bestTime = new Date(GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .getLong(MAX_TIME,0));
+
     }
 }

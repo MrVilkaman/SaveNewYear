@@ -3,6 +3,9 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
+import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
+import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
+import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.IHaveGameLayers;
@@ -33,15 +36,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class GameScene extends BaseScene implements IHaveGameLayers {
+public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCreate {
 
 
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
-    private static final int FRONT_LAYER_SPEED = 32;
+    private static final int FRONT_LAYER_SPEED = 55;
     private static final int BACKGROUND_LAYER_SPEED = 15;
-    private static final int GAME_LAYER_SPEED = 30;
+    private static final int GAME_LAYER_SPEED = 50;
 
     private static final int GROUND_Y = 500;
     private ObjectCollisionController<ICollisionObject> treeCollection;
@@ -72,6 +75,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
     private int updateTimerCounter = 0;
     private Hero hero;
 
+    private IWaveController waveController;
 
     public GameScene(final Main main, ISimpleClick onClickRestart) {
         super(main);
@@ -101,10 +105,12 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
                 if (objects.size() != 0) {
                     if (flag2) {
                         flag2 = false;
+                        onClickExit.onClick();
                         main.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(main, "!", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(main, "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -119,6 +125,15 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
 
             }
         });
+
+        waveController = new WaveController(this);
+        waveController.start();
+    }
+
+    @Override
+    public void initNextUnit() {
+        TreeItem item = new TreeItem(main,GameScene.this);
+        item.setStart(561);
     }
 
     private void createHUD() {
@@ -240,16 +255,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers {
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
             }
             updateTimerCounter--;
-            if ((int)(gameTime*300%300)==0 &&flag) {
-                flag = false;
-                TreeItem item = new TreeItem(main,GameScene.this);
-                item.setStart(561);
-            }else {
-                flag = true;
-            }
-
-
-            //todo !!
+            waveController.update(pSecondsElapsed);
 
         }
         super.onManagedUpdate(pSecondsElapsed);

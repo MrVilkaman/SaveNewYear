@@ -13,13 +13,17 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.util.color.Color;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 public class Hero implements ICollisionObject{
 
     private static final float HERO_X = 150;
 
     private static final int ANIMATE_SPEED = 100; // hero speed anim
-    private static final float JUMP_SPEED = 600;
-    private static final float GRAVITY_SPEED = 900;
+    private static final float JUMP_SPEED = 900;
+    private static final float GRAVITY_SPEED = 2000;
+    private static final float GRAVITY_SPEED_MAX = 10000;
 
     private final AnimatedSprite animatedSprite;
     private final PhysicsHandler physicsHandler;
@@ -33,6 +37,9 @@ public class Hero implements ICollisionObject{
 
     public Hero(Main main,IHaveGameLayers gameLayers) {
         ITiledTextureRegion he = TextureManager.getHero();
+
+        new ArrayList<String>();
+        new LinkedList<String>();
         animatedSprite = new AnimatedSprite(HERO_X, groundY, he, main.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
@@ -43,19 +50,20 @@ public class Hero implements ICollisionObject{
                         shedow.setScaleX(1f);
                         physicsHandler.setVelocityY(0);
                         mY = herY;
-                        physicsHandler.setAccelerationY(0);
+                    physicsHandler.setAccelerationY(GRAVITY_SPEED);
                     isFly = false;
                 }else{
-                        physicsHandler.setAccelerationY(GRAVITY_SPEED);
+
                     shedow.setScale(1-(herY - mY) / herY);
                 }
 
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
-        rect.setScaleCenter(he.getWidth() / 2, he.getHeight() / 2);
-        rect.setScale(0.45f, 0.85f);
+        rect.setScaleCenter(he.getWidth() / 2, 0);
+        rect.setScale(0.40f, 0.75f);
         rect.setColor(Color.BLUE);
+        rect.setVisible(false);
         animatedSprite.attachChild(rect);
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
         shedow = new Sprite(HERO_X+15, groundY -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
@@ -71,6 +79,10 @@ public class Hero implements ICollisionObject{
         if (!isFly) {
             animatedSprite.setY(groundY - animatedSprite.getHeight() - 10);
             physicsHandler.setVelocityY(-JUMP_SPEED);
+            physicsHandler.setAccelerationY(GRAVITY_SPEED);
+        } else{
+            physicsHandler.setAccelerationY(GRAVITY_SPEED_MAX);
+
         }
         isFly = true;
 

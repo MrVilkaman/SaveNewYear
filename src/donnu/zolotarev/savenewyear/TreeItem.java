@@ -14,7 +14,7 @@ import org.andengine.util.color.Color;
 public class TreeItem  implements ICollisionObject {
 
     //todo это должно передваться из сцены и быть синхронизированно с движением дорожки и другими объектами!
-    private final static float MOVE_SPEED_Y = 300;
+    private final static float MOVE_SPEED_Y = 500;
     private final IHaveGameLayers gameLayers;
     private final Rectangle rect;
     private  Main main;
@@ -41,10 +41,11 @@ public class TreeItem  implements ICollisionObject {
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
-        rect.setScaleCenter(he.getWidth() / 2, he.getHeight() / 2);
-        rect.setScale(0.5f, 0.80f);
+        rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
+        rect.setScale(0.4f, 0.75f);
         rect.setColor(Color.BLUE);
         sprite.attachChild(rect);
+        rect.setVisible(false);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         gameLayers.attachToGameLayers(sprite);

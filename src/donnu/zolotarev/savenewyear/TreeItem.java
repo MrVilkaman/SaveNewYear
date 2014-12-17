@@ -67,19 +67,6 @@ public class TreeItem  implements ICollisionObject {
         sprite.setVisible(false);
         physicsHandler.setEnabled(false);
         ObjectPoolContex.getBarrierCenter().remoteUnit(this);
-     /* GameContex.getCurrent().runOnUiThread(new Runnable() {
-          //  main.runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-              physicsHandler.setEnabled(false);
-              sprite.unregisterUpdateHandler(physicsHandler);
-              sprite.detachSelf();
-              physicsHandler = null;
-              sprite = null;
-
-//                main = null;
-          }
-      });*/
         SceneContext.getActiveScene().detachSelfFromCollection(this);
     }
 

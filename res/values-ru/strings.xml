@@ -8,4 +8,5 @@
     <string name="pause_menu_resume">Продолжить</string>
     <string name="pause_menu_restart">Переиграть</string>
     <string name="pause_menu_return_to_menu">Вернуться в меню</string>
+    <string name="pause_menu_best_time">Лучшее время %1s</string>
 </resources>

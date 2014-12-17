@@ -1,7 +1,6 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
-import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
@@ -16,6 +15,7 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
+import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
@@ -30,10 +30,8 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCreate {
 
@@ -49,6 +47,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     private ObjectCollisionController<ICollisionObject> treeCollection;
     private boolean flag2 = true;
 
+
     private enum LAYERS{
         ROAD_LAYER,
         GAME_LAYER,
@@ -63,7 +62,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     private PauseMenuScene pauseMenu;
     private Text timerScore;
     private float gameTime = 0;
-
+    private Date bestTime = new Date(55501);
 
     private ISimpleClick onClickPause = new ISimpleClick() {
         @Override
@@ -73,6 +72,8 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     };
     private int updateTimerCounter = 0;
     private Hero hero;
+
+    private Date date = new Date(0);
 
     private IWaveController waveController;
 
@@ -106,14 +107,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
                 if (objects.size() != 0) {
                     if (flag2) {
                         flag2 = false;
-                        onClickExit.onClick();
-                        GameContex.getCurrent().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Toast.makeText(GameContex.getCurrent(), "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        onGameOver();
                     }
                 }else {
                     flag2 = true;
@@ -132,6 +126,25 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
         waveController.start();
     }
 
+    private void onGameOver() {
+        /*onClickExit.onClick();
+        GameContex.getCurrent().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(GameContex.getCurrent(), "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        showHud(false);
+        enablePauseMenu = false;
+        if (pauseMenu == null) {
+            pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
+        }
+        pauseMenu.setTime(date,bestTime, true);
+        setChildScene(pauseMenu, false, true, true);
+    }
+
     @Override
     public void initNextUnit() {
         TreeItem item = ObjectPoolContex.getBarrierCenter().getUnit();
@@ -141,7 +154,6 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
-        //timerScore.setScale(2f);
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
                 ,Constants.CAMERA_WIDTH/2,-10, WALIGMENT.CENTER, HALIGMENT.TOP);
 
@@ -215,16 +227,19 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
             }else{
                 isShowMenuScene = false;
                 clearChildScene();
+                showHud(true);
                 //back();
             }
         }
     }
 
     private void showPause() {
+        showHud(false);
         isShowMenuScene = true;
         if (pauseMenu == null) {
             pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
         }
+        pauseMenu.setTime(date,bestTime, false);
         setChildScene(pauseMenu, false, true, true);
     }
 
@@ -233,6 +248,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
         public void onClick() {
             clearChildScene();
             isShowMenuScene = false;
+            showHud(true);
         }
     };
     private ISimpleClick onClickExit =  new ISimpleClick() {
@@ -243,10 +259,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     };
 
 
-    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.S", Locale.ENGLISH);
-    Date date = new Date(0);
 
-    private boolean flag = true;
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
 
@@ -255,7 +268,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
             // todo оптимизировать по памяти
             if (updateTimerCounter < 0) {
                 date.setTime((int)(gameTime*1000));
-                timerScore.setText(sdf.format(date));
+                timerScore.setText(Utils.timerFormat(date));
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
             }
             updateTimerCounter--;
@@ -265,6 +278,9 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
         super.onManagedUpdate(pSecondsElapsed);
     }
 
+    private void showHud(boolean flag){
+        getChildByIndex(LAYERS.HUD_LAYER.ordinal()).setVisible(flag);
+    }
 
 
     @Override

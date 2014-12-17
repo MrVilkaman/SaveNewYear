@@ -1,5 +1,7 @@
 package donnu.zolotarev.savenewyear;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
@@ -35,7 +37,7 @@ public class Hero implements ICollisionObject{
 
     private boolean isFly = false;
 
-    public Hero(IHaveGameLayers gameLayers) {
+    public Hero() {
         ITiledTextureRegion he = TextureManager.getHero();
         BaseGameActivity main = GameContex.getCurrent();
 
@@ -72,6 +74,7 @@ public class Hero implements ICollisionObject{
         physicsHandler = new PhysicsHandler(animatedSprite);
         animatedSprite.registerUpdateHandler(physicsHandler);
 
+        IHaveGameLayers gameLayers = SceneContext.getActiveScene();
         gameLayers.attachToGameLayers(shedow);
         gameLayers.attachToGameLayers(animatedSprite);
     }

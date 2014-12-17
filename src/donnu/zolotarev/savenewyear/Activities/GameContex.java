@@ -1,4 +1,4 @@
-package donnu.zolotarev.savenewyear;
+package donnu.zolotarev.savenewyear.Activities;
 
 import org.andengine.ui.activity.BaseGameActivity;
 

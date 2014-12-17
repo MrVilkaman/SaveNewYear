@@ -4,7 +4,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.GameContex;
+import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;

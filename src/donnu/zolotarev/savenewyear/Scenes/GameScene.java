@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
 import android.widget.Toast;
+import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
@@ -78,6 +79,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
         super();
         this. onClickRestart = onClickRestart;
         TextureManager.loadGameSprites();
+        SceneContext.setActiveScene(this);
         createBackGround();
         createHUD();
         initOthers();
@@ -129,7 +131,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     @Override
     public void initNextUnit() {
-        TreeItem item = new TreeItem(GameScene.this);
+        TreeItem item = new TreeItem();
         item.setStart(561);
     }
 
@@ -150,7 +152,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     private void initOthers() {
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
-        hero = new Hero(this);
+        hero = new Hero();
     }
 
     @Override
@@ -261,4 +263,9 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     }
 
 
+
+    @Override
+    public void onDetached() {
+        SceneContext.setActiveScene(null);
+    }
 }

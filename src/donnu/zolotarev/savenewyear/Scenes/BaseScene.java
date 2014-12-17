@@ -1,7 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
-import donnu.zolotarev.savenewyear.GameContex;
+import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;

@@ -3,7 +3,6 @@ package donnu.zolotarev.savenewyear.Activities;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.GameContex;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;

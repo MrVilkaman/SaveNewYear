@@ -1,5 +1,7 @@
 package donnu.zolotarev.savenewyear;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
@@ -15,15 +17,14 @@ public class TreeItem  implements ICollisionObject {
 
     //todo это должно передваться из сцены и быть синхронизированно с движением дорожки и другими объектами!
     private final static float MOVE_SPEED_Y = 500;
-    private final IHaveGameLayers gameLayers;
     private final Rectangle rect;
 //   private  Main main;
 
     private  PhysicsHandler physicsHandler;
     private  RectangularShape sprite;
 
-    public TreeItem(IHaveGameLayers gameLayers) {
-        this.gameLayers = gameLayers;
+    public TreeItem() {
+
         BaseGameActivity main = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getNewYearTree();
            sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, main.getVertexBufferObjectManager()){
@@ -45,6 +46,7 @@ public class TreeItem  implements ICollisionObject {
         rect.setVisible(false);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
+        IHaveGameLayers gameLayers = SceneContext.getActiveScene();
         gameLayers.attachToGameLayers(sprite);
         gameLayers.attachSelfToCollection(this);
         physicsHandler.setVelocityX(-MOVE_SPEED_Y);
@@ -74,7 +76,7 @@ public class TreeItem  implements ICollisionObject {
 //                main = null;
           }
       });
-        gameLayers.detachSelfFromCollection(this);
+        SceneContext.getActiveScene().detachSelfFromCollection(this);
     }
 
     @Override

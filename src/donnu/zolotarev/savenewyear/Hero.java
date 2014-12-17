@@ -65,7 +65,8 @@ public class Hero implements ICollisionObject{
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, 0);
         rect.setScale(0.40f, 0.75f);
-        rect.setColor(Color.BLUE);
+        rect.setColor(Color.GREEN);
+        rect.setAlpha(0.5f);
         rect.setVisible(false);
         animatedSprite.attachChild(rect);
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
@@ -75,8 +76,8 @@ public class Hero implements ICollisionObject{
         animatedSprite.registerUpdateHandler(physicsHandler);
 
         IHaveGameLayers gameLayers = SceneContext.getActiveScene();
-        gameLayers.attachToGameLayers(shedow);
-        gameLayers.attachToGameLayers(animatedSprite);
+        gameLayers.attachToGameLayers(shedow, isFly);
+        gameLayers.attachToGameLayers(animatedSprite, isFly);
     }
 
     public void jump(){
@@ -102,7 +103,7 @@ public class Hero implements ICollisionObject{
 
     @Override
     public boolean checkHit(IGetShape object) {
-        return  object.getShape().collidesWith(animatedSprite);
+        return  object.getShape().collidesWith(rect);
     }
 
     @Override

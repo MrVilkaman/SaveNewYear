@@ -15,7 +15,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
-public class TreeItem  implements ICollisionObject,IBarrier {
+public class WaterHollItem implements ICollisionObject,IBarrier {
 
     //todo это должно передваться из сцены и быть синхронизированно с движением дорожки и другими объектами!
     private final static float MOVE_SPEED_Y = 500;
@@ -25,10 +25,10 @@ public class TreeItem  implements ICollisionObject,IBarrier {
     private  PhysicsHandler physicsHandler;
     private  RectangularShape sprite;
 
-    public TreeItem() {
+    public WaterHollItem() {
 
         BaseGameActivity gameActivity = GameContex.getCurrent();
-        ITiledTextureRegion he = TextureManager.getNewYearTree();
+        ITiledTextureRegion he = TextureManager.getWaterHoll();
            sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
@@ -40,19 +40,20 @@ public class TreeItem  implements ICollisionObject,IBarrier {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.4f, 0.75f);
+        rect.setScale(0.95f, 1.8f);
         rect.setColor(Color.BLUE);
+        rect.setAlpha(0.5f);
         sprite.attachChild(rect);
         rect.setVisible(false);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
-        SceneContext.getActiveScene().attachToGameLayers(sprite, false);
+        SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         physicsHandler.setVelocityX(-MOVE_SPEED_Y);
     }
 
     public void setStart(){
         SceneContext.getActiveScene().attachSelfToCollection(this);
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight()+10);
         sprite.setIgnoreUpdate(false);
         sprite.setVisible(true);
         physicsHandler.setEnabled(true);
@@ -79,6 +80,6 @@ public class TreeItem  implements ICollisionObject,IBarrier {
 
     @Override
     public BarrierKind getKind() {
-        return BarrierKind.TREE;
+        return BarrierKind.WATER_HOLL;
     }
 }

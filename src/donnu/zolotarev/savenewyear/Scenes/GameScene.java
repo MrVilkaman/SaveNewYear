@@ -132,16 +132,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     }
 
     private void onGameOver() {
-        /*onClickExit.onClick();
-        GameContex.getCurrent().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                Toast.makeText(GameContex.getCurrent(), "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-        showHud(false);
+              showHud(false);
         enablePauseMenu = false;
         if (pauseMenu == null) {
             pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
@@ -152,7 +143,13 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     @Override
     public void initNextUnit() {
-        IBarrier item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
+        IBarrier item;
+        double r = Math.random();
+        if(r<0.5) {
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
+        }else {
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
+        }
         item.setStart();
     }
 
@@ -210,8 +207,14 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     }
 
     @Override
-    public void attachToGameLayers(IEntity entity) {
-        attachToLayer(LAYERS.GAME_LAYER,entity);
+    public void attachToGameLayers(IEntity entity, boolean beforHero) {
+        if (beforHero) {
+            entity.setZIndex(hero.getSprite().getZIndex()-1);
+        }
+            attachToLayer(LAYERS.GAME_LAYER,entity);
+        if (beforHero) {
+            getChildByIndex(LAYERS.GAME_LAYER.ordinal()).sortChildren();
+        }
     }
 
     @Override

@@ -7,8 +7,8 @@ public class WaveController implements IWaveController {
     private boolean isStart = false;
     private ICanUnitCreate unitCreate;
 
-    private float minTime = 1f;
-    private float maxTime = 4f;
+    private float minTime = 0.8f;
+    private float maxTime = 3f;
     private float currentTime = minTime;
 
     public WaveController(ICanUnitCreate unitCreate) {

@@ -1,6 +1,6 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
-import donnu.zolotarev.savenewyear.IHaveGameLayers;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IHaveGameLayers;
 
 public class SceneContext {
 

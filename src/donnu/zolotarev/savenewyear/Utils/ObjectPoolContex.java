@@ -1,4 +1,4 @@
-package donnu.zolotarev.savenewyear;
+package donnu.zolotarev.savenewyear.Utils;
 
 import donnu.zolotarev.savenewyear.Barriers.Menegment.IBarrierCenter;
 

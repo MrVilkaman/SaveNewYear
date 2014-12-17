@@ -1,4 +1,4 @@
-package donnu.zolotarev.savenewyear;
+package donnu.zolotarev.savenewyear.Scenes.Interfaces;
 
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import org.andengine.entity.IEntity;

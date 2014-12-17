@@ -1,6 +1,5 @@
 package donnu.zolotarev.savenewyear;
 
-import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
@@ -11,6 +10,7 @@ import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
 import java.util.ArrayList;
@@ -35,8 +35,9 @@ public class Hero implements ICollisionObject{
 
     private boolean isFly = false;
 
-    public Hero(Main main,IHaveGameLayers gameLayers) {
+    public Hero(IHaveGameLayers gameLayers) {
         ITiledTextureRegion he = TextureManager.getHero();
+        BaseGameActivity main = GameContex.getCurrent();
 
         new ArrayList<String>();
         new LinkedList<String>();

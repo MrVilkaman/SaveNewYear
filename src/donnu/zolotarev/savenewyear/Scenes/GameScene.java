@@ -2,15 +2,11 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
 import android.widget.Toast;
-import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Hero;
-import donnu.zolotarev.savenewyear.IHaveGameLayers;
+import donnu.zolotarev.savenewyear.*;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.TreeItem;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
@@ -30,6 +26,7 @@ import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.ui.activity.BaseGameActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,8 +74,8 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     private IWaveController waveController;
 
-    public GameScene(final Main main, ISimpleClick onClickRestart) {
-        super(main);
+    public GameScene(ISimpleClick onClickRestart) {
+        super();
         this. onClickRestart = onClickRestart;
         TextureManager.loadGameSprites();
         createBackGround();
@@ -106,11 +103,11 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
                     if (flag2) {
                         flag2 = false;
                         onClickExit.onClick();
-                        main.runOnUiThread(new Runnable() {
+                        GameContex.getCurrent().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                Toast.makeText(main, "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GameContex.getCurrent(), "Лузер! И твое время " + sdf.format(date), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -132,11 +129,12 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     @Override
     public void initNextUnit() {
-        TreeItem item = new TreeItem(main,GameScene.this);
+        TreeItem item = new TreeItem(GameScene.this);
         item.setStart(561);
     }
 
     private void createHUD() {
+        BaseGameActivity main = GameContex.getCurrent();
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
         //timerScore.setScale(2f);
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
@@ -152,7 +150,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     private void initOthers() {
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
-        hero = new Hero(main,this);
+        hero = new Hero(this);
     }
 
     @Override
@@ -163,6 +161,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     }
 
     private void createBackGround() {
+        BaseGameActivity main = GameContex.getCurrent();
         AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,PARALLAX_CHANGE_PER_SECOND);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
        autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
@@ -219,7 +218,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     private void showPause() {
         isShowMenuScene = true;
         if (pauseMenu == null) {
-            pauseMenu = new PauseMenuScene(main, onClickResume, onClickRestart, onClickExit);
+            pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
         }
         setChildScene(pauseMenu, false, true, true);
     }

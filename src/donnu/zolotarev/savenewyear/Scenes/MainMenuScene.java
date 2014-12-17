@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.GameContex;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -16,6 +17,7 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.ui.activity.BaseGameActivity;
 
 public class MainMenuScene extends BaseScene {
     private enum LAYERS{
@@ -27,10 +29,10 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onClickSetting = new ISimpleClick() {
         @Override
         public void onClick() {
-            main.runOnUiThread(new Runnable() {
+            GameContex.getCurrent().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(main, "Пока не готово =( ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameContex.getCurrent(), "Пока не готово =( ", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -46,7 +48,7 @@ public class MainMenuScene extends BaseScene {
     };
 
     public MainMenuScene(Main main) {
-        super(main);
+        super();
         TextureManager.loadMenuSprites();
        initBackground();
     }
@@ -59,6 +61,8 @@ public class MainMenuScene extends BaseScene {
     }
 
     private void initBackground() {
+        BaseGameActivity main = GameContex.getCurrent();
+
         setBackground(new SpriteBackground(new Sprite(0, 0, TextureManager.getMenuBG(), main.getVertexBufferObjectManager())));
         RectangularShape title = EasyLayoutsFactory.alihment(createSprite(TextureManager.getGameTitle()), Constants.CAMERA_WIDTH / 2, 20, WALIGMENT.CENTER, HALIGMENT.TOP);
         attachToLayer(LAYERS.TITLE_LAYER,title);
@@ -90,7 +94,7 @@ public class MainMenuScene extends BaseScene {
             ((IActivityCallback)getChildScene()).onKeyPressed(keyCode, event);
 
         }else{
-            main.finish();
+            GameContex.getCurrent().finish();
         }
     }
 
@@ -98,7 +102,7 @@ public class MainMenuScene extends BaseScene {
         @Override
         public void onClick() {
             clearChildScene();
-            setChildScene(new GameScene(main,onClickRestart), false, true, true);
+            setChildScene(new GameScene(onClickRestart), false, true, true);
         }
     };
 }

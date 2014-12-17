@@ -1,7 +1,9 @@
 package donnu.zolotarev.savenewyear.Activities;
 
+import android.os.Bundle;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.GameContex;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -17,8 +19,15 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 public class Main extends SimpleBaseGameActivity {
 
 
-    private Camera camera;
-    private BaseScene mainMenu;
+        private Camera camera;
+        private BaseScene mainMenu;
+
+    @Override
+    protected void onCreate(Bundle pSavedInstanceState) {
+        super.onCreate(pSavedInstanceState);
+        GameContex.setGameActivity(this);
+    }
+
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -82,5 +91,11 @@ public class Main extends SimpleBaseGameActivity {
         }else {
             return super.onKeyDown(keyCode, event);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GameContex.setGameActivity(null);
     }
 }

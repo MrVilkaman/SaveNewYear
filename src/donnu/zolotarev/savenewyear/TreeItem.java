@@ -25,20 +25,18 @@ public class TreeItem  implements ICollisionObject {
 
     public TreeItem() {
 
-        BaseGameActivity main = GameContex.getCurrent();
+        BaseGameActivity gameActivity = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getNewYearTree();
-           sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, main.getVertexBufferObjectManager()){
-//            sprite = new Rectangle(Constants.CAMERA_WIDTH+50,0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager()){
+           sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
                 if (mX < -(mWidth + 50)) {
                    destroy(false);
-                    setIgnoreUpdate(true);
                 }
             }
         };
-        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
+        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
         rect.setScale(0.4f, 0.75f);
         rect.setColor(Color.BLUE);
@@ -46,14 +44,16 @@ public class TreeItem  implements ICollisionObject {
         rect.setVisible(false);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
-        IHaveGameLayers gameLayers = SceneContext.getActiveScene();
-        gameLayers.attachToGameLayers(sprite);
-        gameLayers.attachSelfToCollection(this);
+        SceneContext.getActiveScene().attachToGameLayers(sprite);
         physicsHandler.setVelocityX(-MOVE_SPEED_Y);
     }
 
     public void setStart(float y){
+        SceneContext.getActiveScene().attachSelfToCollection(this);
         sprite.setPosition(Constants.CAMERA_WIDTH+50,y-sprite.getHeight());
+        sprite.setIgnoreUpdate(false);
+        sprite.setVisible(true);
+        physicsHandler.setEnabled(true);
     }
 
     @Override
@@ -63,8 +63,11 @@ public class TreeItem  implements ICollisionObject {
 
     @Override
     public void destroy(Boolean withAnimate) {
-
-      GameContex.getCurrent().runOnUiThread(new Runnable() {
+        sprite.setIgnoreUpdate(true);
+        sprite.setVisible(false);
+        physicsHandler.setEnabled(false);
+        ObjectPoolContex.getBarrierCenter().remoteUnit(this);
+     /* GameContex.getCurrent().runOnUiThread(new Runnable() {
           //  main.runOnUiThread(new Runnable() {
           @Override
           public void run() {
@@ -73,9 +76,10 @@ public class TreeItem  implements ICollisionObject {
               sprite.detachSelf();
               physicsHandler = null;
               sprite = null;
+
 //                main = null;
           }
-      });
+      });*/
         SceneContext.getActiveScene().detachSelfFromCollection(this);
     }
 

@@ -6,6 +6,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
+import donnu.zolotarev.savenewyear.Barriers.BarrierCenter;
 import donnu.zolotarev.savenewyear.*;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -75,6 +76,7 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
 
     private IWaveController waveController;
 
+
     public GameScene(ISimpleClick onClickRestart) {
         super();
         this. onClickRestart = onClickRestart;
@@ -125,13 +127,14 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
             }
         });
 
+        ObjectPoolContex.setBarrierCenter(new BarrierCenter());
         waveController = new WaveController(this);
         waveController.start();
     }
 
     @Override
     public void initNextUnit() {
-        TreeItem item = new TreeItem();
+        TreeItem item = ObjectPoolContex.getBarrierCenter().getUnit();
         item.setStart(561);
     }
 
@@ -267,5 +270,6 @@ public class GameScene extends BaseScene implements IHaveGameLayers,ICanUnitCrea
     @Override
     public void onDetached() {
         SceneContext.setActiveScene(null);
+        ObjectPoolContex.setBarrierCenter(null);
     }
 }

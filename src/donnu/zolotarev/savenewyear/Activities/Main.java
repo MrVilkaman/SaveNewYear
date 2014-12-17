@@ -71,10 +71,6 @@ public class Main extends SimpleBaseGameActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        /*try {
-            MusicLoader.getSound().pause();
-        } catch (MusicReleasedException e) {
-        }*/
         if (mainMenu != null){
             mainMenu.onPause();
         }

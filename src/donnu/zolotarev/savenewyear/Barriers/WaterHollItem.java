@@ -28,7 +28,7 @@ public class WaterHollItem extends BaseUnit {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.95f, 1.4f);
+        rect.setScale(0.8f, 1.4f);
         rect.setColor(Color.BLUE);
         rect.setAlpha(0.5f);
         sprite.attachChild(rect);

@@ -1,7 +1,7 @@
 // Definitions for sprite sheet gameAtlas1.png
 // Created with TexturePacker www.codeandweb.com/texturepacker
 
-// $TexturePacker:SmartUpdate:f470b1786ed7c4248aedceba086c6ff1:1496a623e4b9b9b18237f263f7e07caa:b21bfae171360790d64b1df938a3390d$
+// $TexturePacker:SmartUpdate:6653d1e9e04897d2b9a6907420182cec:1496a623e4b9b9b18237f263f7e07caa:b21bfae171360790d64b1df938a3390d$
 
 package donnu.zolotarev.savenewyear.Textures.Ids;
 

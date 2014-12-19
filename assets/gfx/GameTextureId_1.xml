@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="gameAtlas1.png" type="bitmap" width="512" height="512" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:f470b1786ed7c4248aedceba086c6ff1:1496a623e4b9b9b18237f263f7e07caa:b21bfae171360790d64b1df938a3390d$ -->
-    <textureregion id="0" src="Hero.png" x="2" y="2" width="292" height="362" rotated="false" trimmed="true" srcx="2" srcy="3" srcwidth="296" srcheight="370"/>
-    <textureregion id="1" src="hero shedow.png" x="2" y="480" width="112" height="27" rotated="false" trimmed="true" srcx="2" srcy="2" srcwidth="116" srcheight="30"/>
-    <textureregion id="2" src="new_year_tree.png" x="342" y="145" width="127" height="166" rotated="false" trimmed="true" srcx="0" srcy="0" srcwidth="127" srcheight="167"/>
-    <textureregion id="3" src="present.png" x="342" y="313" width="111" height="92" rotated="false" trimmed="true" srcx="1" srcy="0" srcwidth="112" srcheight="94"/>
-    <textureregion id="4" src="road.png" x="342" y="57" width="128" height="86" rotated="false" trimmed="true" srcx="0" srcy="3" srcwidth="128" srcheight="92"/>
-    <textureregion id="5" src="showballs.png" x="2" y="366" width="338" height="112" rotated="false" trimmed="true" srcx="40" srcy="2" srcwidth="383" srcheight="116"/>
-    <textureregion id="6" src="water_holl.png" x="296" y="2" width="179" height="53" rotated="false" trimmed="true" srcx="0" srcy="1" srcwidth="179" srcheight="57"/>
+    <!-- $TexturePacker:SmartUpdate:6653d1e9e04897d2b9a6907420182cec:1496a623e4b9b9b18237f263f7e07caa:b21bfae171360790d64b1df938a3390d$ -->
+    <textureregion id="0" src="Hero.png" x="2" y="130" width="296" height="370" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="296" srcheight="370"/>
+    <textureregion id="1" src="hero shedow.png" x="387" y="2" width="116" height="30" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="116" srcheight="30"/>
+    <textureregion id="2" src="new_year_tree.png" x="300" y="283" width="127" height="167" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="127" srcheight="167"/>
+    <textureregion id="3" src="present.png" x="387" y="34" width="112" height="94" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="112" srcheight="94"/>
+    <textureregion id="4" src="road.png" x="300" y="189" width="128" height="92" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="128" srcheight="92"/>
+    <textureregion id="5" src="showballs.png" x="2" y="2" width="383" height="116" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="383" srcheight="116"/>
+    <textureregion id="6" src="water_holl.png" x="300" y="130" width="179" height="57" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="179" srcheight="57"/>
 </texture>

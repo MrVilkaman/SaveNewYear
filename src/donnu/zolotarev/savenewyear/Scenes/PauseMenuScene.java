@@ -77,6 +77,7 @@ public class PauseMenuScene extends BaseScene {
 
     public void setTime(Date time, Date best, boolean isGameOver) {
         if (isGameOver) {
+            unregisterTouchArea(resumeButton);
            detachChild(resumeButton);
         }
 

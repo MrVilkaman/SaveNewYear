@@ -11,6 +11,7 @@ import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
@@ -26,7 +27,12 @@ import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
+import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
+import org.andengine.entity.particle.initializer.ScaleParticleInitializer;
+import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
 import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.AutoParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground;
@@ -142,11 +148,20 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         waveController.start();
 
         loadGame();
+
+        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH/2+300,0,Constants.CAMERA_WIDTH,100);
+        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,1,2);
+        generator.addParticleInitializer(new VelocityParticleInitializer( -200, -400,100, 200));
+        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+
+        attachToLayer(LAYERS.FRONT_LAYER,generator);
     }
 
     private void onGameOver() {
               showHud(false);
         enablePauseMenu = false;
+        isShowMenuScene = true;
         if (pauseMenu == null) {
             pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
         }
@@ -161,6 +176,11 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     public float getGameSpeed() {
         return gameSpeed;
+    }
+
+    @Override
+    public void registerTouchArea(ITouchArea entity) {
+         super.registerTouchArea(entity);
     }
 
     @Override
@@ -180,10 +200,12 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     public void initNextUnit() {
         IBarrier item;
         double r = Math.random();
-        if(r<0.5) {
+        if(r<0.33) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
-        }else {
+        }else if (r<0.66){
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
+        }else {
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.SHOW_BALL);
         }
         item.setStart();
     }

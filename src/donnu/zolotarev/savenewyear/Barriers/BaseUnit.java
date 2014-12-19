@@ -16,7 +16,7 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
 
 
     public void setStart(){
-        physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
+        updateSpeed();
         SceneContext.getActiveScene().attachSelfToCollection(this);
         sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight());
         sprite.setIgnoreUpdate(false);

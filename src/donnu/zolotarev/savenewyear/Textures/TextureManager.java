@@ -48,6 +48,7 @@ public class TextureManager {
     private static ITiledTextureRegion newYearTree;
     private static IFont bigFont;
     private static ITiledTextureRegion heroShedow;
+    private static ITiledTextureRegion particlePoint;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -67,11 +68,12 @@ public class TextureManager {
             TexturePackTextureRegionLibrary lib = texturePack1.getTexturePackTextureRegionLibrary();
             road = lib.getTiled(GameTextureId_1.ROAD_ID);
             hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
-            showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,1,3);
+            showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,3,1);
             present = lib.getTiled(GameTextureId_1.PRESENT_ID);
             waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
             heroShedow = lib.getTiled(GameTextureId_1.HERO_SHEDOW_ID);
+
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -86,6 +88,7 @@ public class TextureManager {
                 gameTitle = lib.getTiled(MenuTextures.GAMENAME_ID);
             }
             pauseButton = lib.getTiled(MenuTextures.PAUSE_BUTTON_ID);
+            particlePoint = lib.getTiled(MenuTextures.PARTICLE_POINT_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -182,5 +185,9 @@ public class TextureManager {
 
     public static ITiledTextureRegion getHeroShedow() {
         return heroShedow;
+    }
+
+    public static ITiledTextureRegion getParticlePoint() {
+        return particlePoint;
     }
 }

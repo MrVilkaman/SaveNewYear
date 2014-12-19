@@ -9,7 +9,7 @@ public class WaveController implements IWaveController {
 
     private float minTime = 0.9f;
     private float maxTime = 3f;
-    private float currentTime = minTime;
+    private float currentTime = maxTime/2;
 
     private float timeToNextUpdate = 7f;
     private float currentTimeToNextUpdate = timeToNextUpdate;

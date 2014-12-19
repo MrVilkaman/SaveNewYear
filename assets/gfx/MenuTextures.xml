@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="MenuTextures.png" type="bitmap" width="1024" height="512" pixelformat="RGBA_4444" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:bb06738d9f99bbaf1e69cef63ef56282:52d8e554096c1eb09d89d6b86b2e36eb:6b9dce098c95b19b1d1f4aeeba911180$ -->
+    <!-- $TexturePacker:SmartUpdate:e2d160076274e77cfe33d343fc72ba32:57ca046eb380d459759472c485538c89:6b9dce098c95b19b1d1f4aeeba911180$ -->
     <textureregion id="0" src="Buttons.png" x="2" y="131" width="540" height="199" rotated="false" trimmed="true" srcx="4" srcy="3" srcwidth="546" srcheight="204"/>
     <textureregion id="1" src="GameName.png" x="2" y="332" width="677" height="165" rotated="false" trimmed="true" srcx="9" srcy="4" srcwidth="694" srcheight="170"/>
     <textureregion id="2" src="GameNameRUS.png" x="2" y="2" width="850" height="127" rotated="false" trimmed="true" srcx="3" srcy="1" srcwidth="855" srcheight="132"/>
     <textureregion id="3" src="Pause Button.png" x="854" y="2" width="77" height="93" rotated="false" trimmed="true" srcx="2" srcy="2" srcwidth="79" srcheight="95"/>
+    <textureregion id="4" src="particle_point.png" x="933" y="2" width="32" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="32" srcheight="32"/>
 </texture>

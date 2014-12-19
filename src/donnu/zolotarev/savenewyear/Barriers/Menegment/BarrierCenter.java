@@ -1,9 +1,6 @@
 package donnu.zolotarev.savenewyear.Barriers.Menegment;
 
-import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
-import donnu.zolotarev.savenewyear.Barriers.IBarrier;
-import donnu.zolotarev.savenewyear.Barriers.TreeItem;
-import donnu.zolotarev.savenewyear.Barriers.WaterHollItem;
+import donnu.zolotarev.savenewyear.Barriers.*;
 import org.andengine.util.adt.pool.GenericPool;
 import org.andengine.util.adt.pool.MultiPool;
 
@@ -23,6 +20,12 @@ public class BarrierCenter implements IBarrierCenter {
             @Override
             protected IBarrier onAllocatePoolItem() {
                 return new WaterHollItem();
+            }
+        });
+        genericPool.registerPool(BarrierKind.SHOW_BALL.ordinal(),new GenericPool<IBarrier>() {
+            @Override
+            protected IBarrier onAllocatePoolItem() {
+                return new ShowBallsItem();
             }
         });
     }

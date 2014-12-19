@@ -80,17 +80,20 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
     }
 
     private void spawnParticles(final float pSecondsElapsed) {
-       /* final float currentRate = this.determineCurrentRate();
+        final float currentRate = this.determineCurrentRate();
         final float newParticlesThisFrame = currentRate * pSecondsElapsed;
 
         this.mParticlesDueToSpawn += newParticlesThisFrame;
 
-        final int particlesToSpawnThisFrame = Math.min(this.mParticlesMaximum - this.mParticles.size(), (int) FloatMath.floor(this.mParticlesDueToSpawn));
-        this.mParticlesDueToSpawn -= particlesToSpawnThisFrame;
+        //final int particlesToSpawnThisFrame = Math.min(this.mParticlesMaximum - this.mParticles.size(), (int) FloatMath.floor(this.mParticlesDueToSpawn));
+        int count = 0;
 
-        for(int i = 0; i < mParticlesDueToSpawn; i++){*/
+        for(int i = 0; i < mParticlesDueToSpawn; i++){
             this.spawnParticle();
-      //  }
+            count++;
+        }
+
+        this.mParticlesDueToSpawn -= count;
     }
 
     private void spawnParticle() {

@@ -61,11 +61,12 @@ public class MainMenuScene extends BaseScene {
         TextureManager.loadMenuSprites();
        initBackground();
 
-              final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH/2,0,Constants.CAMERA_WIDTH+100,100);
-        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,1,2);
+              final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,100);
+        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,10,20);
         generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
         generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
         generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
 
         attachToLayer(LAYERS.SHOW_LAYER,generator);
      //   initShow();

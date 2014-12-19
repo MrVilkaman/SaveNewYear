@@ -23,7 +23,7 @@ public class Hero implements ICollisionObject{
 
     private static final float HERO_X = 150;
 
-    private static final int ANIMATE_SPEED = 150; // hero speed anim
+    private static final int ANIMATE_SPEED = 110; // hero speed anim
     private static final float JUMP_SPEED = 900;
     private static final float GRAVITY_SPEED = 2000;
     private static final float GRAVITY_SPEED_MAX = 10000;
@@ -64,11 +64,11 @@ public class Hero implements ICollisionObject{
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
-        rect.setScaleCenter(he.getWidth() / 2, 0);
-        rect.setScale(0.60f, 0.8f);
+        rect.setScaleCenter(he.getWidth() / 2, he.getHeight() / 2);
+        rect.setScale(0.60f, 0.6f);
         rect.setColor(Color.GREEN);
         rect.setAlpha(0.5f);
-        rect.setVisible(false);
+        rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         animatedSprite.attachChild(rect);
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
         shedow = new Sprite(HERO_X+15, groundY -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
@@ -95,7 +95,7 @@ public class Hero implements ICollisionObject{
     }
 
     public IEntity getSprite() {
-        return animatedSprite;
+        return rect;
     }
 
     public void setGroundY(float groundY) {

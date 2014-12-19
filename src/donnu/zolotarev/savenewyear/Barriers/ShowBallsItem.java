@@ -52,8 +52,8 @@ public class ShowBallsItem extends BaseUnit {
         rect.setAlpha(0.5f);
         sprite.attachChild(rect2);
         sprite.attachChild(rect);
-       rect.setVisible(false);
-       rect2.setVisible(false);
+       rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
+       rect2.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
@@ -76,13 +76,13 @@ public class ShowBallsItem extends BaseUnit {
         if (currentFrame != -1) {
             switch (currentFrame){
                 case 0:
-                    rect2.setScale(0.3f, 0.3f);
+                    rect2.setScale(0.2f, 0.2f);
                     break;
                 case 1:
-                    rect2.setScale(0.5f, 0.5f);
+                    rect2.setScale(0.4f, 0.4f);
                     break;
                 case 2:
-                    rect2.setScale(0.8f,0.8f);
+                    rect2.setScale(0.7f,0.7f);
                     break;
 
             }
@@ -104,7 +104,7 @@ public class ShowBallsItem extends BaseUnit {
         physicsHandler.setVelocityY(-speedY);
         sprite.setPosition(Constants.CAMERA_WIDTH+50,speedY-sprite.getHeight()+10);
         double r = Math.random();
-        currentFrame =  (0.4<r)? 0 : (0.8<r)? 1 : 2;
+        currentFrame =  (r<0.45)? 0 : (r<0.85)? 1 : 2;
         updateFrame();
     }
 

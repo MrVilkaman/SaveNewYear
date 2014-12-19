@@ -31,6 +31,7 @@ import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
 import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
 import org.andengine.entity.particle.initializer.ScaleParticleInitializer;
 import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
+import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -52,8 +53,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
-    private static final float BACKGROUND_LAYER_SPEED = 0.4f;
-    private static final float FRONT_LAYER_COEF = 1.1f;
+    private static final float BACKGROUND_LAYER_SPEED = 0.6f;
+    private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
 
     private static final int GROUND_Y = 500;
@@ -66,7 +67,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 500;
+    private float gameSpeed = 550;
 
 
     private enum LAYERS{
@@ -149,13 +150,17 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         loadGame();
 
-        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH/2+300,0,Constants.CAMERA_WIDTH,100);
-        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,1,2);
+        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+500,0,Constants.CAMERA_WIDTH+300,100);
+        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,20,30);
         generator.addParticleInitializer(new VelocityParticleInitializer( -200, -400,100, 200));
         generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
         generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
 
         attachToLayer(LAYERS.FRONT_LAYER,generator);
+
+        IBarrier item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
+        item.setStart();
     }
 
     private void onGameOver() {
@@ -199,14 +204,15 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     public void initNextUnit() {
         IBarrier item;
-        double r = Math.random();
+     /*   double r = Math.random();
         if(r<0.33) {
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.NEW_YEAR_TREE);
         }else if (r<0.66){
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
         }else {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.SHOW_BALL);
-        }
+        }*/
+        item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
         item.setStart();
     }
 
@@ -335,7 +341,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
             }
             updateTimerCounter--;
-            waveController.update(pSecondsElapsed);
+       //     waveController.update(pSecondsElapsed);
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

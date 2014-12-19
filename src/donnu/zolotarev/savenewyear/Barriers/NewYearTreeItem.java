@@ -11,13 +11,13 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
-public class WaterHollItem extends BaseUnit {
+public class NewYearTreeItem extends BaseUnit {
 
+    public NewYearTreeItem() {
 
-    public WaterHollItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
-        ITiledTextureRegion he = TextureManager.getWaterHoll();
-           sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
+        ITiledTextureRegion he = TextureManager.getNewYearTree();
+        sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
@@ -28,24 +28,19 @@ public class WaterHollItem extends BaseUnit {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.8f, 1.4f);
+        rect.setScale(0.4f, 0.75f);
         rect.setColor(Color.BLUE);
-        rect.setAlpha(0.5f);
         sprite.attachChild(rect);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
-        SceneContext.getActiveScene().attachToGameLayers(sprite, true);
-
+        SceneContext.getActiveScene().attachToGameLayers(sprite, false);
     }
 
-    public void setStart(){
-        super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,575-sprite.getHeight());
-    }
+
 
     @Override
     public BarrierKind getKind() {
-        return BarrierKind.WATER_HOLL;
+        return BarrierKind.NEW_YEAR_TREE;
     }
 }

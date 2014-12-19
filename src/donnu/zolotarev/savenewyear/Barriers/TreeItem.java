@@ -5,24 +5,48 @@ import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
+import org.andengine.util.modifier.ease.EaseBounceOut;
 
-public class TreeItem  extends BaseUnit {
+public class TreeItem extends BaseUnit {
+
+    private static final float TIME_ROTATION_TREE = 1f;
+    private static final float FRAME_TIME = 0.03f;
+
+    private final Rectangle rect2;
+    private float animTime = 0;
+    private boolean needBuild = false;
+    private boolean animatedFinish = false;
 
     public TreeItem() {
-
         BaseGameActivity gameActivity = GameContex.getCurrent();
-        ITiledTextureRegion he = TextureManager.getNewYearTree();
-        sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
+        ITiledTextureRegion he = TextureManager.getTree();
+        sprite = new AnimatedSprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
                 if (mX < -(mWidth + 50)) {
-                   destroy(false);
+                    destroy(false);
+                }
+                if (needBuild && !animatedFinish) {
+                    animTime += pSecondsElapsed;
+                    if (FRAME_TIME < animTime  ) {
+                        animTime = 0;
+                        AnimatedSprite animatedSprite = (AnimatedSprite)sprite;
+                        if (animatedSprite.getCurrentTileIndex() < animatedSprite.getTileCount()-1) {
+                            animatedSprite.setCurrentTileIndex(animatedSprite.getCurrentTileIndex()+1);
+                        }else{
+                            animatedFinish = true;
+                            registerEntityModifier(new RotationModifier(TIME_ROTATION_TREE,0,90,EaseBounceOut.getInstance()));
+                        }
+                    }
+                    needBuild = false;
                 }
             }
         };
@@ -30,11 +54,43 @@ public class TreeItem  extends BaseUnit {
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
         rect.setScale(0.4f, 0.75f);
         rect.setColor(Color.BLUE);
+
+        rect2 = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager()){
+
+            @Override
+            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+
+                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_MOVE) {
+                    needBuild = true;
+                }
+
+                return true;
+            }
+        };
+        // rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
+        rect2.setColor(Color.RED);
+        rect2.setAlpha(0.5f);
+//        rect2.setScaleCenter(he.getWidth() / 2, he.getHeight());
+        rect2.setY(he.getHeight()/2);
+        rect2.resetRotationCenter();
+        rect2.setScale(3f, 0.7f);
+
+        sprite.setRotationCenter(he.getWidth(), he.getHeight()-10);
         sprite.attachChild(rect);
-        rect.setVisible(false);
+        sprite.attachChild(rect2);
+        rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, false);
+        SceneContext.getActiveScene().registerTouchArea(rect2);
+
+       //((AnimatedSprite)sprite).setCurrentTileIndex(7);
+    }
+
+    @Override
+    public void setStart() {
+        super.setStart();
+        sprite.setPosition(Constants.CAMERA_WIDTH+50,581-sprite.getHeight());
     }
 
 

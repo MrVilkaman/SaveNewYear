@@ -15,4 +15,12 @@ public class Utils {
     public static String timerFormat(Date time) {
         return sdf.format(time);
     }
+
+    public static boolean equals(float numb1,float numb2){
+        return equals(numb1,numb2,0.0001f);
+    }
+
+    public static boolean equals(float numb1,float numb2, float accuracy){
+        return (Math.abs(numb1 - numb2) <= accuracy);
+    }
 }

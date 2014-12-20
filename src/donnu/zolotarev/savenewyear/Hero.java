@@ -6,6 +6,7 @@ import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
+import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
@@ -15,9 +16,6 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Hero implements ICollisionObject{
 
@@ -41,15 +39,14 @@ public class Hero implements ICollisionObject{
     public Hero() {
         ITiledTextureRegion he = TextureManager.getHero();
         BaseGameActivity main = GameContex.getCurrent();
+        final IActiveGameScene gameLayers = SceneContext.getActiveScene();
 
-        new ArrayList<String>();
-        new LinkedList<String>();
-        animatedSprite = new AnimatedSprite(HERO_X, groundY, he, main.getVertexBufferObjectManager()){
+        animatedSprite = new AnimatedSprite(HERO_X,0, he, main.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
                 // todo проверка по двум точкам
-                final float herY = groundY - mHeight;
+                final float herY = gameLayers.getGroundY() - mHeight;
                 if(  herY < mY){
                         shedow.setScaleX(1f);
                         physicsHandler.setVelocityY(0);
@@ -58,8 +55,9 @@ public class Hero implements ICollisionObject{
                     isFly = false;
                 }else{
 
-                    shedow.setScale(1-(herY - mY) / herY);
+                    shedow.setScale(1 - (herY - mY) / herY);
                 }
+                shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,5f));
 
             }
         };
@@ -71,19 +69,19 @@ public class Hero implements ICollisionObject{
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         animatedSprite.attachChild(rect);
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
-        shedow = new Sprite(HERO_X+15, groundY -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
+        shedow = new Sprite(HERO_X+15, gameLayers.getGroundY() -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
 
         physicsHandler = new PhysicsHandler(animatedSprite);
         animatedSprite.registerUpdateHandler(physicsHandler);
 
-        IActiveGameScene gameLayers = SceneContext.getActiveScene();
         gameLayers.attachToGameLayers(shedow, isFly);
         gameLayers.attachToGameLayers(animatedSprite, isFly);
+        physicsHandler.setAccelerationY(GRAVITY_SPEED);
     }
 
     public void jump(){
         if (!isFly) {
-            animatedSprite.setY(groundY - animatedSprite.getHeight() - 10);
+            animatedSprite.setY(SceneContext.getActiveScene().getGroundY() - animatedSprite.getHeight() - 10);
             physicsHandler.setVelocityY(-JUMP_SPEED);
             physicsHandler.setAccelerationY(GRAVITY_SPEED);
         } else{

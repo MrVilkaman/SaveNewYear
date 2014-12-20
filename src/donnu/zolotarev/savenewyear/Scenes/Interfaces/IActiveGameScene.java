@@ -10,5 +10,7 @@ public interface IActiveGameScene {
     public void detachSelfFromCollection(ICollisionObject collisionObject);
     public float getGameSpeed();
     public void registerTouchArea(ITouchArea entity);
+    public float getGroundY();
 
+    public void setGroudY(float i);
 }

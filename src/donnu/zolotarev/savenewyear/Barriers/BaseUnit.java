@@ -1,6 +1,7 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
@@ -17,7 +18,8 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
 
     public void setStart(){
         updateSpeed();
-        SceneContext.getActiveScene().attachSelfToCollection(this);
+        IActiveGameScene scene = SceneContext.getActiveScene();
+        scene.attachSelfToCollection(this);
         sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight());
         sprite.setIgnoreUpdate(false);
         sprite.setVisible(true);

@@ -14,7 +14,6 @@ import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
-import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
@@ -22,9 +21,9 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
+import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import donnu.zolotarev.savenewyear.Utils.Utils;
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
@@ -67,7 +66,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 550;
+    private float gameSpeed = 350;
+    private float gameGroundY = 561;
 
 
     private enum LAYERS{
@@ -121,29 +121,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             }
         });
 
-        registerUpdateHandler(new IUpdateHandler(){
-
-            @Override
-            public void onUpdate(float pSecondsElapsed) {
-                ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
-//                for (int i = objects.size()-1; 0<=i;i--){
-                if (objects.size() != 0) {
-                    if (flag2) {
-                        flag2 = false;
-                        onGameOver();
-                    }
-                }else {
-                    flag2 = true;
-                }
-//                }
-            }
-
-            @Override
-            public void reset() {
-
-            }
-        });
-
         ObjectPoolContex.setBarrierCenter(new BarrierCenter());
         waveController = new WaveController(this);
         waveController.start();
@@ -186,6 +163,16 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     public void registerTouchArea(ITouchArea entity) {
          super.registerTouchArea(entity);
+    }
+
+    @Override
+    public float getGroundY() {
+        return gameGroundY;
+    }
+
+    @Override
+    public void setGroudY(float i) {
+        gameGroundY = i;
     }
 
     @Override
@@ -342,6 +329,17 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             }
             updateTimerCounter--;
        //     waveController.update(pSecondsElapsed);
+
+            ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
+//                for (int i = objects.size()-1; 0<=i;i--){
+            if (objects.size() != 0) {
+                if (flag2) {
+                    flag2 = false;
+                    onGameOver();
+                }
+            }else {
+                flag2 = true;
+            }
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

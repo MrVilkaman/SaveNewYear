@@ -70,6 +70,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private float gameSpeed = 550;
     private float gameGroundY = GROUND_Y;
     private BarrierKind lastItemType;
+    private ShowflakeGenerator generator;
 
 
     private enum LAYERS{
@@ -128,17 +129,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         waveController.start();
 
         loadGame();
-
-        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+500,0,Constants.CAMERA_WIDTH+300,100);
-        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,20,30);
-        generator.addParticleInitializer(new VelocityParticleInitializer( -200, -400,100, 200));
-        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
-        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
-        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
-
-        attachToLayer(LAYERS.FRONT_LAYER,generator);
-
-
+        updateGameSpeed();
     }
 
     private void onGameOver() {
@@ -189,6 +180,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     private void updateGameSpeed() {
+        generator.setSpeed(gameSpeed);
         parallaxRoad.setParallaxChangePerSecond(gameSpeed);
         parallaxFG.setParallaxChangePerSecond(gameSpeed);
         autoParallaxBackground.setParallaxChangePerSecond(gameSpeed);
@@ -227,7 +219,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         item = ObjectPoolContex.getBarrierCenter().getUnit(itemType);
         waveController.addOvertime(item.getOverTime());
         item.setStart();
-
+        // todo ЗАчем?
+        // updateGameSpeed();
     }
 
     private void createHUD() {
@@ -276,6 +269,18 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         Sprite sprite = new Sprite(0,Constants.CAMERA_HEIGHT-TextureManager.getGameFG().getHeight()-15,TextureManager.getRoad(),main.getVertexBufferObjectManager());
         parallaxRoad.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF, sprite));
         attachToLayer(LAYERS.ROAD_LAYER, parallaxRoad);
+
+        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF*2,0,Constants.CAMERA_WIDTH*2,300);
+         generator =  new ShowflakeGenerator(particleEmitter,20,30);
+        generator.addParticleInitializer(new VelocityParticleInitializer( -200, -400,100, 200));
+        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+        generator.addParticleInitializer(new ExpireParticleInitializer(10f));
+       // parallaxFG.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF,generator));
+          attachToLayer(LAYERS.FRONT_LAYER, generator);
+
+
+
 
     }
 

@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.FallingShow;
 
 import android.opengl.GLES20;
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.particle.Particle;
@@ -25,11 +26,13 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
     protected final float mRateMaximum;
     private final ArrayList<Particle> mParticles;
     private final ShowsPool particlesPool;
+    //private final VelocityParticleInitializer velocityParticleInitializer;
 
     private boolean mParticlesSpawnEnabled = true;
     private int mParticlesMaximum = 250;
     private float mParticlesDueToSpawn = 0;
     private boolean mBlendingEnabled = true;
+    private float speed = 0;
 
     public  ShowflakeGenerator(IParticleEmitter mParticleEmitter, float pRateMinimum, float pRateMaximum) {
         this.mParticleEmitter = mParticleEmitter;
@@ -39,6 +42,8 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
         this.registerUpdateHandler(this.mParticleEmitter);
         particlesPool =  new ShowsPool();
 
+       /* velocityParticleInitializer = new VelocityParticleInitializer( speed, 0);
+        mParticleInitializers.add(velocityParticleInitializer);*/
     }
 
     @Override
@@ -116,6 +121,7 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
                 this.mParticles[this.mParticlesAlive] = particle;
                 particle.setEntity(this.mEntityFactory.create(x, y));
             } else { */
+
         attachChild(particle.getEntity());
                 mParticles.add(particle);
                 particle.reset();
@@ -131,6 +137,9 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
                 for(int i = this.mParticleModifiers.size() - 1; i >= 0; i--) {
                     this.mParticleModifiers.get(i).onInitializeParticle(particle);
                 }
+
+                PhysicsHandler ph = particle.getPhysicsHandler();
+                ph.setVelocityX(ph.getVelocityX()-this.speed);
             }
 
     }
@@ -161,5 +170,20 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
 
     public void removeParticleInitializer(final IParticleInitializer<T> pParticleInitializer) {
         this.mParticleInitializers.remove(pParticleInitializer);
+    }
+
+    public void setSpeed(float speed) {
+
+        //-100
+        //speed = 20;
+        // this.speed = 40
+        //-120
+
+       // velocityParticleInitializer.setVelocityX(-speed);
+        for(int i = this.mParticles.size() - 1; i >= 10; i--) {
+            PhysicsHandler hh = this.mParticles.get(i).getPhysicsHandler();
+            hh.setVelocityX(hh.getVelocityX()  - speed + this.speed);
+        }
+        this.speed = speed;
     }
 }

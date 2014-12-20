@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.Barriers;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
@@ -18,13 +19,14 @@ import org.andengine.util.modifier.ease.EaseBounceOut;
 public class TreeItem extends BaseUnit {
 
     private static final float TIME_ROTATION_TREE = 1f;
-    private static final float OVER_TIME = 1f;
+    private static final float OVER_TIME = 2f;
 
-    private float FRAME_TIME = 0.017f;
+    private float FRAME_TIME = 0.01f;
     private final Rectangle rect2;
     private float animTime = 0;
     private boolean needBuild = false;
     private boolean animatedFinish = false;
+    private float defSpeed;
 
     public TreeItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
@@ -56,7 +58,7 @@ public class TreeItem extends BaseUnit {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(1f, 0.1f);//0.75f);
+        rect.setScale(1f, 0.2f);//0.75f);
         rect.setColor(Color.BLUE);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
 
@@ -76,11 +78,11 @@ public class TreeItem extends BaseUnit {
         rect2.setAlpha(0.5f);
         rect2.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
 //        rect2.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect2.setY(he.getHeight()/2);
+        rect2.setY(he.getHeight()/3);
         rect2.resetRotationCenter();
-        rect2.setScale(3f, 0.7f);
+        rect2.setScale(2.4f, 0.6f);
 
-        sprite.setRotationCenter(he.getWidth(), he.getHeight()-10);
+        sprite.setRotationCenter(he.getWidth()-20, he.getHeight()-10);
         sprite.attachChild(rect);
         sprite.attachChild(rect2);
 
@@ -88,26 +90,31 @@ public class TreeItem extends BaseUnit {
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         SceneContext.getActiveScene().registerTouchArea(rect2);
+        sprite.setScaleCenterY(sprite.getHeight());
+        sprite.setScaleY(1.1f);
 
        //((AnimatedSprite)sprite).setCurrentTileIndex(7);
     }
 
     @Override
     public void setStart() {
+        sprite.setRotation(0);
         super.setStart();
         sprite.setPosition(Constants.CAMERA_WIDTH+50,581-sprite.getHeight());
         ((AnimatedSprite)sprite).setCurrentTileIndex(0);
         animatedFinish = false;
         needBuild = false;
-        rect.setScaleY(0.10f);
-        sprite.setRotation(0);
+        rect.setScaleY(0.2f);
+        IActiveGameScene sc = SceneContext.getActiveScene();
+        defSpeed = sc.getGameSpeed();
+        sc.setGameSpeed(defSpeed < 900?defSpeed :900);
     }
 
     @Override
     public boolean checkHit(IGetShape object) {
         if (object.getShape().collidesWith(rect)) {
             if (animatedFinish){
-                SceneContext.getActiveScene().setGroudY(511);
+                SceneContext.getActiveScene().setGroudY(521);
             }else{
                 return true;
             }
@@ -119,6 +126,13 @@ public class TreeItem extends BaseUnit {
         }
         return false;
 
+    }
+
+    @Override
+    public void destroy(Boolean withAnimate) {
+        SceneContext.getActiveScene().setGameSpeed(defSpeed);
+        sprite.setRotation(0);
+        super.destroy(withAnimate);
     }
 
     @Override

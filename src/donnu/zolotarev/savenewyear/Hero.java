@@ -22,8 +22,8 @@ public class Hero implements ICollisionObject{
     private static final float HERO_X = 150;
 
     private static final int ANIMATE_SPEED = 110; // hero speed anim
-    private static final float JUMP_SPEED = 900;
-    private static final float GRAVITY_SPEED = 2000;
+    private static final float JUMP_SPEED = 1120;
+    private static final float GRAVITY_SPEED = 3750;
     private static final float GRAVITY_SPEED_MAX = 10000;
 
     private final AnimatedSprite animatedSprite;
@@ -57,7 +57,7 @@ public class Hero implements ICollisionObject{
 
                     shedow.setScale(1 - (herY - mY) / herY);
                 }
-                shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,5f));
+                shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,10f));
 
             }
         };
@@ -81,7 +81,7 @@ public class Hero implements ICollisionObject{
 
     public void jump(){
         if (!isFly) {
-            animatedSprite.setY(SceneContext.getActiveScene().getGroundY() - animatedSprite.getHeight() - 10);
+            animatedSprite.setY(SceneContext.getActiveScene().getGroundY() - animatedSprite.getHeight() - 40);
             physicsHandler.setVelocityY(-JUMP_SPEED);
             physicsHandler.setAccelerationY(GRAVITY_SPEED);
         } else{

@@ -13,4 +13,6 @@ public interface IActiveGameScene {
     public float getGroundY();
 
     public void setGroudY(float i);
+
+    public void setGameSpeed(float gameSpeed);
 }

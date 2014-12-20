@@ -67,7 +67,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 500;
+    private float gameSpeed = 550;
     private float gameGroundY = GROUND_Y;
     private BarrierKind lastItemType;
 
@@ -177,8 +177,18 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     @Override
-    public void updateGameSpeed(){
+    public void setGameSpeed(float gameSpeed) {
+        this.gameSpeed  = gameSpeed;
+        updateGameSpeed();
+    }
+
+    @Override
+    public void increaseGameSpeed(){
         gameSpeed *=SPEED_COEF;
+        updateGameSpeed();
+    }
+
+    private void updateGameSpeed() {
         parallaxRoad.setParallaxChangePerSecond(gameSpeed);
         parallaxFG.setParallaxChangePerSecond(gameSpeed);
         autoParallaxBackground.setParallaxChangePerSecond(gameSpeed);
@@ -195,23 +205,29 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         double r;
         BarrierKind itemType;
 
-     /*   do {
+        do {
             r = Math.random();
             if(r<0.25) {
                 itemType = BarrierKind.NEW_YEAR_TREE;
-            }else if (r<0.5){
-                itemType = BarrierKind.WATER_HOLL;
             }else if (r<0.75){
-                itemType = BarrierKind.SHOW_BALL;
+                itemType = BarrierKind.WATER_HOLL;
+          /*  }else if (r<0.75){
+                itemType = BarrierKind.SHOW_BALL;*/
             }else{
                 itemType = BarrierKind.TREE;
             }
         } while (itemType == lastItemType);
-        lastItemType = itemType;*/
+        lastItemType = itemType;
 
-        item = ObjectPoolContex.getBarrierCenter().getUnit( BarrierKind.TREE);
+        if (itemType == BarrierKind.TREE) {
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
+            item.setStart(70);
+        }
+
+        item = ObjectPoolContex.getBarrierCenter().getUnit(itemType);
         waveController.addOvertime(item.getOverTime());
         item.setStart();
+
     }
 
     private void createHUD() {

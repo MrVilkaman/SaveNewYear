@@ -53,4 +53,9 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
     public float getOverTime() {
         return 0;
     }
+
+    @Override
+    public void setStart(float offset) {
+
+    }
 }

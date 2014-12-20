@@ -34,7 +34,7 @@ public class WaveController implements IWaveController {
             currentTimeToNextUpdate -=delta;
             if(currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
                 currentLevel++;
-                unitCreate.updateGameSpeed();
+                unitCreate.increaseGameSpeed();
                 minTime *=0.95;
                 maxTime *=0.95;
                 currentTimeToNextUpdate = timeToNextUpdate;

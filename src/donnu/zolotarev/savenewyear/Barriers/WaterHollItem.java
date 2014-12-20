@@ -21,14 +21,14 @@ public class WaterHollItem extends BaseUnit {
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
-                if (mX < -(mWidth + 50)) {
+                if (mX < -(getWidthScaled() + 50)) {
                    destroy(false);
                 }
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.8f, 1.4f);
+        rect.setScale(0.7f, 1.3f);
         rect.setColor(Color.BLUE);
         rect.setAlpha(0.5f);
         sprite.attachChild(rect);
@@ -36,12 +36,21 @@ public class WaterHollItem extends BaseUnit {
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
+        sprite.setScaleCenterX(0);
 
     }
 
     public void setStart(){
         super.setStart();
         sprite.setPosition(Constants.CAMERA_WIDTH+50,575-sprite.getHeight());
+        sprite.setScaleX(1f);
+    }
+
+    @Override
+    public void setStart(float offset) {
+        super.setStart();
+        sprite.setPosition(Constants.CAMERA_WIDTH+50 + offset,575-sprite.getHeight());
+        sprite.setScaleX(3f);
     }
 
     @Override

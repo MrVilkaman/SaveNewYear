@@ -48,4 +48,9 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
     public void updateSpeed() {
         physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
     }
+
+    @Override
+    public float getOverTime() {
+        return 0;
+    }
 }

@@ -24,8 +24,8 @@ public class WaveController implements IWaveController {
         if (isStart) {
             currentTime -= delta;
             if(currentTime <0){
-                unitCreate.initNextUnit();
                 currentTime = getNewTime();
+                unitCreate.initNextUnit();
             }
             currentTimeToNextUpdate -=delta;
             if(currentTimeToNextUpdate <0){
@@ -38,7 +38,7 @@ public class WaveController implements IWaveController {
     }
 
     private float getNewTime() {
-        return Utils.random(minTime,maxTime);
+        return Utils.random(minTime, maxTime);
     }
 
     @Override
@@ -49,6 +49,11 @@ public class WaveController implements IWaveController {
     @Override
     public void getNext() {
         currentTime = 0;
+    }
+
+    @Override
+    public void addOvertime(float delta) {
+        currentTime +=delta;
     }
 
 

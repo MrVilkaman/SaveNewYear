@@ -66,8 +66,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 350;
+    private float gameSpeed = 500;
     private float gameGroundY = 561;
+    private BarrierKind lastItemType;
 
 
     private enum LAYERS{
@@ -136,8 +137,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         attachToLayer(LAYERS.FRONT_LAYER,generator);
 
-        IBarrier item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
-        item.setStart();
+
     }
 
     private void onGameOver() {
@@ -191,15 +191,25 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     public void initNextUnit() {
         IBarrier item;
-     /*   double r = Math.random();
-        if(r<0.33) {
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.NEW_YEAR_TREE);
-        }else if (r<0.66){
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-        }else {
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.SHOW_BALL);
-        }*/
-        item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.TREE);
+        double r;
+        BarrierKind itemType;
+
+        do {
+            r = Math.random();
+            if(r<0.25) {
+                itemType = BarrierKind.NEW_YEAR_TREE;
+            }else if (r<0.5){
+                itemType = BarrierKind.WATER_HOLL;
+            }else if (r<0.75){
+                itemType = BarrierKind.SHOW_BALL;
+            }else{
+                itemType = BarrierKind.TREE;
+            }
+        } while (itemType == lastItemType);
+        lastItemType = itemType;
+
+        item = ObjectPoolContex.getBarrierCenter().getUnit(lastItemType);
+        waveController.addOvertime(item.getOverTime());
         item.setStart();
     }
 
@@ -328,7 +338,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
             }
             updateTimerCounter--;
-       //     waveController.update(pSecondsElapsed);
+            waveController.update(pSecondsElapsed);
 
             ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
 //                for (int i = objects.size()-1; 0<=i;i--){

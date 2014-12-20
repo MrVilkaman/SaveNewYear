@@ -1,6 +1,5 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
-import android.util.Log;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
@@ -20,6 +19,7 @@ public class TreeItem extends BaseUnit {
 
     private static final float TIME_ROTATION_TREE = 1f;
     private static final float FRAME_TIME = 0.02f;
+    private static final float OVER_TIME = 1f;
 
     private final Rectangle rect2;
     private float animTime = 0;
@@ -95,13 +95,16 @@ public class TreeItem extends BaseUnit {
     public void setStart() {
         super.setStart();
         sprite.setPosition(Constants.CAMERA_WIDTH+50,581-sprite.getHeight());
+        ((AnimatedSprite)sprite).setCurrentTileIndex(0);
+        animatedFinish = false;
+        needBuild = false;
+        sprite.setRotation(0);
     }
 
     @Override
     public boolean checkHit(IGetShape object) {
         if (object.getShape().collidesWith(sprite)) {
             if (animatedFinish){
-                Log.i("XXX", "!! 501");
                 SceneContext.getActiveScene().setGroudY(511);
             }else{
                 return true;
@@ -109,7 +112,6 @@ public class TreeItem extends BaseUnit {
 //            return false;
         } else {
             if (animatedFinish){
-                Log.i("XXX", "!!!!!!! 561");
                 SceneContext.getActiveScene().setGroudY(561);
             }
         }
@@ -121,5 +123,10 @@ public class TreeItem extends BaseUnit {
     @Override
     public BarrierKind getKind() {
         return BarrierKind.TREE;
+    }
+
+    @Override
+    public float getOverTime() {
+        return OVER_TIME;
     }
 }

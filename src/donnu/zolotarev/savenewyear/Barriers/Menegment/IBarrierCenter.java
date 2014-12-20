@@ -8,5 +8,4 @@ public interface IBarrierCenter {
     void remoteUnit(IBarrier item);
     public IBarrier getUnit(BarrierKind kind);
     public void clear();
-
-}
+  }

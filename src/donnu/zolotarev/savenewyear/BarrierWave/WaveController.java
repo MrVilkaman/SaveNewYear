@@ -4,6 +4,8 @@ import donnu.zolotarev.savenewyear.Utils.Utils;
 
 public class WaveController implements IWaveController {
 
+    private static final int MAX_LEVEL = 10;
+
     private boolean isStart = false;
     private ICanUnitCreate unitCreate;
 
@@ -11,8 +13,10 @@ public class WaveController implements IWaveController {
     private float maxTime = 3f;
     private float currentTime = maxTime/2;
 
-    private float timeToNextUpdate = 7f;
+    private float timeToNextUpdate = 4f;
     private float currentTimeToNextUpdate = timeToNextUpdate;
+
+    private int currentLevel = 0;
 
 
     public WaveController(ICanUnitCreate unitCreate) {
@@ -28,10 +32,11 @@ public class WaveController implements IWaveController {
                 unitCreate.initNextUnit();
             }
             currentTimeToNextUpdate -=delta;
-            if(currentTimeToNextUpdate <0){
+            if(currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
+                currentLevel++;
                 unitCreate.updateGameSpeed();
                 minTime *=0.95;
-                maxTime *=0.90;
+                maxTime *=0.95;
                 currentTimeToNextUpdate = timeToNextUpdate;
             }
         }

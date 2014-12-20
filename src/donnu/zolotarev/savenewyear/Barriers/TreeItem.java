@@ -18,9 +18,9 @@ import org.andengine.util.modifier.ease.EaseBounceOut;
 public class TreeItem extends BaseUnit {
 
     private static final float TIME_ROTATION_TREE = 1f;
-    private static final float FRAME_TIME = 0.02f;
     private static final float OVER_TIME = 1f;
 
+    private float FRAME_TIME = 0.017f;
     private final Rectangle rect2;
     private float animTime = 0;
     private boolean needBuild = false;
@@ -40,6 +40,7 @@ public class TreeItem extends BaseUnit {
                     animTime += pSecondsElapsed;
                     if (FRAME_TIME < animTime  ) {
                         animTime = 0;
+
                         AnimatedSprite animatedSprite = (AnimatedSprite)sprite;
                         if (animatedSprite.getCurrentTileIndex() < animatedSprite.getTileCount()-1) {
                             animatedSprite.setCurrentTileIndex(animatedSprite.getCurrentTileIndex()+1);
@@ -47,6 +48,7 @@ public class TreeItem extends BaseUnit {
                             animatedFinish = true;
                             registerEntityModifier(new RotationModifier(TIME_ROTATION_TREE,0,90,EaseBounceOut.getInstance()));
                         }
+                        rect.setScaleY(1f*animatedSprite.getCurrentTileIndex()/animatedSprite.getTileCount());
                     }
                     needBuild = false;
                 }
@@ -54,7 +56,7 @@ public class TreeItem extends BaseUnit {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.4f, 0.75f);
+        rect.setScale(1f, 0.1f);//0.75f);
         rect.setColor(Color.BLUE);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
 
@@ -66,7 +68,6 @@ public class TreeItem extends BaseUnit {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_MOVE) {
                     needBuild = true;
                 }
-
                 return true;
             }
         };
@@ -98,12 +99,13 @@ public class TreeItem extends BaseUnit {
         ((AnimatedSprite)sprite).setCurrentTileIndex(0);
         animatedFinish = false;
         needBuild = false;
+        rect.setScaleY(0.10f);
         sprite.setRotation(0);
     }
 
     @Override
     public boolean checkHit(IGetShape object) {
-        if (object.getShape().collidesWith(sprite)) {
+        if (object.getShape().collidesWith(rect)) {
             if (animatedFinish){
                 SceneContext.getActiveScene().setGroudY(511);
             }else{
@@ -115,7 +117,6 @@ public class TreeItem extends BaseUnit {
                 SceneContext.getActiveScene().setGroudY(561);
             }
         }
-
         return false;
 
     }

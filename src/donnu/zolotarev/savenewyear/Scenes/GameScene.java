@@ -55,8 +55,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float BACKGROUND_LAYER_SPEED = 0.6f;
     private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
+    private static final int GROUND_Y = 561;
+    private static final float SPEED_COEF = 1.1f;
 
-    private static final int GROUND_Y = 500;
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
     private ObjectCollisionController<ICollisionObject> treeCollection;
@@ -67,7 +68,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private AutoParallaxBackground autoParallaxBackground;
 
     private float gameSpeed = 500;
-    private float gameGroundY = 561;
+    private float gameGroundY = GROUND_Y;
     private BarrierKind lastItemType;
 
 
@@ -177,7 +178,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     @Override
     public void updateGameSpeed(){
-        gameSpeed *=1.1f;
+        gameSpeed *=SPEED_COEF;
         parallaxRoad.setParallaxChangePerSecond(gameSpeed);
         parallaxFG.setParallaxChangePerSecond(gameSpeed);
         autoParallaxBackground.setParallaxChangePerSecond(gameSpeed);
@@ -194,7 +195,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         double r;
         BarrierKind itemType;
 
-        do {
+     /*   do {
             r = Math.random();
             if(r<0.25) {
                 itemType = BarrierKind.NEW_YEAR_TREE;
@@ -206,9 +207,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 itemType = BarrierKind.TREE;
             }
         } while (itemType == lastItemType);
-        lastItemType = itemType;
+        lastItemType = itemType;*/
 
-        item = ObjectPoolContex.getBarrierCenter().getUnit(lastItemType);
+        item = ObjectPoolContex.getBarrierCenter().getUnit( BarrierKind.TREE);
         waveController.addOvertime(item.getOverTime());
         item.setStart();
     }

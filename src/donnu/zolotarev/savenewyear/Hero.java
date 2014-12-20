@@ -41,7 +41,7 @@ public class Hero implements ICollisionObject{
         BaseGameActivity main = GameContex.getCurrent();
         final IActiveGameScene gameLayers = SceneContext.getActiveScene();
 
-        animatedSprite = new AnimatedSprite(HERO_X,0, he, main.getVertexBufferObjectManager()){
+        animatedSprite = new AnimatedSprite(HERO_X,gameLayers.getGroundY()  , he, main.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);

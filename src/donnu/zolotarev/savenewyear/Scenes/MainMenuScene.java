@@ -7,6 +7,8 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
+import donnu.zolotarev.savenewyear.GameData.Bonuses;
+import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -60,18 +62,12 @@ public class MainMenuScene extends BaseScene {
         super();
         TextureManager.loadMenuSprites();
        initBackground();
-
-              final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,100);
-        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,10,20);
-        generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
-        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
-        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
-        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
-
-        attachToLayer(LAYERS.SHOW_LAYER,generator);
-     //   initShow();
+       loadData();
     }
 
+    private void loadData() {
+        GameDateHolder.setBonuses(new Bonuses());
+    }
 
 
     private void initShow() {
@@ -148,6 +144,16 @@ public class MainMenuScene extends BaseScene {
                 , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickSetting), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
+
+        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,100);
+        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,10,20);
+        generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
+        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
+
+        attachToLayer(LAYERS.SHOW_LAYER,generator);
+        //   initShow();
     }
 
 

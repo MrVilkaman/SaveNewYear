@@ -1,6 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
@@ -12,6 +13,7 @@ import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
+import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -45,6 +47,8 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
@@ -60,6 +64,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
+    private static final String BONUS_COUNT = "BONUS_COUNT";
+
     private ObjectCollisionController<ICollisionObject> treeCollection;
     private boolean flag2 = true;
 
@@ -71,6 +77,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private float gameGroundY = GROUND_Y;
     private BarrierKind lastItemType;
     private ShowflakeGenerator generator;
+    private Text presentScore;
 
 
     private enum LAYERS{
@@ -130,6 +137,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         loadGame();
         updateGameSpeed();
+        updatePresent(GameDateHolder.getBonuses().getBonusCount());
+
     }
 
     private void onGameOver() {
@@ -201,11 +210,13 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             r = Math.random();
             if(r<0.25) {
                 itemType = BarrierKind.NEW_YEAR_TREE;
-            }else if (r<0.75){
+            }else if (r<0.5){
                 itemType = BarrierKind.WATER_HOLL;
-          /*  }else if (r<0.75){
-                itemType = BarrierKind.SHOW_BALL;*/
-            }else{
+            }else if (r<0.75){
+                itemType = BarrierKind.SHOW_BALL;
+            }else if (r<0.85){
+                itemType = BarrierKind.BONUS;
+            }else {
                 itemType = BarrierKind.TREE;
             }
         } while (itemType == lastItemType);
@@ -235,11 +246,25 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 , main.getVertexBufferObjectManager(),null,null, onClickPause),Constants.CAMERA_WIDTH-20, 20, WALIGMENT.RIGHT, HALIGMENT.TOP);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.HUD_LAYER, btn2);
+
+        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()),5,8,WALIGMENT.LEFT, HALIGMENT.TOP);
+        presentScore = new Text(0,0, TextureManager.getFont(),"x 000",main.getVertexBufferObjectManager());
+        presentScore = (Text)EasyLayoutsFactory.alihment( presentScore
+                ,present.getX()+present.getWidth()+5, present.getY() +present.getHeight()+10, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
+        attachToLayer(LAYERS.HUD_LAYER, present);
+        attachToLayer(LAYERS.HUD_LAYER, presentScore);
     }
 
     private void initOthers() {
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
         hero = new Hero();
+
+        GameDateHolder.getBonuses().addObserver(new Observer() {
+            @Override
+            public void update(Observable observable, Object data) {
+                updatePresent((Integer)data);
+            }
+        });
     }
 
     @Override
@@ -385,17 +410,25 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     public void onDetached() {
         SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
+        GameDateHolder.getBonuses().deleteObservers();
     }
 
     private void saveGame(){
        GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
                .putLong(MAX_TIME, bestTime.getTime())
+               .putLong(BONUS_COUNT, GameDateHolder.getBonuses().getBonusCount())
                .commit();
     }
 
     private void loadGame(){
-        bestTime = new Date(GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .getLong(MAX_TIME,0));
+        SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        bestTime = new Date(pref.getLong(MAX_TIME,0));
+        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
 
+    }
+
+    public void updatePresent(Integer data){
+        StringBuilder builder = new StringBuilder("x ").append(data);
+        presentScore.setText(builder.toString());
     }
 }

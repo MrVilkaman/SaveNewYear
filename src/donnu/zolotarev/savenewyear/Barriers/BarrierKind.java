@@ -5,4 +5,6 @@ public enum BarrierKind {
     WATER_HOLL,
     SHOW_BALL,
     TREE,
+    BONUS
+    ,
 }

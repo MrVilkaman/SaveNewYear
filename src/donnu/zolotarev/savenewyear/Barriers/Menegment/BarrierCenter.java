@@ -34,6 +34,12 @@ public class BarrierCenter implements IBarrierCenter {
                 return new TreeItem();
             }
         });
+        genericPool.registerPool(BarrierKind.BONUS.ordinal(),new GenericPool<IBarrier>(1) {
+            @Override
+            protected IBarrier onAllocatePoolItem() {
+                return new BonusItem();
+            }
+        });
     }
 
     @Override

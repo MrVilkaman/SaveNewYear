@@ -66,4 +66,9 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
         setStart();
         sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET + offset,575-sprite.getHeight()+offsetY);
     }
+
+    @Override
+    public BarrierKind whoIsThere() {
+        return getKind();
+    }
 }

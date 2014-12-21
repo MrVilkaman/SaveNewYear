@@ -1,6 +1,7 @@
 package donnu.zolotarev.savenewyear;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -30,11 +31,14 @@ public class Hero implements ICollisionObject{
     private final PhysicsHandler physicsHandler;
     private final Sprite shedow;
     private final Rectangle rect;
+    private final PhysicsHandler shedowPhysicsHandler;
 
     // todo убрать константу!
     private float groundY = 561;
 
     private boolean isFly = false;
+    private boolean die = false;
+    private boolean dieInWaterHoll = false;
 
     public Hero() {
         ITiledTextureRegion he = TextureManager.getHero();
@@ -47,7 +51,7 @@ public class Hero implements ICollisionObject{
                 super.onManagedUpdate(pSecondsElapsed);
                 // todo проверка по двум точкам
                 final float herY = gameLayers.getGroundY() - mHeight;
-                if(  herY < mY){
+                if(  herY < mY && !dieInWaterHoll){
                         shedow.setScaleX(1f);
                         physicsHandler.setVelocityY(0);
                         mY = herY;
@@ -57,7 +61,9 @@ public class Hero implements ICollisionObject{
 
                     shedow.setScale(1 - (herY - mY) / herY);
                 }
-                shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,10f));
+                if (!dieInWaterHoll) {
+                    shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,10f));
+                }
 
             }
         };
@@ -71,6 +77,9 @@ public class Hero implements ICollisionObject{
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
         shedow = new Sprite(HERO_X+15, gameLayers.getGroundY() -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
 
+        shedowPhysicsHandler = new PhysicsHandler(shedow);
+        shedow.registerUpdateHandler(shedowPhysicsHandler);
+
         physicsHandler = new PhysicsHandler(animatedSprite);
         animatedSprite.registerUpdateHandler(physicsHandler);
 
@@ -80,15 +89,17 @@ public class Hero implements ICollisionObject{
     }
 
     public void jump(){
-        if (!isFly) {
-            animatedSprite.setY(SceneContext.getActiveScene().getGroundY() - animatedSprite.getHeight() - 40);
-            physicsHandler.setVelocityY(-JUMP_SPEED);
-            physicsHandler.setAccelerationY(GRAVITY_SPEED);
-        } else{
-            physicsHandler.setAccelerationY(GRAVITY_SPEED_MAX);
+        if (!die) {
+            if (!isFly) {
+                animatedSprite.setY(SceneContext.getActiveScene().getGroundY() - animatedSprite.getHeight() - 40);
+                physicsHandler.setVelocityY(-JUMP_SPEED);
+                physicsHandler.setAccelerationY(GRAVITY_SPEED);
+            } else{
+                physicsHandler.setAccelerationY(GRAVITY_SPEED_MAX);
 
+            }
+            isFly = true;
         }
-        isFly = true;
 
     }
 
@@ -102,7 +113,12 @@ public class Hero implements ICollisionObject{
 
     @Override
     public boolean checkHit(IGetShape object) {
-        return  object.getShape().collidesWith(rect);
+        return !die && object.getShape().collidesWith(rect);
+    }
+
+    @Override
+    public BarrierKind whoIsThere() {
+        return null;
     }
 
     @Override
@@ -113,5 +129,19 @@ public class Hero implements ICollisionObject{
     @Override
     public RectangularShape getShape() {
         return rect;
+    }
+
+    public void setGameOverForm(ICollisionObject collisionObject) {
+        die = true;
+        animatedSprite.stopAnimation(2);
+        BarrierKind who = collisionObject.whoIsThere();
+        physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
+        if (who == BarrierKind.WATER_HOLL) {
+            dieInWaterHoll = true;
+            physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed()*0.1f);
+            shedow.setVisible(false);
+        }else{
+            shedowPhysicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
+        }
     }
 }

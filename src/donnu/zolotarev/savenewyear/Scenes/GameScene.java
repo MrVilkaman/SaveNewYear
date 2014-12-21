@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
@@ -64,6 +65,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float SPEED_COEF = 1.07f;
 
     private static final float GIFT_TIME_MAX = 50f;
+    private static final long DELAY_GAMEOVER = 1000; //mc
 
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
@@ -149,17 +151,31 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void onGameOver() {
               showHud(false);
-        enablePauseMenu = false;
-        isShowMenuScene = true;
-        if (pauseMenu == null) {
-            pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
-        }
-        pauseMenu.setTime(date, bestTime, true);
-        setChildScene(pauseMenu, false, true, true);
-        if (bestTime.getTime() < date.getTime()) {
-            bestTime = date;
-        }
-        saveGame();
+        GameContex.getCurrent().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                enablePauseMenu = false;
+                isShowMenuScene = true;
+                if (pauseMenu == null) {
+                    pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
+                }
+                pauseMenu.setTime(date, bestTime, true);
+                setChildScene(pauseMenu, false, true, true);
+                if (bestTime.getTime() < date.getTime()) {
+                    bestTime = date;
+                }
+                saveGame();
+            }
+        },DELAY_GAMEOVER);
+
+            }
+        });
     }
 
     @Override
@@ -212,7 +228,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         double r;
         BarrierKind itemType;
 
-       /* do {
+        do {
             r = Math.random();
             if(r<0.25) {
                 itemType = BarrierKind.NEW_YEAR_TREE;
@@ -225,8 +241,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             }else {
                 itemType = BarrierKind.TREE;
             }
-        } while (itemType == lastItemType);*/
-        itemType = BarrierKind.BONUS;
+        } while (itemType == lastItemType);
 
         lastItemType = itemType;
 
@@ -428,6 +443,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 if (flag2) {
                     flag2 = false;
                     onGameOver();
+                    hero.setGameOverForm(objects.get(0));
                 }
             }else {
                 flag2 = true;

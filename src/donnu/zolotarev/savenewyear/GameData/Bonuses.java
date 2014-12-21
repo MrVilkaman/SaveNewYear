@@ -1,9 +1,13 @@
 package donnu.zolotarev.savenewyear.GameData;
 
-import java.util.Observable;
+import donnu.zolotarev.savenewyear.MyObserver;
 
-public class Bonuses  extends Observable{
+import java.util.ArrayList;
+import java.util.List;
 
+public class Bonuses{
+
+    private List<MyObserver> observers = new ArrayList<MyObserver>();
     private int bonusCount;
 
     public int getBonusCount() {
@@ -12,11 +16,24 @@ public class Bonuses  extends Observable{
 
     public void findOne() {
         this.bonusCount++;
-        setChanged();
         notifyObservers(bonusCount);
+    }
+
+    private void notifyObservers(int bonusCount) {
+        for (int i = 0; i < observers.size(); i++) {
+            observers.get(i).update(bonusCount);
+        }
     }
 
     public void setBonusCount(int bonusCount) {
         this.bonusCount = bonusCount;
+    }
+
+    public void deleteObservers() {
+        observers.clear();
+    }
+
+    public void addObserver(MyObserver observer) {
+        observers.add(observer);
     }
 }

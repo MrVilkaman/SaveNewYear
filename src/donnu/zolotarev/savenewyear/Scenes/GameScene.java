@@ -15,6 +15,7 @@ import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Hero;
+import donnu.zolotarev.savenewyear.MyObserver;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -47,8 +48,6 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
@@ -248,6 +247,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
+        new Text(0,0, TextureManager.getFont(),"x1234567890",main.getVertexBufferObjectManager());
+        new Text(0,0, TextureManager.getBigFont(),"8970",main.getVertexBufferObjectManager());
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
                 ,Constants.CAMERA_WIDTH/2,-10, WALIGMENT.CENTER, HALIGMENT.TOP);
@@ -260,6 +261,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         attachToLayer(LAYERS.HUD_LAYER, btn2);
 
         RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()),5,8,WALIGMENT.LEFT, HALIGMENT.TOP);
+
         presentScore = new Text(0,0, TextureManager.getFont(),"x 000",main.getVertexBufferObjectManager());
         presentScore = (Text)EasyLayoutsFactory.alihment( presentScore
                 ,present.getX()+present.getWidth()+5, present.getY() +present.getHeight()+10, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
@@ -271,10 +273,10 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
         hero = new Hero();
 
-        GameDateHolder.getBonuses().addObserver(new Observer() {
+        GameDateHolder.getBonuses().addObserver(new MyObserver() {
             @Override
-            public void update(Observable observable, Object data) {
-                updatePresent((Integer)data);
+            public void update(int data) {
+                updatePresent(data);
             }
         });
     }

@@ -42,14 +42,13 @@ public class WaterHollItem extends BaseUnit {
 
     public void setStart(){
         super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,575-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,575-sprite.getHeight());
         sprite.setScaleX(1f);
     }
 
     @Override
     public void setStart(float offset) {
-        super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+50 + offset,575-sprite.getHeight());
+        super.setStart(offset);
         sprite.setScaleX(3f);
     }
 

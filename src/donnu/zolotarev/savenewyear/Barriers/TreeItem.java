@@ -100,7 +100,7 @@ public class TreeItem extends BaseUnit {
     public void setStart() {
         sprite.setRotation(0);
         super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,581-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,581-sprite.getHeight());
         ((AnimatedSprite)sprite).setCurrentTileIndex(0);
         animatedFinish = false;
         needBuild = false;

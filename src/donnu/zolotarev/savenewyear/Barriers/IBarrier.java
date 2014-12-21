@@ -5,4 +5,5 @@ public interface IBarrier {
     public float getOverTime();
     public void setStart();
     public void setStart(float offset);
+    public void setStart(float offset,float offsetY);
 }

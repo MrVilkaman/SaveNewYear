@@ -10,7 +10,7 @@ public class WaveController implements IWaveController {
     private ICanUnitCreate unitCreate;
 
     private float minTime = 0.9f;
-    private float maxTime = 3f;
+    private float maxTime = 2.8f;
     private float currentTime = maxTime/2;
 
     private float timeToNextUpdate = 4f;

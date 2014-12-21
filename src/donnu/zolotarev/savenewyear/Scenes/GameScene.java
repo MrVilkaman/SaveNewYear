@@ -60,7 +60,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
     private static final int GROUND_Y = 561;
-    private static final float SPEED_COEF = 1.1f;
+    private static final float SPEED_COEF = 1.07f;
 
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
@@ -73,8 +73,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 550;
+    private float gameSpeed = 600;
     private float gameGroundY = GROUND_Y;
+
     private BarrierKind lastItemType;
     private ShowflakeGenerator generator;
     private Text presentScore;
@@ -206,7 +207,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         double r;
         BarrierKind itemType;
 
-        do {
+       /* do {
             r = Math.random();
             if(r<0.25) {
                 itemType = BarrierKind.NEW_YEAR_TREE;
@@ -219,12 +220,23 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             }else {
                 itemType = BarrierKind.TREE;
             }
-        } while (itemType == lastItemType);
+        } while (itemType == lastItemType);*/
+        itemType = BarrierKind.BONUS;
+
         lastItemType = itemType;
 
         if (itemType == BarrierKind.TREE) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
             item.setStart(70);
+        }else if(itemType == BarrierKind.BONUS){
+            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
+
+                itemType = BarrierKind.NEW_YEAR_TREE;
+            if (Math.random()-0.5f < 0) {
+                item.setStart(70);
+            }else{
+                item.setStart(-190);
+            }
         }
 
         item = ObjectPoolContex.getBarrierCenter().getUnit(itemType);
@@ -416,7 +428,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private void saveGame(){
        GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
                .putLong(MAX_TIME, bestTime.getTime())
-               .putLong(BONUS_COUNT, GameDateHolder.getBonuses().getBonusCount())
+               .putInt(BONUS_COUNT, GameDateHolder.getBonuses().getBonusCount())
                .commit();
     }
 

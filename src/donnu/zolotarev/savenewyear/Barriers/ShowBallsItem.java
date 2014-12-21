@@ -102,7 +102,7 @@ public class ShowBallsItem extends BaseUnit {
         super.setStart();
         float speedY = Utils.random(200f,400f);
         physicsHandler.setVelocityY(-speedY);
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,speedY-sprite.getHeight()+10);
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,speedY-sprite.getHeight()+10);
         double r = Math.random();
         currentFrame =  (r<0.45)? 0 : (r<0.85)? 1 : 2;
         updateFrame();

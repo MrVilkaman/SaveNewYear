@@ -11,6 +11,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.shape.RectangularShape;
 
 public abstract class BaseUnit implements ICollisionObject,IBarrier {
+    protected static final int START_X_OFFSET = 150;
     protected Rectangle rect;
     protected PhysicsHandler physicsHandler;
     protected RectangularShape sprite;
@@ -56,6 +57,13 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
 
     @Override
     public void setStart(float offset) {
+        setStart();
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET + offset,575-sprite.getHeight());
+    }
 
+    @Override
+    public void setStart(float offset, float offsetY) {
+        setStart();
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET + offset,575-sprite.getHeight()+offsetY);
     }
 }

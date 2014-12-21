@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.KeyEvent;
+import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
@@ -16,6 +17,7 @@ import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Hero;
 import donnu.zolotarev.savenewyear.MyObserver;
+import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -61,6 +63,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final int GROUND_Y = 561;
     private static final float SPEED_COEF = 1.07f;
 
+    private static final float GIFT_TIME_MAX = 50f;
+
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
     private static final String BONUS_COUNT = "BONUS_COUNT";
@@ -78,6 +82,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private BarrierKind lastItemType;
     private ShowflakeGenerator generator;
     private Text presentScore;
+
+    private float giftTime = 0;
 
 
     private enum LAYERS{
@@ -247,6 +253,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
+        // выделение памяти под цифры, чтобы не было  рывков!
         new Text(0,0, TextureManager.getFont(),"x1234567890",main.getVertexBufferObjectManager());
         new Text(0,0, TextureManager.getBigFont(),"8970",main.getVertexBufferObjectManager());
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
@@ -392,11 +399,25 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         if (!isShowMenuScene) {
             gameTime += pSecondsElapsed;
+            giftTime += pSecondsElapsed;
             // todo оптимизировать по памяти
             if (updateTimerCounter < 0) {
                 date.setTime((int)(gameTime*1000));
                 timerScore.setText(Utils.timerFormat(date));
                 updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
+            }
+
+            if( GIFT_TIME_MAX < giftTime ){
+                giftTime = 0;
+                GameDateHolder.getBonuses().findOne();
+                final BaseGameActivity main = GameContex.getCurrent();
+                main.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(main, main.getString(R.string.you_get_one_dift),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
             updateTimerCounter--;
             waveController.update(pSecondsElapsed);

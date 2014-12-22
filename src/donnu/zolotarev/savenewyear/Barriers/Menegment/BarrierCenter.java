@@ -53,11 +53,6 @@ public class BarrierCenter implements IBarrierCenter {
         return genericPool.obtainPoolItem(kind.ordinal());
     }
 
-    @Override
-    public IBarrier getUnit(float rand) {
-
-        return null;
-    }
 
     @Override
     public void clear() {

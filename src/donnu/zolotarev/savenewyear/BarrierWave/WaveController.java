@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.BarrierWave;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
+import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierTurn;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
@@ -11,6 +12,7 @@ public class WaveController implements IWaveController {
 
     private static final int MAX_LEVEL = 10;
     private final Random random;
+    private final BarrierTurn barrierTurn;
 
     private boolean isStart = false;
     private ICanUnitCreate unitCreate;
@@ -29,6 +31,7 @@ public class WaveController implements IWaveController {
     public WaveController(ICanUnitCreate unitCreate) {
         this.unitCreate = unitCreate;
         random = new Random();
+        barrierTurn = new BarrierTurn();
     }
 
     @Override
@@ -52,7 +55,7 @@ public class WaveController implements IWaveController {
 
     private void initNextUnit() {
         IBarrier item;
-        BarrierKind itemType;
+        /*BarrierKind itemType;
         do {
             int ranNum = Math.abs(random.nextInt()%6);
 
@@ -73,7 +76,10 @@ public class WaveController implements IWaveController {
                 }
             }
         } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
-    //    itemType = BarrierKind.NEW_YEAR_TREE;
+*/    //    itemType = BarrierKind.NEW_YEAR_TREE;
+
+        BarrierKind itemType = barrierTurn.poll();
+
         lastItemType = itemType;
 
         if (itemType == BarrierKind.TREE) {

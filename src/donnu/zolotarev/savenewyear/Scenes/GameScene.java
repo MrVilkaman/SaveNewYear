@@ -271,9 +271,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void createBackGround() {
         BaseGameActivity main = GameContex.getCurrent();
-         autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,gameSpeed);
+        autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,gameSpeed);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
-       autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
+        autoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(-BACKGROUND_LAYER_SPEED, background));
         setBackground(autoParallaxBackground);
 
         parallaxFG = new ParallaxLayer(main.getEngine().getCamera(), true);

@@ -53,7 +53,7 @@ import java.util.Date;
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
-    public static final int GIFT_FOR_LIFE = 1;
+    public static final int GIFT_FOR_LIFE = 5;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 

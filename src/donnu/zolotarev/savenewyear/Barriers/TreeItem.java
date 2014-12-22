@@ -90,8 +90,8 @@ public class TreeItem extends BaseUnit {
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         SceneContext.getActiveScene().registerTouchArea(rect2);
-        sprite.setScaleCenterY(sprite.getHeight());
-        sprite.setScaleY(1.1f);
+        sprite.setScaleCenter(sprite.getHeight()/2, sprite.getHeight());
+        sprite.setScale(1.1f);
 
        //((AnimatedSprite)sprite).setCurrentTileIndex(7);
     }

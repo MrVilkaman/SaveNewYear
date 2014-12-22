@@ -10,5 +10,5 @@
     <string name="pause_menu_return_to_menu">Вернуться в меню</string>
     <string name="pause_menu_best_time">Лучшее время %1s</string>
     <string name="you_get_one_dift">Вы получили подарок!</string>
-    <string name="you_have_not_gift">Нужно 10 подарков чтобы продолжить!</string>
+    <string name="you_have_not_gift">Нужно 5 подарков чтобы продолжить!</string>
 </resources>

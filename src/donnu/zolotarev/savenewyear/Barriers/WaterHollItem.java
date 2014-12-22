@@ -4,6 +4,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
@@ -44,7 +45,8 @@ public class WaterHollItem extends BaseUnit {
         super.setStart();
         rect.setScale(0.60f, 1.3f);
         sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,575-sprite.getHeight());
-        sprite.setScaleX(1f);
+        float scale = Utils.random(-10f, 10f)/100;
+        sprite.setScaleX(1-scale);
     }
 
     @Override

@@ -73,7 +73,7 @@ public class WaveController implements IWaveController {
                 }
             }
         } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
-    //    itemType = BarrierKind.WATER_HOLL;
+    //    itemType = BarrierKind.NEW_YEAR_TREE;
         lastItemType = itemType;
 
         if (itemType == BarrierKind.TREE) {

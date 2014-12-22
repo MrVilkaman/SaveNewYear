@@ -4,6 +4,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
@@ -35,9 +36,23 @@ public class NewYearTreeItem extends BaseUnit {
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, false);
+        sprite.setScaleCenter(sprite.getHeight()/2, sprite.getHeight());
+
     }
 
+    @Override
+    public void setStart() {
+        super.setStart();
+        float scale = Utils.random(-10f, 10f)/100;
+        sprite.setScale(1-scale,1+scale);
+    }
 
+    @Override
+    public void setStart(float offset) {
+        float scale = Utils.random(-10f, 10f)/100;
+        sprite.setScale(1-scale,1+scale);
+        super.setStart(offset);
+    }
 
     @Override
     public BarrierKind getKind() {

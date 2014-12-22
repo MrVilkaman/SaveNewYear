@@ -1,7 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
-import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -9,6 +9,7 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Utils;
+import org.andengine.entity.Entity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.text.Text;
@@ -24,6 +25,8 @@ public class PauseMenuScene extends BaseScene {
     private Text timerScore;
     private Text bestTimerScore;
     private RectangularShape resumeButton;
+
+    private Entity entity;
 
     public PauseMenuScene(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit) {
         super();
@@ -43,6 +46,18 @@ public class PauseMenuScene extends BaseScene {
                 Constants.CAMERA_HEIGHT/3 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
         registerTouchArea(resumeButton);
         attachChild(resumeButton);
+
+        Text presentScore = new Text(0, 0, TextureManager.getFont(), "= 10x", main.getVertexBufferObjectManager());
+        presentScore = (Text)EasyLayoutsFactory.alihment(presentScore,resumeButton.getX()+resumeButton.getWidth(),resumeButton.getY(),WALIGMENT.LEFT, HALIGMENT.TOP);
+        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), presentScore.getX() +presentScore.getWidth(),presentScore.getY()-20, WALIGMENT.LEFT, HALIGMENT.TOP);
+
+
+                 entity = new Entity();
+        entity.attachChild(present);
+        entity.attachChild(presentScore);
+        attachChild(entity);
+        entity.setVisible(false);
+
 
         text = main.getString(R.string.pause_menu_restart);
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
@@ -67,6 +82,8 @@ public class PauseMenuScene extends BaseScene {
                 ,Constants.CAMERA_WIDTH/2,timerScore.getHeight()+10, WALIGMENT.CENTER, HALIGMENT.TOP);
         attachChild(timerScore);
         attachChild(bestTimerScore);
+
+
     }
 
 
@@ -77,10 +94,11 @@ public class PauseMenuScene extends BaseScene {
 
     public void setTime(Date time, Date best, boolean isGameOver) {
         if (isGameOver) {
-            unregisterTouchArea(resumeButton);
-           detachChild(resumeButton);
-        }
+//            unregisterTouchArea(resumeButton);
+//           detachChild(resumeButton);
 
+        }
+        entity.setVisible(isGameOver);
         timerScore.setText( Utils.timerFormat(time));
         bestTimerScore.setText(GameContex.getCurrent().getString(R.string.pause_menu_best_time, Utils.timerFormat(best)));
     }

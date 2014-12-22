@@ -271,6 +271,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         // выделение памяти под цифры, чтобы не было  рывков!
         new Text(0,0, TextureManager.getFont(),"x1234567890",main.getVertexBufferObjectManager());
         new Text(0,0, TextureManager.getBigFont(),"8970",main.getVertexBufferObjectManager());
+
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
                 ,Constants.CAMERA_WIDTH/2,-10, WALIGMENT.CENTER, HALIGMENT.TOP);

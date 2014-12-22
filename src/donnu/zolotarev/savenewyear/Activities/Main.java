@@ -52,14 +52,6 @@ public class Main extends SimpleBaseGameActivity {
         return mainMenu;
     }
 
-
-    @Override
-    public void onDestroyResources() throws Exception {
-      /*  TextureManager.unloadGameSprites();
-        TextureManager.clear();*/
-        super.onDestroyResources();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

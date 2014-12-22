@@ -50,6 +50,7 @@ public class TextureManager {
     private static ITiledTextureRegion heroShedow;
     private static ITiledTextureRegion particlePoint;
     private static ITiledTextureRegion tree;
+    private static ITiledTextureRegion googlePlay;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -91,6 +92,7 @@ public class TextureManager {
             }
             pauseButton = lib.getTiled(MenuTextures.PAUSE_BUTTON_ID);
             particlePoint = lib.getTiled(MenuTextures.PARTICLE_POINT_ID);
+            googlePlay = lib.getTiled(MenuTextures.GOOGLE_PLAY_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -195,5 +197,8 @@ public class TextureManager {
 
     public static ITiledTextureRegion getTree() {
         return tree;
+    }
+    public static ITiledTextureRegion getGooglePlay() {
+        return googlePlay;
     }
 }

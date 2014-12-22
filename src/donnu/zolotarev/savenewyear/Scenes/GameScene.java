@@ -290,9 +290,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         parallaxRoad.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF, sprite));
         attachToLayer(LAYERS.ROAD_LAYER, parallaxRoad);
 
-        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF*2,0,Constants.CAMERA_WIDTH*2,300);
+        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH*3/2.f,0,Constants.CAMERA_WIDTH*3,300);
          generator =  new ShowflakeGenerator(particleEmitter,20,30);
-        generator.addParticleInitializer(new VelocityParticleInitializer( -200, -400,100, 200));
+        generator.addParticleInitializer(new VelocityParticleInitializer( -200, 200,350, 500));
         generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
         generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
         generator.addParticleInitializer(new ExpireParticleInitializer(10f));

@@ -1,10 +1,13 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.opengl.GLES20;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Activities.Main;
+import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.GameData.Bonuses;
@@ -28,14 +31,24 @@ import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.ui.activity.BaseGameActivity;
 
 public class MainMenuScene extends BaseScene {
+
+
     private enum LAYERS{
         TITLE_LAYER,
         SHOW_LAYER,
         BATTON_LAYER
     }
+
+    private ISimpleClick onGooglePlayClick = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            AppUtils.rateMe(GameContex.getCurrent());
+        }
+    };
 
     private ISimpleClick onClickSetting = new ISimpleClick() {
         @Override
@@ -154,8 +167,25 @@ public class MainMenuScene extends BaseScene {
 
         attachToLayer(LAYERS.SHOW_LAYER,generator);
         //   initShow();
+        versionInfoUpdate();
+        RectangularShape gpbtn = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getGooglePlay()
+                , main.getVertexBufferObjectManager(),null,null, onGooglePlayClick), Constants.CAMERA_WIDTH +5, -5, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        registerTouchArea(gpbtn);
+        gpbtn.setScale(0.5f);
+        attachToLayer(LAYERS.BATTON_LAYER,gpbtn);
     }
 
+    private void versionInfoUpdate() {
+        PackageInfo packinfo = null;
+        try {
+            packinfo = GameContex.getCurrent().getPackageManager().getPackageInfo("donnu.zolotarev.savenewyear", PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        Text text = new Text(5,5, TextureManager.getBigFont(),"v" + packinfo.versionName.toString(),GameContex.getCurrent().getVertexBufferObjectManager());
+        text.setScaleCenter(0,0);
+        text.setScale(0.3f);
+        attachToLayer(LAYERS.TITLE_LAYER, text);
+    }
 
 
     protected void attachToLayer(LAYERS layer, IEntity entity){
@@ -180,4 +210,6 @@ public class MainMenuScene extends BaseScene {
             setChildScene(new GameScene(onClickRestart), false, true, true);
         }
     };
+
+
 }

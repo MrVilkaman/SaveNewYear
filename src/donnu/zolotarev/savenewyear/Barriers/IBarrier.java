@@ -6,4 +6,5 @@ public interface IBarrier {
     public void setStart();
     public void setStart(float offset);
     public void setStart(float offset,float offsetY);
+
 }

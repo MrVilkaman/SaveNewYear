@@ -7,4 +7,6 @@ public interface IWaveController {
     public void addOvertime(float delta);
 
     public void increaseTime();
+
 }
+

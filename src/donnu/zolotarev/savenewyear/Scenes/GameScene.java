@@ -55,6 +55,7 @@ import java.util.Date;
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
+    private static final int GIFT_FOR_LIFE = 1;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -96,8 +97,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     private final ISimpleClick onClickRestart;
-    private boolean enablePauseMenu = true;
+    private boolean isNotGameOver = true;
     private boolean isShowMenuScene = false;
+    private boolean enabledPauseMenu = true;
 
     private PauseMenuScene pauseMenu;
     private Text timerScore;
@@ -151,6 +153,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void onGameOver() {
               showHud(false);
+        enabledPauseMenu = false;
         GameContex.getCurrent().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -159,14 +162,14 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                enablePauseMenu = false;
-                isShowMenuScene = true;
+                enabledPauseMenu = false;
+                isNotGameOver = false;
+                //isShowMenuScene = true;
                 if (pauseMenu == null) {
                     pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
                 }
                 pauseMenu.setTime(date, bestTime, true);
-                setChildScene(pauseMenu, false, true, true);
+                setChildScene(pauseMenu, false, false, true);
                 if (bestTime.getTime() < date.getTime()) {
                     bestTime = date;
                 }
@@ -373,7 +376,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     @Override
     public void onKeyPressed(int keyCode, KeyEvent event) {
-        if (enablePauseMenu){
+        if (enabledPauseMenu){
             if (!isShowMenuScene){
                 showPause();
             }else{
@@ -398,11 +401,41 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private final ISimpleClick onClickResume = new ISimpleClick() {
         @Override
         public void onClick() {
-            clearChildScene();
-            isShowMenuScene = false;
-            showHud(true);
+            if (isNotGameOver) {
+                clearChildScene();
+                isShowMenuScene = false;
+                showHud(true);
+            }else{
+                BaseGameActivity activity = GameContex.getCurrent();
+                enabledPauseMenu = true;
+                if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
+                    waveController.addOvertime(4f);
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hero.restart();
+                                    isNotGameOver = true;
+                                }
+                            }, 2000);
+
+                        }
+                    });
+                    clearChildScene();
+                    isShowMenuScene = false;
+                    showHud(true);
+                }else{
+
+                }
+            }
         }
     };
+
     private ISimpleClick onClickExit =  new ISimpleClick() {
         @Override
         public void onClick() {
@@ -413,42 +446,45 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
 
-        if (!isShowMenuScene) {
-            gameTime += pSecondsElapsed;
-            giftTime += pSecondsElapsed;
-            // todo оптимизировать по памяти
-            if (updateTimerCounter < 0) {
-                date.setTime((int)(gameTime*1000));
-                timerScore.setText(Utils.timerFormat(date));
-                updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
-            }
-
-            if( GIFT_TIME_MAX < giftTime ){
-                giftTime = 0;
-                GameDateHolder.getBonuses().findOne();
-                final BaseGameActivity main = GameContex.getCurrent();
-                main.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(main, main.getString(R.string.you_get_one_dift),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-            updateTimerCounter--;
-            waveController.update(pSecondsElapsed);
-
-            ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
-//                for (int i = objects.size()-1; 0<=i;i--){
-            if (objects.size() != 0) {
-                if (flag2) {
-                    flag2 = false;
-                    onGameOver();
-                    hero.setGameOverForm(objects.get(0));
+        if (!isShowMenuScene ) {
+            if (isNotGameOver) {
+                gameTime += pSecondsElapsed;
+                giftTime += pSecondsElapsed;
+                // todo оптимизировать по памяти
+                if (updateTimerCounter < 0) {
+                    date.setTime((int)(gameTime*1000));
+                    timerScore.setText(Utils.timerFormat(date));
+                    updateTimerCounter = UPDATE_TIMER_COUNTER_MAX;
                 }
-            }else {
-                flag2 = true;
+
+                if( GIFT_TIME_MAX < giftTime ){
+                    giftTime = 0;
+                    GameDateHolder.getBonuses().findOne();
+                    final BaseGameActivity main = GameContex.getCurrent();
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(main, main.getString(R.string.you_get_one_dift),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                updateTimerCounter--;
+
+
+                ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
+//                for (int i = objects.size()-1; 0<=i;i--){
+                if (objects.size() != 0) {
+                    if (flag2) {
+                        flag2 = false;
+                        onGameOver();
+                        hero.setGameOverForm(objects.get(0));
+                    }
+                }else {
+                    flag2 = true;
+                }
             }
+            waveController.update(pSecondsElapsed,isNotGameOver);
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

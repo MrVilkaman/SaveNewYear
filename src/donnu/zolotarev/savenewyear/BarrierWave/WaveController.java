@@ -24,7 +24,7 @@ public class WaveController implements IWaveController {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(float delta, boolean isNotGameOver) {
         if (isStart) {
             currentTime -= delta;
             if(currentTime <0){
@@ -32,7 +32,7 @@ public class WaveController implements IWaveController {
                 unitCreate.initNextUnit();
             }
             currentTimeToNextUpdate -=delta;
-            if(currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
+            if(isNotGameOver && currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
                 currentLevel++;
                 unitCreate.increaseGameSpeed();
                 minTime *=0.95;

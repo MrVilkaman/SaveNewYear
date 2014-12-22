@@ -65,6 +65,13 @@ public class Hero implements ICollisionObject{
                     shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,10f));
                 }
 
+                if(HERO_X < mX){
+                    mX =  HERO_X;
+                    physicsHandler.setVelocityX(0);
+                    shedowPhysicsHandler.setVelocityX(0);
+                    shedow.setX(HERO_X+15);
+                }
+
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
@@ -74,7 +81,7 @@ public class Hero implements ICollisionObject{
         rect.setAlpha(0.5f);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         animatedSprite.attachChild(rect);
-        animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
+        animateStart();
         shedow = new Sprite(HERO_X+15, gameLayers.getGroundY() -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
 
         shedowPhysicsHandler = new PhysicsHandler(shedow);
@@ -86,6 +93,10 @@ public class Hero implements ICollisionObject{
         gameLayers.attachToGameLayers(shedow, isFly);
         gameLayers.attachToGameLayers(animatedSprite, isFly);
         physicsHandler.setAccelerationY(GRAVITY_SPEED);
+    }
+
+    private void animateStart() {
+        animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
     }
 
     public void jump(){
@@ -143,5 +154,17 @@ public class Hero implements ICollisionObject{
         }else{
             shedowPhysicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
         }
+    }
+
+    public void restart() {
+        die = false;
+        dieInWaterHoll = false;
+        shedow.setVisible(true);
+        animatedSprite.setX(-(animatedSprite.getScaleX()+100));
+        shedow.setX(-(animatedSprite.getScaleX()+100)+15);
+        float v = SceneContext.getActiveScene().getGameSpeed()*0.2f;
+        physicsHandler.setVelocityX(v);
+        shedowPhysicsHandler.setVelocityX(v);
+        animateStart();
     }
 }

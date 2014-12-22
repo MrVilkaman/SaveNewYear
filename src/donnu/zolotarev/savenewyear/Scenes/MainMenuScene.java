@@ -175,6 +175,7 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onClickRestart =  new ISimpleClick() {
         @Override
         public void onClick() {
+
             clearChildScene();
             setChildScene(new GameScene(onClickRestart), false, true, true);
         }

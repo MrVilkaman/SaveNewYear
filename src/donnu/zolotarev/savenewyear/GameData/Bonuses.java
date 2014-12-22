@@ -36,4 +36,9 @@ public class Bonuses{
     public void addObserver(MyObserver observer) {
         observers.add(observer);
     }
+
+    public void buy(int giftForLife) {
+        this.bonusCount-= giftForLife;
+        notifyObservers(bonusCount);
+    }
 }

@@ -55,7 +55,7 @@ import java.util.Date;
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
-    private static final int GIFT_FOR_LIFE = 1;
+    public static final int GIFT_FOR_LIFE = 3;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -389,6 +389,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     private void showPause() {
+        saveGame();
         showHud(false);
         isShowMenuScene = true;
         if (pauseMenu == null) {
@@ -401,12 +402,13 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private final ISimpleClick onClickResume = new ISimpleClick() {
         @Override
         public void onClick() {
+            final BaseGameActivity activity = GameContex.getCurrent();
             if (isNotGameOver) {
                 clearChildScene();
                 isShowMenuScene = false;
                 showHud(true);
             }else{
-                BaseGameActivity activity = GameContex.getCurrent();
+
                 enabledPauseMenu = true;
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
                     waveController.addOvertime(4f);
@@ -427,10 +429,16 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                         }
                     });
                     clearChildScene();
+                    GameDateHolder.getBonuses().buy(GIFT_FOR_LIFE);
                     isShowMenuScene = false;
                     showHud(true);
                 }else{
-
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity,activity.getString(R.string.you_have_not_gift),Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }
@@ -439,6 +447,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ISimpleClick onClickExit =  new ISimpleClick() {
         @Override
         public void onClick() {
+            saveGame();
             back();
         }
     };

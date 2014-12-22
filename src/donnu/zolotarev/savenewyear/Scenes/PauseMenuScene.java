@@ -47,7 +47,7 @@ public class PauseMenuScene extends BaseScene {
         registerTouchArea(resumeButton);
         attachChild(resumeButton);
 
-        Text presentScore = new Text(0, 0, TextureManager.getFont(), "= 10x", main.getVertexBufferObjectManager());
+        Text presentScore = new Text(0, 0, TextureManager.getFont(), "= "+GameScene.GIFT_FOR_LIFE+"x", main.getVertexBufferObjectManager());
         presentScore = (Text)EasyLayoutsFactory.alihment(presentScore,resumeButton.getX()+resumeButton.getWidth(),resumeButton.getY(),WALIGMENT.LEFT, HALIGMENT.TOP);
         RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), presentScore.getX() +presentScore.getWidth(),presentScore.getY()-20, WALIGMENT.LEFT, HALIGMENT.TOP);
 

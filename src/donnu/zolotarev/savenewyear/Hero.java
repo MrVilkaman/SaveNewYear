@@ -81,7 +81,7 @@ public class Hero implements ICollisionObject{
         rect.setAlpha(0.5f);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
         animatedSprite.attachChild(rect);
-        animateStart();
+      //  animateStart();
         shedow = new Sprite(HERO_X+15, gameLayers.getGroundY() -20,TextureManager.getHeroShedow(),main.getVertexBufferObjectManager());
 
         shedowPhysicsHandler = new PhysicsHandler(shedow);
@@ -93,6 +93,7 @@ public class Hero implements ICollisionObject{
         gameLayers.attachToGameLayers(shedow, isFly);
         gameLayers.attachToGameLayers(animatedSprite, isFly);
         physicsHandler.setAccelerationY(GRAVITY_SPEED);
+        restart();
     }
 
     private void animateStart() {
@@ -160,8 +161,8 @@ public class Hero implements ICollisionObject{
         die = false;
         dieInWaterHoll = false;
         shedow.setVisible(true);
-        animatedSprite.setX(-(animatedSprite.getScaleX()+100));
-        shedow.setX(-(animatedSprite.getScaleX()+100)+15);
+        animatedSprite.setX(-(animatedSprite.getScaleX()+130));
+        shedow.setX(-(animatedSprite.getScaleX()+130)+15);
         float v = SceneContext.getActiveScene().getGameSpeed()*0.2f;
         physicsHandler.setVelocityX(v);
         shedowPhysicsHandler.setVelocityX(v);

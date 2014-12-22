@@ -36,7 +36,7 @@ public class ShowBallsItem extends BaseUnit {
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     updateFrame();
                 }
                 return true;
@@ -100,11 +100,11 @@ public class ShowBallsItem extends BaseUnit {
 
     public void setStart(){
         super.setStart();
-        float speedY = Utils.random(200f,400f);
+        float speedY = Utils.random(200f,300f);
         physicsHandler.setVelocityY(-speedY);
         sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,speedY-sprite.getHeight()+10);
         double r = Math.random();
-        currentFrame =  (r<0.45)? 0 : (r<0.85)? 1 : 2;
+        currentFrame =  (r<0.5)? 0 : (r<0.92)? 1 : 2;
         updateFrame();
     }
 
@@ -115,6 +115,6 @@ public class ShowBallsItem extends BaseUnit {
 
     @Override
     public void updateSpeed(){
-        physicsHandler.setVelocityX(-Utils.random(1000,1400));
+        physicsHandler.setVelocityX(-Utils.random(1250,1550));
     }
 }

@@ -7,5 +7,7 @@ public interface IBarrierCenter {
 
     void remoteUnit(IBarrier item);
     public IBarrier getUnit(BarrierKind kind);
+    public IBarrier getUnit(float rand);
     public void clear();
+
   }

@@ -30,7 +30,7 @@ public class BonusItem extends BaseUnit {
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.4f, 0.75f);
+        rect.setScale(0.9f, 0.75f);
         rect.setColor(Color.BLUE);
         sprite.attachChild(rect);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);

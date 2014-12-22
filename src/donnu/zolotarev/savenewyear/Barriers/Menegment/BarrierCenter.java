@@ -54,6 +54,12 @@ public class BarrierCenter implements IBarrierCenter {
     }
 
     @Override
+    public IBarrier getUnit(float rand) {
+
+        return null;
+    }
+
+    @Override
     public void clear() {
         genericPool.clear();
     }

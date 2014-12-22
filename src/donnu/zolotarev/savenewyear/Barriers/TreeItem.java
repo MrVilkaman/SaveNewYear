@@ -19,7 +19,7 @@ import org.andengine.util.modifier.ease.EaseBounceOut;
 public class TreeItem extends BaseUnit {
 
     private static final float TIME_ROTATION_TREE = 1f;
-    private static final float OVER_TIME = 2f;
+    private static final float OVER_TIME = 0.5f;
 
     private float FRAME_TIME = 0.01f;
     private final Rectangle rect2;

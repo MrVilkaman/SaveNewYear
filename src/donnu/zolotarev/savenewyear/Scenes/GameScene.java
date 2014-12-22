@@ -9,9 +9,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
-import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
-import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
@@ -63,7 +61,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
     private static final int GROUND_Y = 561;
-    private static final float SPEED_COEF = 1.07f;
+    private static final float SPEED_COEF = 1.09f;
 
     private static final float GIFT_TIME_MAX = 50f;
     private static final long DELAY_GAMEOVER = 1000; //mc
@@ -79,10 +77,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 600;
+    private float gameSpeed = 520;
     private float gameGroundY = GROUND_Y;
 
-    private BarrierKind lastItemType;
     private ShowflakeGenerator generator;
     private Text presentScore;
 
@@ -225,49 +222,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         }
     }
 
-    @Override
-    public void initNextUnit() {
-        IBarrier item;
-        double r;
-        BarrierKind itemType;
 
-        do {
-            r = Math.random();
-            if(r<0.25) {
-                itemType = BarrierKind.NEW_YEAR_TREE;
-            }else if (r<0.5){
-                itemType = BarrierKind.WATER_HOLL;
-            }else if (r<0.75){
-                itemType = BarrierKind.SHOW_BALL;
-            }else if (r<0.85){
-                itemType = BarrierKind.BONUS;
-            }else {
-                itemType = BarrierKind.TREE;
-            }
-        } while (itemType == lastItemType);
-
-        lastItemType = itemType;
-
-        if (itemType == BarrierKind.TREE) {
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-            item.setStart(70);
-        }else if(itemType == BarrierKind.BONUS){
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
-
-                itemType = BarrierKind.NEW_YEAR_TREE;
-            if (Math.random()-0.5f < 0) {
-                item.setStart(70);
-            }else{
-                item.setStart(-190);
-            }
-        }
-
-        item = ObjectPoolContex.getBarrierCenter().getUnit(itemType);
-        waveController.addOvertime(item.getOverTime());
-        item.setStart();
-        // todo ЗАчем?
-        // updateGameSpeed();
-    }
 
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();

@@ -35,7 +35,7 @@ public class TreeItem extends BaseUnit {
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
-                if (mX < -(mHeight + 50)) {
+                if (mX < -(mHeight + 100)) {
                     destroy(false);
                 }
                 if (needBuild && !animatedFinish) {
@@ -107,7 +107,7 @@ public class TreeItem extends BaseUnit {
         rect.setScaleY(0.2f);
         IActiveGameScene sc = SceneContext.getActiveScene();
         defSpeed = sc.getGameSpeed();
-        sc.setGameSpeed(defSpeed < 900?defSpeed :900);
+        sc.setGameSpeed(defSpeed < 800?defSpeed :800);
     }
 
     @Override

@@ -27,8 +27,8 @@ public class WaterHollItem extends BaseUnit {
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
-        rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
-        rect.setScale(0.7f, 1.3f);
+        rect.setScaleCenter(he.getWidth() / 2-30, he.getHeight());
+        rect.setScale(0.60f, 1.3f);
         rect.setColor(Color.BLUE);
         rect.setAlpha(0.5f);
         sprite.attachChild(rect);
@@ -42,6 +42,7 @@ public class WaterHollItem extends BaseUnit {
 
     public void setStart(){
         super.setStart();
+        rect.setScale(0.60f, 1.3f);
         sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,575-sprite.getHeight());
         sprite.setScaleX(1f);
     }
@@ -50,6 +51,7 @@ public class WaterHollItem extends BaseUnit {
     public void setStart(float offset) {
         super.setStart(offset);
         sprite.setScaleX(3f);
+        rect.setScale(0.70f, 1.3f);
     }
 
     @Override

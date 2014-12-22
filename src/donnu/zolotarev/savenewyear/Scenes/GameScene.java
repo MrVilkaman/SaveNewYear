@@ -53,7 +53,7 @@ import java.util.Date;
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
-    public static final int GIFT_FOR_LIFE = 3;
+    public static final int GIFT_FOR_LIFE = 1;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -61,7 +61,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
     private static final int GROUND_Y = 561;
-    private static final float SPEED_COEF = 1.09f;
+    private static final float SPEED_COEF = 1.085f;
 
     private static final float GIFT_TIME_MAX = 50f;
     private static final long DELAY_GAMEOVER = 1000; //mc
@@ -77,7 +77,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
-    private float gameSpeed = 520;
+    private float gameSpeed = 550;
     private float gameGroundY = GROUND_Y;
 
     private ShowflakeGenerator generator;
@@ -367,7 +367,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 enabledPauseMenu = true;
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
                     waveController.addOvertime(4f);
-
+                    waveController.increaseTime();
+                    gameSpeed *= 0.9;
+                    updateGameSpeed();
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

@@ -47,7 +47,7 @@ public class ShowBallsItem extends BaseUnit {
        // rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
         rect2.setColor(Color.RED);
         rect2.setAlpha(0.5f);
-        rect.setScale(4f, 4f);
+        rect.setScale(3.5f, 3.5f);
         rect.setColor(Color.BLUE);
         rect.setAlpha(0.5f);
         sprite.attachChild(rect2);
@@ -100,11 +100,12 @@ public class ShowBallsItem extends BaseUnit {
 
     public void setStart(){
         super.setStart();
-        float speedY = Utils.random(200f,300f);
+        float speedY = Utils.random(230f,320f);
         physicsHandler.setVelocityY(-speedY);
         sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,speedY-sprite.getHeight()+10);
         double r = Math.random();
-        currentFrame =  (r<0.5)? 0 : (r<0.92)? 1 : 2;
+        currentFrame =  (r<0.5)? 0 : 1;
+//        currentFrame =  (r<0.5)? 0 : (r<0.92)? 1 : 2;
         updateFrame();
     }
 
@@ -115,6 +116,6 @@ public class ShowBallsItem extends BaseUnit {
 
     @Override
     public void updateSpeed(){
-        physicsHandler.setVelocityX(-Utils.random(1250,1550));
+        physicsHandler.setVelocityX(-Utils.random(1150,1450));
     }
 }

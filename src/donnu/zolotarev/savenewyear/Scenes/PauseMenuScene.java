@@ -2,6 +2,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -27,13 +28,14 @@ public class PauseMenuScene extends BaseScene {
     private RectangularShape resumeButton;
 
     private Entity entity;
+    private Text presentScoreView;
 
     public PauseMenuScene(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit) {
         super();
         setBackgroundEnabled(false);
         Rectangle rectangle =  new Rectangle(0,0, Constants.CAMERA_WIDTH,Constants.CAMERA_HEIGHT, GameContex.getCurrent().getVertexBufferObjectManager());
         rectangle.setColor(Color.BLACK);
-        rectangle.setAlpha(0.6f);
+        rectangle.setAlpha(0.8f);
         attachChild(rectangle);
         createButtons(onClickResume, onClickRestart, onClickExit);
     }
@@ -83,6 +85,13 @@ public class PauseMenuScene extends BaseScene {
         attachChild(timerScore);
         attachChild(bestTimerScore);
 
+        RectangularShape present2 = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()),5,8,WALIGMENT.LEFT, HALIGMENT.TOP);
+
+        presentScoreView = new Text(0,0, TextureManager.getFont(),"x 000",main.getVertexBufferObjectManager());
+        presentScoreView = (Text)EasyLayoutsFactory.alihment( presentScoreView
+                ,present2.getX()+present2.getWidth()+5, present2.getY() +present2.getHeight()+10, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
+        attachChild(present2);
+        attachChild(presentScoreView);
 
     }
 
@@ -98,6 +107,8 @@ public class PauseMenuScene extends BaseScene {
 //           detachChild(resumeButton);
 
         }
+        StringBuilder builder = new StringBuilder("x ").append(GameDateHolder.getBonuses().getBonusCount());
+        presentScoreView.setText(builder.toString());
         entity.setVisible(isGameOver);
         timerScore.setText( Utils.timerFormat(time));
         bestTimerScore.setText(GameContex.getCurrent().getString(R.string.pause_menu_best_time, Utils.timerFormat(best)));

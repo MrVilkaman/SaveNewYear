@@ -5,4 +5,6 @@ public interface IWaveController {
     public void start();
     public void getNext();
     public void addOvertime(float delta);
+
+    public void increaseTime();
 }

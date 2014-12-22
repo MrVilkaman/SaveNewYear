@@ -44,7 +44,7 @@ public class WaveController implements IWaveController {
                 currentLevel++;
                 unitCreate.increaseGameSpeed();
                 minTime *=0.93;
-                maxTime *=0.91;
+                maxTime *=0.89;
                 currentTimeToNextUpdate = timeToNextUpdate;
             }
         }
@@ -58,37 +58,22 @@ public class WaveController implements IWaveController {
 
             if ( ranNum == 0 || ranNum == 2 || ranNum == 1 || ranNum == 5) {   // 0.66
                 if (Math.abs(random.nextInt()%2) == 0) {
-                    itemType = BarrierKind.NEW_YEAR_TREE;     //0.3
+                    itemType = BarrierKind.NEW_YEAR_TREE;     //0.33
                 }else{
-                    itemType = BarrierKind.WATER_HOLL;      //0.3
+                    itemType = BarrierKind.WATER_HOLL;      //0.33
                 }
             }else{
                 ranNum = Math.abs(random.nextInt()%5);
-                if (ranNum == 2) {
+                if (ranNum == 2 ||ranNum == 4) {
                     itemType = BarrierKind.SHOW_BALL;        //0.06
-                }else if (ranNum == 3){
+                }else if (ranNum == 0){
                     itemType = BarrierKind.BONUS;               //0.06
                 }else {
                     itemType = BarrierKind.TREE;        //0.2
                 }
             }
         } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
-       /* double r;
-        do {
-            r = Math.random();
-            if(r<0.25) {
-                itemType = BarrierKind.NEW_YEAR_TREE;
-            }else if (r<0.5){
-                itemType = BarrierKind.WATER_HOLL;
-            }else if (r<0.75){
-                itemType = BarrierKind.SHOW_BALL;
-            }else if (r<0.85){
-                itemType = BarrierKind.BONUS;
-            }else {
-                itemType = BarrierKind.TREE;
-            }
-        } while (itemType == lastItemType);*/
-
+    //    itemType = BarrierKind.WATER_HOLL;
         lastItemType = itemType;
 
         if (itemType == BarrierKind.TREE) {
@@ -99,9 +84,9 @@ public class WaveController implements IWaveController {
 
             itemType = BarrierKind.NEW_YEAR_TREE;
             if (random.nextInt()%2 == 0) {
-                item.setStart(70);
+                item.setStart(55);
             }else{
-                item.setStart(-190);
+                item.setStart(-180);
             }
         }
 
@@ -128,6 +113,13 @@ public class WaveController implements IWaveController {
     @Override
     public void addOvertime(float delta) {
         currentTime +=delta;
+    }
+
+    @Override
+    public void increaseTime() {
+        currentLevel -=2;
+        minTime *=1.1f;
+        maxTime *=1.1f;
     }
 
 

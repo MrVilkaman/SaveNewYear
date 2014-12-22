@@ -11,6 +11,7 @@ import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.shape.IShape;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
@@ -39,6 +40,7 @@ public class Hero implements ICollisionObject{
     private boolean isFly = false;
     private boolean die = false;
     private boolean dieInWaterHoll = false;
+    private boolean dieDelay = false;
 
     public Hero() {
         ITiledTextureRegion he = TextureManager.getHero();
@@ -71,12 +73,20 @@ public class Hero implements ICollisionObject{
                     shedowPhysicsHandler.setVelocityX(0);
                     shedow.setX(HERO_X+15);
                 }
+                if (!die && (HERO_X/3 < mX)) {
+                    dieDelay = false;
+                }
 
             }
         };
-        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager());
+        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), main.getVertexBufferObjectManager()){
+            @Override
+            public boolean collidesWith(IShape pOtherShape) {
+                return !dieDelay && super.collidesWith(pOtherShape);
+            }
+        };
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight() / 2);
-        rect.setScale(0.60f, 0.6f);
+        rect.setScale(0.50f, 0.6f);
         rect.setColor(Color.GREEN);
         rect.setAlpha(0.5f);
         rect.setVisible(Constants.SHOW_COLLAPS_ITEM_ZONE);
@@ -125,7 +135,7 @@ public class Hero implements ICollisionObject{
 
     @Override
     public boolean checkHit(IGetShape object) {
-        return !die && object.getShape().collidesWith(rect);
+        return object.getShape().collidesWith(rect);
     }
 
     @Override
@@ -145,6 +155,7 @@ public class Hero implements ICollisionObject{
 
     public void setGameOverForm(ICollisionObject collisionObject) {
         die = true;
+        dieDelay = true;
         animatedSprite.stopAnimation(2);
         BarrierKind who = collisionObject.whoIsThere();
         physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());

@@ -69,7 +69,7 @@ public class TextureManager {
             TexturePackTextureRegionLibrary lib = texturePack1.getTexturePackTextureRegionLibrary();
             road = lib.getTiled(GameTextureId_1.ROAD_ID);
             hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
-            showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,3,1);
+            showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,2,1);
             present = lib.getTiled(GameTextureId_1.PRESENT_ID);
             waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);

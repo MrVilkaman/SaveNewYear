@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.games.Games;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.purplebrain.adbuddiz.sdk.AdBuddizDelegate;
@@ -32,7 +35,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import playservice.basegameutils.GameHelper;
 
-public class Main extends SimpleBaseGameActivity implements ActionResolver {
+public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnalistyc{
 
     static final int RC_REQUEST = 10001;
     private static final String TAG = "BILLING";
@@ -46,9 +49,17 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
     protected void onCreate(Bundle pSavedInstanceState) {
         super.onCreate(pSavedInstanceState);
         GameContex.setGameActivity(this);
-        GameContex.setActionResolver(this);
         initBilling();
         initPlayService();
+
+        if (Constants.NEED_ANALYTICS) {
+            GoogleAnalytics.getInstance(this).enableAutoActivityReports(getApplication());
+
+            try {
+                GoogleAnalytics.getInstance(this).dispatchLocalHits();
+            } catch (Exception e) {
+            }
+        }
 
         if (Constants.NEED_ADS) {
             AdBuddiz.setPublisherKey(Constants.ADS_ID);
@@ -62,17 +73,17 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
 
                 @Override
                 public void didShowAd() {
-
+                    sendReport("ads show!");
                 }
 
                 @Override
                 public void didFailToShowAd(AdBuddizError adBuddizError) {
-
+                    sendReport("ads error " + adBuddizError.toString());
                 }
 
                 @Override
                 public void didClick() {
-
+                  sendReport("ads click");
                 }
 
                 @Override
@@ -141,7 +152,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
         if (Constants.NEED_ADS) {
             AdBuddiz.showAd(this);
         }
-        GameContex.setActionResolver(null);
         getEngine().setScene(null);
         getEngine().clearUpdateHandlers();
         getEngine().clearDrawHandlers();
@@ -224,6 +234,11 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
     protected void onStart() {
         super.onStart();
         gameHelper.onStart(this);
+
+        if (Constants.NEED_ANALYTICS){
+            sendReport("Load game");
+            GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        }
     }
 
     @Override
@@ -238,6 +253,23 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
         gameHelper.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void sendReport(String message) {
+        sendReport(message,null,null);
+    }
+
+    public void sendReport(String message,String key, String value){
+        if (Constants.NEED_ANALYTICS) {
+            try {
+                Tracker tracker = GoogleAnalytics.getInstance(Main.this).newTracker(Constants.ANALISTYC_TRACER_ID);
+                tracker.setScreenName(message);
+                if (key != null && value != null) {
+                    tracker.set(key,value);
+                }
+                tracker.send(new HitBuilders.AppViewBuilder().build());
+            } catch (Exception e) {
+            }
+        }
+    }
 
     ///
     private void initBilling(){
@@ -288,6 +320,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
                                 Toast.makeText(getApplicationContext(), "Purchase for disabling ads done.", Toast.LENGTH_SHORT);
                                 // сохраняем в настройках, что отключили рекламу
                                GameDateHolder.getBonuses().addFromPurchase();
+                               sendReport("Buy 50 bonus!");
                             }
                         }
                     }, PAYLOAD);

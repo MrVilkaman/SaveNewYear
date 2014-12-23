@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Activities.IAnalistyc;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
@@ -380,6 +381,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     @Override
     public void destroy() {
+        GameContex.getAnalistyc().sendReport("Close gamescreen ", IAnalistyc.GAME_TIME,String.valueOf(gameTime));
         treeCollection.cleer();
         generator.clear();
         generator = null;
@@ -435,6 +437,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
 
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
+                    GameContex.getAnalistyc().sendReport("Resume game from Bonus", IAnalistyc.GAME_TIME,String.valueOf(gameTime));
                     enabledPauseMenu = true;
                     waveController.addOvertime(4f);
                     waveController.increaseTime();

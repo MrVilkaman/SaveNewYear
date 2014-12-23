@@ -5,7 +5,6 @@ import org.andengine.ui.activity.BaseGameActivity;
 public class GameContex {
 
     private static BaseGameActivity gameActivity;
-    private static ActionResolver actionResolver;
 
     public static void setGameActivity(BaseGameActivity gameActivity) {
         GameContex.gameActivity = gameActivity;
@@ -16,10 +15,10 @@ public class GameContex {
     }
 
     public static ActionResolver getActionResolver() {
-        return actionResolver;
+        return (ActionResolver)gameActivity;
     }
 
-    public static void setActionResolver(ActionResolver actionResolver) {
-        GameContex.actionResolver = actionResolver;
+    public static IAnalistyc getAnalistyc() {
+        return (IAnalistyc)gameActivity;
     }
 }

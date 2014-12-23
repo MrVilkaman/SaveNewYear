@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
@@ -369,6 +370,15 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     @Override
+    public void onPause() {
+        if (enabledPauseMenu){
+            if (!isShowMenuScene){
+                showPause();
+            }
+        }
+    }
+
+    @Override
     public void destroy() {
         treeCollection.cleer();
         generator.clear();
@@ -470,6 +480,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             saveGame();
 
             back();
+            if (Constants.NEED_ADS) {
+                AdBuddiz.showAd(GameContex.getCurrent());
+            }
         }
     };
 

@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
+import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
@@ -30,7 +31,7 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 public class MainMenuScene extends BaseScene {
 
-
+    private static int adCount = 0;
     private ShowflakeGenerator generator;
 
     private enum LAYERS{
@@ -175,12 +176,27 @@ public class MainMenuScene extends BaseScene {
         generator = null;
     }
 
+    @Override
+    public void onPause() {
+        if (getChildScene() != null) {
+            ((IActivityCallback)getChildScene()).onPause();
+        }
+    }
+
     private ISimpleClick onClickRestart =  new ISimpleClick() {
         @Override
         public void onClick() {
             System.gc();
             if (getChildScene() != null) {
                 ((IActivityCallback)getChildScene()).destroy();
+            }
+            if (Constants.NEED_ADS) {
+                if (adCount == Constants.ADS_SHOW_DELAY) {
+                    adCount = 0;
+                    AdBuddiz.showAd(GameContex.getCurrent());
+                }else{
+                    adCount++;
+                }
             }
 
             clearChildScene();

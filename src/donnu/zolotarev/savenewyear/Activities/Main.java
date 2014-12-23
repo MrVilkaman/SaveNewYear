@@ -1,11 +1,15 @@
 package donnu.zolotarev.savenewyear.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import com.google.android.gms.games.Games;
+import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+import com.purplebrain.adbuddiz.sdk.AdBuddizDelegate;
+import com.purplebrain.adbuddiz.sdk.AdBuddizError;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
@@ -45,6 +49,38 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
         GameContex.setActionResolver(this);
         initBilling();
         initPlayService();
+
+        if (Constants.NEED_ADS) {
+            AdBuddiz.setPublisherKey(Constants.ADS_ID);
+            AdBuddiz.cacheAds(this);
+            final Activity activity = this;
+            AdBuddiz.setDelegate(new AdBuddizDelegate() {
+                @Override
+                public void didCacheAd() {
+
+                }
+
+                @Override
+                public void didShowAd() {
+
+                }
+
+                @Override
+                public void didFailToShowAd(AdBuddizError adBuddizError) {
+
+                }
+
+                @Override
+                public void didClick() {
+
+                }
+
+                @Override
+                public void didHideAd() {
+
+                }
+            });
+        }
     }
 
 
@@ -102,6 +138,9 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
 
     @Override
     protected void onDestroy() {
+        if (Constants.NEED_ADS) {
+            AdBuddiz.showAd(this);
+        }
         GameContex.setActionResolver(null);
         getEngine().setScene(null);
         getEngine().clearUpdateHandlers();
@@ -129,12 +168,12 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
         gameHelper.setup(new GameHelper.GameHelperListener() {
             @Override
             public void onSignInFailed() {
-                Toast.makeText(Main.this, "FUCK", Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(Main.this, "Fail =( ", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSignInSucceeded() {
-                Toast.makeText(Main.this, "Cool", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main.this, "It is work!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -178,6 +217,8 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver {
                 Games.Leaderboards.getAllLeaderboardsIntent(gameHelper
                         .getApiClient()), 100);
     }
+
+
 
     @Override
     protected void onStart() {

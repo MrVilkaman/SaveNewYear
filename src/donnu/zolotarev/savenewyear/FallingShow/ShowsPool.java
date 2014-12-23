@@ -23,4 +23,7 @@ class ShowsPool {
         return genericPool.obtainPoolItem();
     }
 
+    public void clear() {
+        genericPool.clear();
+    }
 }

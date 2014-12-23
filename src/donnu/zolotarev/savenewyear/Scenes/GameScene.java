@@ -97,7 +97,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         HUD_LAYER
     }
 
-    private final ISimpleClick onClickRestart;
+    private ISimpleClick onClickRestart;
     private boolean isNotGameOver = true;
     private boolean isShowMenuScene = false;
     private boolean enabledPauseMenu = true;
@@ -124,7 +124,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     public GameScene(ISimpleClick onClickRestart) {
         super();
-        this. onClickRestart = onClickRestart;
+        this.onClickRestart = onClickRestart;
         TextureManager.loadGameSprites();
         SceneContext.setActiveScene(this);
         createBackGround();
@@ -248,8 +248,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         }
     }
 
-
-
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
         // выделение памяти под цифры, чтобы не было  рывков!
@@ -369,6 +367,20 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         }
     }
 
+    @Override
+    public void destroy() {
+        treeCollection.cleer();
+        generator.clear();
+        SceneContext.setActiveScene(null);
+        ObjectPoolContex.getBarrierCenter().clear();
+        ObjectPoolContex.setBarrierCenter(null);
+        GameDateHolder.getBonuses().deleteObservers();
+        onClickRestart = null;
+        detachChildren();
+        detachSelf();
+        pauseMenu = null;
+    }
+
     private void showPause() {
         saveGame();
         showHud(false);
@@ -431,6 +443,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         @Override
         public void onClick() {
             saveGame();
+
             back();
         }
     };
@@ -481,14 +494,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     private void showHud(boolean flag){
         getChildByIndex(LAYERS.HUD_LAYER.ordinal()).setVisible(flag);
-    }
-
-
-    @Override
-    public void onDetached() {
-        SceneContext.setActiveScene(null);
-        ObjectPoolContex.setBarrierCenter(null);
-        GameDateHolder.getBonuses().deleteObservers();
     }
 
     private void saveGame(){

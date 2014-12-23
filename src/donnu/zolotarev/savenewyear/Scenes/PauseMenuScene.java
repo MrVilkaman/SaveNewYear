@@ -26,9 +26,9 @@ public class PauseMenuScene extends BaseScene {
     private Text timerScore;
     private Text bestTimerScore;
     private RectangularShape resumeButton;
+    private Text presentScoreView;
 
     private Entity entity;
-    private Text presentScoreView;
 
     public PauseMenuScene(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit) {
         super();
@@ -112,5 +112,13 @@ public class PauseMenuScene extends BaseScene {
         entity.setVisible(isGameOver);
         timerScore.setText( Utils.timerFormat(time));
         bestTimerScore.setText(GameContex.getCurrent().getString(R.string.pause_menu_best_time, Utils.timerFormat(best)));
+    }
+
+    @Override
+    public void destroy() {
+        /*timerScore
+        bestTimerScore
+        resumeButton
+        presentScoreView*/
     }
 }

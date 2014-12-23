@@ -33,20 +33,20 @@ public class TextureManager {
     private static TexturePack texturePack2;
 
     private static Font font;
+    private static IFont bigFont;
 
+    private static TextureRegion menuBG;
     private static TextureRegion gameBG;
     private static TextureRegion gameFG;
     private static ITiledTextureRegion road;
     private static ITiledTextureRegion hero;
     private static ITiledTextureRegion buttons;
     private static ITiledTextureRegion gameTitle;
-    private static TextureRegion menuBG;
     private static ITiledTextureRegion pauseButton;
     private static ITiledTextureRegion showBalls;
     private static ITiledTextureRegion present;
     private static ITiledTextureRegion waterHoll;
     private static ITiledTextureRegion newYearTree;
-    private static IFont bigFont;
     private static ITiledTextureRegion heroShedow;
     private static ITiledTextureRegion particlePoint;
     private static ITiledTextureRegion tree;
@@ -124,11 +124,16 @@ public class TextureManager {
     }
 
     public static void clear(){
+        gameFGTexture.unload();
+        gameBGTexture.unload();
         menuBGTexture.unload();
+        texturePack1.unloadTexture();
         texturePack2.unloadTexture();
         gameFGTexture.clearTextureAtlasSources();
         gameBGTexture.clearTextureAtlasSources();
         menuBGTexture.clearTextureAtlasSources();
+        bigFont.unload();
+        font.unload();
     }
 
     public static TextureRegion getGameBG() {

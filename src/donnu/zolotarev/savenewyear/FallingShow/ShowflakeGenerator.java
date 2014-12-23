@@ -46,6 +46,10 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
         mParticleInitializers.add(velocityParticleInitializer);*/
     }
 
+    public void clear(){
+        particlesPool.clear();
+    }
+
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
         super.onManagedUpdate(pSecondsElapsed);

@@ -3,9 +3,11 @@ package donnu.zolotarev.savenewyear.Activities;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -48,7 +50,7 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-        mainMenu =  new MainMenuScene(this);
+        mainMenu =  new MainMenuScene();
         return mainMenu;
     }
 
@@ -82,7 +84,19 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
+        getEngine().setScene(null);
+        getEngine().clearUpdateHandlers();
+        getEngine().clearDrawHandlers();
         GameContex.setGameActivity(null);
+        GameDateHolder.setBonuses(null);
+        ObjectPoolContex.setBarrierCenter(null);
+        mainMenu.destroy();
+        mainMenu.detachChildren();
+        mainMenu.detachSelf();
+        mainMenu = null;
+        TextureManager.clear();
+        super.onDestroy();
+        System.gc();
     }
 }

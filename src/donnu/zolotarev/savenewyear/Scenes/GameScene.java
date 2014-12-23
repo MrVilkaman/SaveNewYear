@@ -371,14 +371,34 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     public void destroy() {
         treeCollection.cleer();
         generator.clear();
+        generator = null;
+        hero = null;
         SceneContext.setActiveScene(null);
         ObjectPoolContex.getBarrierCenter().clear();
         ObjectPoolContex.setBarrierCenter(null);
         GameDateHolder.getBonuses().deleteObservers();
         onClickRestart = null;
+        onClickExit = null;
+        onClickPause = null;
+        onClickResume = null;
         detachChildren();
         detachSelf();
+        clearTouchAreas();
+        clearEntityModifiers();
+        clearUpdateHandlers();
+        clearChildScene();
+        if (pauseMenu != null) {
+            pauseMenu.destroy();
+            pauseMenu = null;
+        }
+        parallaxFG = null;
+        parallaxRoad = null;
+        autoParallaxBackground = null;
         pauseMenu = null;
+        timerScore = null;
+        waveController = null;
+        treeCollection = null;
+
     }
 
     private void showPause() {
@@ -392,7 +412,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         setChildScene(pauseMenu, false, true, true);
     }
 
-    private final ISimpleClick onClickResume = new ISimpleClick() {
+    private  ISimpleClick onClickResume = new ISimpleClick() {
         @Override
         public void onClick() {
             final BaseGameActivity activity = GameContex.getCurrent();

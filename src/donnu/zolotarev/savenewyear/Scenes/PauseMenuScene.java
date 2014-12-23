@@ -116,9 +116,11 @@ public class PauseMenuScene extends BaseScene {
 
     @Override
     public void destroy() {
-        /*timerScore
-        bestTimerScore
-        resumeButton
-        presentScoreView*/
+        entity.detachChildren();
+        entity.detachSelf();
+        clearTouchAreas();
+        clearEntityModifiers();
+        clearUpdateHandlers();
+        clearChildScene();
     }
 }

@@ -173,6 +173,7 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onClickRestart =  new ISimpleClick() {
         @Override
         public void onClick() {
+            System.gc();
             if (getChildScene() != null) {
                 ((IActivityCallback)getChildScene()).destroy();
             }

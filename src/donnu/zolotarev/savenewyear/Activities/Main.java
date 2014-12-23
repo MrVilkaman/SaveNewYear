@@ -6,6 +6,7 @@ import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import org.andengine.audio.music.MusicFactory;
@@ -90,6 +91,7 @@ public class Main extends SimpleBaseGameActivity {
         getEngine().clearDrawHandlers();
         GameContex.setGameActivity(null);
         GameDateHolder.setBonuses(null);
+        SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
         mainMenu.destroy();
         mainMenu.detachChildren();

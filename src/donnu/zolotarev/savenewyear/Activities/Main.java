@@ -1,7 +1,9 @@
 package donnu.zolotarev.savenewyear.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
@@ -9,6 +11,10 @@ import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
+import donnu.zolotarev.savenewyear.billing.util.IabHelper;
+import donnu.zolotarev.savenewyear.billing.util.IabResult;
+import donnu.zolotarev.savenewyear.billing.util.Inventory;
+import donnu.zolotarev.savenewyear.billing.util.Purchase;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -20,14 +26,18 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 public class Main extends SimpleBaseGameActivity {
 
-
-        private Camera camera;
+    static final int RC_REQUEST = 10001;
+    private static final String TAG = "BILLING";
+    private static final String PAYLOAD = "12321312321";
+    private Camera camera;
         private BaseScene mainMenu;
+    private IabHelper mHelper;
 
     @Override
     protected void onCreate(Bundle pSavedInstanceState) {
         super.onCreate(pSavedInstanceState);
         GameContex.setGameActivity(this);
+        initBilling();
     }
 
 
@@ -97,8 +107,77 @@ public class Main extends SimpleBaseGameActivity {
         mainMenu.detachChildren();
         mainMenu.detachSelf();
         mainMenu = null;
+        mHelper = null;
         TextureManager.clear();
         super.onDestroy();
         System.gc();
+    }
+
+
+    ///
+    private void initBilling(){
+        mHelper = new IabHelper(this, Constants.BASE64_PUBLIC_KEY);
+
+        // включаем дебагинг (в релизной версии ОБЯЗАТЕЛЬНО выставьте в false)
+        mHelper.enableDebugLogging(true);
+
+        // инициализируем; запрос асинхронен
+        // будет вызван, когда инициализация завершится
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    return;
+                }
+
+                // чекаем уже купленное
+                mHelper. queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
+                    @Override
+                    public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+                        Log.d(TAG, "Query inventory finished.");
+                        if (result.isFailure()) {
+                            Log.d(TAG, "Failed to query inventory: " + result);
+                            return;
+                        }
+
+
+                    }
+                });
+            }
+        });
+    }
+
+    public void buy(){
+        try {
+            mHelper.launchPurchaseFlow(this, Constants.BUY_ITEM_ID, RC_REQUEST,
+                    new IabHelper.OnIabPurchaseFinishedListener() {
+                        @Override
+                        public void onIabPurchaseFinished(IabResult result, Purchase info) {
+                            if (result.isFailure()) {
+                                return;
+                            }
+
+                            if (!verifyDeveloperPayload(info)) {
+                                return;
+                            }
+                            if (info.getSku().equals(Constants.BUY_ITEM_ID)) {
+                                Toast.makeText(getApplicationContext(), "Purchase for disabling ads done.", Toast.LENGTH_SHORT);
+                                // сохраняем в настройках, что отключили рекламу
+                               GameDateHolder.getBonuses().addFromPurchase();
+                            }
+                        }
+                    }, PAYLOAD);
+        } catch (Exception e) {
+
+        }
+    }
+
+    boolean verifyDeveloperPayload(Purchase p) {
+        String payload = p.getDeveloperPayload();
+        /*
+         * TODO: здесь необходимо свою верификацию реализовать
+         * Хорошо бы ещё с использованием собственного стороннего сервера.
+         */
+
+        return PAYLOAD.equals(payload);
     }
 }

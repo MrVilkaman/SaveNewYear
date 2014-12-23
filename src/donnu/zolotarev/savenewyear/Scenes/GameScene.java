@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
@@ -57,7 +58,7 @@ import java.util.Date;
 public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
 
 
-    public static final int GIFT_FOR_LIFE = 5;
+    public static final int GIFT_FOR_LIFE = 1;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -422,8 +423,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 showHud(true);
             }else{
 
-                enabledPauseMenu = true;
+
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
+                    enabledPauseMenu = true;
                     waveController.addOvertime(4f);
                     waveController.increaseTime();
                     gameSpeed *= 0.9;
@@ -448,6 +450,8 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                     isShowMenuScene = false;
                     showHud(true);
                 }else{
+
+                    ((Main)GameContex.getCurrent()).buy();
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

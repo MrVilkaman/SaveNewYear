@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Bonuses{
 
+    private static final int BUY_FOR_DOLLAR = 50;
     private List<MyObserver> observers = new ArrayList<MyObserver>();
     private int bonusCount;
 
@@ -39,6 +40,11 @@ public class Bonuses{
 
     public void buy(int giftForLife) {
         this.bonusCount-= giftForLife;
+        notifyObservers(bonusCount);
+    }
+
+    public void addFromPurchase() {
+        this.bonusCount += BUY_FOR_DOLLAR;
         notifyObservers(bonusCount);
     }
 }

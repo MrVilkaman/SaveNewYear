@@ -170,6 +170,7 @@ public class Hero implements ICollisionObject{
 
     public void restart() {
         die = false;
+        shedow.setScale(1);
         dieInWaterHoll = false;
         shedow.setVisible(true);
         animatedSprite.setX(-(animatedSprite.getScaleX()+130));

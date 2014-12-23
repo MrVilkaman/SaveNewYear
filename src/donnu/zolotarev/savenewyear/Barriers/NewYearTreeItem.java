@@ -38,6 +38,10 @@ public class NewYearTreeItem extends BaseUnit {
         SceneContext.getActiveScene().attachToGameLayers(sprite, false);
         sprite.setScaleCenter(sprite.getHeight()/2, sprite.getHeight());
 
+        sprite.setIgnoreUpdate(true);
+        sprite.setVisible(false);
+        physicsHandler.setEnabled(false);
+
     }
 
     @Override

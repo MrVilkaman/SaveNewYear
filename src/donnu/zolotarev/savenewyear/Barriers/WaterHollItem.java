@@ -39,6 +39,9 @@ public class WaterHollItem extends BaseUnit {
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         sprite.setScaleCenterX(0);
 
+        sprite.setIgnoreUpdate(true);
+        sprite.setVisible(false);
+        physicsHandler.setEnabled(false);
     }
 
     public void setStart(){

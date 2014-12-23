@@ -37,6 +37,10 @@ public class BonusItem extends BaseUnit {
         physicsHandler = new PhysicsHandler(sprite);
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, false);
+
+        sprite.setIgnoreUpdate(true);
+        sprite.setVisible(false);
+        physicsHandler.setEnabled(false);
     }
 
 

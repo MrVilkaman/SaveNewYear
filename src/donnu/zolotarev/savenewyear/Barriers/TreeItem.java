@@ -93,6 +93,9 @@ public class TreeItem extends BaseUnit {
         sprite.setScaleCenter(sprite.getHeight()/2, sprite.getHeight());
         sprite.setScale(1.1f);
 
+        sprite.setIgnoreUpdate(true);
+        sprite.setVisible(false);
+        physicsHandler.setEnabled(false);
        //((AnimatedSprite)sprite).setCurrentTileIndex(7);
     }
 

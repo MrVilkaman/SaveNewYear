@@ -145,8 +145,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         ObjectPoolContex.setBarrierCenter(new BarrierCenter());
         waveController = new WaveController(this);
 
-        //todo убрать
-        isShowMenuScene = true;
         waveController.start();
 
         loadGame();
@@ -192,7 +190,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                     pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
                 }
                 pauseMenu.setTime(date, bestTime, true);
-                setChildScene(pauseMenu, false, false, true);
+                setChildScene(pauseMenu, false, true, true);
                 if (bestTime.getTime() < date.getTime()) {
                     bestTime = date;
                 }
@@ -320,7 +318,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         if (Constants.SHOW_SHOW) {
             final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH*3/2.f,0,Constants.CAMERA_WIDTH*3,300);
-            generator =  new ShowflakeGenerator(particleEmitter,20,30);
+            generator =  new ShowflakeGenerator(particleEmitter,30,45);
             generator.addParticleInitializer(new VelocityParticleInitializer( -200, 200,350, 500));
             generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
             generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
@@ -465,9 +463,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                 }
                 updateTimerCounter--;
 
-
                 ArrayList<ICollisionObject> objects = treeCollection.haveCollision(hero);
-//                for (int i = objects.size()-1; 0<=i;i--){
                 if (objects.size() != 0) {
                     if (flag2) {
                         flag2 = false;

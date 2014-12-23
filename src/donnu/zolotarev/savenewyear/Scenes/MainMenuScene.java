@@ -3,7 +3,6 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
-import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
@@ -51,12 +50,17 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onClickSetting = new ISimpleClick() {
         @Override
         public void onClick() {
-            GameContex.getCurrent().runOnUiThread(new Runnable() {
+            if (GameContex.getActionResolver().getSignedInGPGS()) {
+                GameContex.getActionResolver().getLeaderboardGPGS();
+            }else{
+                GameContex.getActionResolver().loginGPGS();
+            }
+            /*GameContex.getCurrent().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(GameContex.getCurrent(), "Пока не готово =( ", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
     };
 
@@ -178,6 +182,7 @@ public class MainMenuScene extends BaseScene {
             if (getChildScene() != null) {
                 ((IActivityCallback)getChildScene()).destroy();
             }
+
             clearChildScene();
             setChildScene(new GameScene(onClickRestart), false, true, true);
         }

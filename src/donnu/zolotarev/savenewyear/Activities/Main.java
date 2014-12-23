@@ -1,11 +1,14 @@
 package donnu.zolotarev.savenewyear.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import com.google.android.gms.games.Games;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
+import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
@@ -23,8 +26,9 @@ import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import playservice.basegameutils.GameHelper;
 
-public class Main extends SimpleBaseGameActivity {
+public class Main extends SimpleBaseGameActivity implements ActionResolver {
 
     static final int RC_REQUEST = 10001;
     private static final String TAG = "BILLING";
@@ -32,12 +36,15 @@ public class Main extends SimpleBaseGameActivity {
     private Camera camera;
         private BaseScene mainMenu;
     private IabHelper mHelper;
+    private GameHelper gameHelper;
 
     @Override
     protected void onCreate(Bundle pSavedInstanceState) {
         super.onCreate(pSavedInstanceState);
         GameContex.setGameActivity(this);
+        GameContex.setActionResolver(this);
         initBilling();
+        initPlayService();
     }
 
 
@@ -95,7 +102,7 @@ public class Main extends SimpleBaseGameActivity {
 
     @Override
     protected void onDestroy() {
-
+        GameContex.setActionResolver(null);
         getEngine().setScene(null);
         getEngine().clearUpdateHandlers();
         getEngine().clearDrawHandlers();
@@ -103,14 +110,91 @@ public class Main extends SimpleBaseGameActivity {
         GameDateHolder.setBonuses(null);
         SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
-        mainMenu.destroy();
-        mainMenu.detachChildren();
-        mainMenu.detachSelf();
-        mainMenu = null;
+        if (mainMenu != null) {
+            mainMenu.destroy();
+            mainMenu.detachChildren();
+            mainMenu.detachSelf();
+            mainMenu = null;
+        }
         mHelper = null;
         TextureManager.clear();
         super.onDestroy();
         System.gc();
+    }
+
+    private void initPlayService(){
+        gameHelper = new GameHelper(this, GameHelper.CLIENT_ALL);
+        gameHelper.setConnectOnStart(false);
+        gameHelper.enableDebugLog(true);
+        gameHelper.setup(new GameHelper.GameHelperListener() {
+            @Override
+            public void onSignInFailed() {
+                Toast.makeText(Main.this, "FUCK", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSignInSucceeded() {
+                Toast.makeText(Main.this, "Cool", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean getSignedInGPGS() {
+        return gameHelper.isSignedIn();
+    }
+
+    @Override
+    public void loginGPGS() {
+        try {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // инициировать вход пользователя. Может быть вызван диалог
+                    // входа. Выполняется в UI-потоке
+                    try {
+                        gameHelper.beginUserInitiatedSignIn();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void submitScoreGPGS(int score) {
+        Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+                getString(R.string.leaderboard_normal_mode), score);
+    }
+
+    @Override
+    public void getLeaderboardGPGS() {
+        startActivityForResult(
+                Games.Leaderboards.getAllLeaderboardsIntent(gameHelper
+                        .getApiClient()), 100);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gameHelper.onStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameHelper.onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        gameHelper.onActivityResult(requestCode, resultCode, data);
     }
 
 
@@ -180,4 +264,6 @@ public class Main extends SimpleBaseGameActivity {
 
         return PAYLOAD.equals(payload);
     }
+
+
 }

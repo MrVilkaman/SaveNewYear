@@ -466,11 +466,20 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ISimpleClick onClickExit =  new ISimpleClick() {
         @Override
         public void onClick() {
+            publicshScore();
             saveGame();
 
             back();
         }
     };
+
+    private void publicshScore() {
+        if (GameContex.getActionResolver().getSignedInGPGS()) {
+            if (bestTime.getTime() < date.getTime()) {
+                GameContex.getActionResolver().submitScoreGPGS((int)gameTime);
+            }
+        }
+    }
 
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {

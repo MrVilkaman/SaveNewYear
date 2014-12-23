@@ -173,7 +173,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
     private void initPlayService(){
         gameHelper = new GameHelper(this, GameHelper.CLIENT_ALL);
-        gameHelper.setConnectOnStart(false);
+        gameHelper.setConnectOnStart(true);
         gameHelper.enableDebugLog(true);
         gameHelper.setup(new GameHelper.GameHelperListener() {
             @Override

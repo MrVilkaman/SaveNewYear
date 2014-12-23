@@ -326,6 +326,22 @@ public class GameHelper implements GoogleApiClient.ConnectionCallbacks,
         }
 
         mGoogleApiClient = mGoogleApiClientBuilder.build();
+        mGoogleApiClient.registerConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(ConnectionResult connectionResult) {
+            }
+        });
+        mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+
+            }
+        });
         mGoogleApiClientBuilder = null;
         mSetupDone = true;
     }

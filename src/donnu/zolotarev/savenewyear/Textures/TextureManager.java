@@ -124,16 +124,20 @@ public class TextureManager {
     }
 
     public static void clear(){
-        gameFGTexture.unload();
-        gameBGTexture.unload();
-        menuBGTexture.unload();
-        texturePack1.unloadTexture();
-        texturePack2.unloadTexture();
-        gameFGTexture.clearTextureAtlasSources();
-        gameBGTexture.clearTextureAtlasSources();
-        menuBGTexture.clearTextureAtlasSources();
-        bigFont.unload();
-        font.unload();
+        try {
+            gameFGTexture.unload();
+            gameBGTexture.unload();
+            menuBGTexture.unload();
+            texturePack1.unloadTexture();
+            texturePack2.unloadTexture();
+            gameFGTexture.clearTextureAtlasSources();
+            gameBGTexture.clearTextureAtlasSources();
+            menuBGTexture.clearTextureAtlasSources();
+            bigFont.unload();
+            font.unload();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static TextureRegion getGameBG() {

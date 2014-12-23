@@ -28,13 +28,15 @@ import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import donnu.zolotarev.savenewyear.Utils.Utils;
+import org.andengine.engine.Engine;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
 import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
 import org.andengine.entity.particle.initializer.ScaleParticleInitializer;
 import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
-import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -44,8 +46,10 @@ import org.andengine.entity.shape.IAreaShape;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.util.FPSCounter;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.color.Color;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,12 +144,34 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
         ObjectPoolContex.setBarrierCenter(new BarrierCenter());
         waveController = new WaveController(this);
+
+        //todo убрать
+        isShowMenuScene = true;
         waveController.start();
 
         loadGame();
         updateGameSpeed();
         updatePresent(GameDateHolder.getBonuses().getBonusCount());
 
+   //     createFPSBase();
+    }
+
+    private void createFPSBase() {
+        final FPSCounter fpsCounter = new FPSCounter();
+        Engine engine = GameContex.getCurrent().getEngine();
+        engine.registerUpdateHandler(fpsCounter);
+        final Text fpsText = new Text(0, 150    , TextureManager.getFont(), "FPS:", "FPS: 1234567890.".length(),engine.getVertexBufferObjectManager());
+        fpsText.setScale(0.5f);
+        fpsText.setColor(Color.WHITE);
+        attachChild(fpsText);
+        fpsText.setZIndex(1000);
+        registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
+            @Override
+            public void onTimePassed(final TimerHandler pTimerHandler) {
+
+                fpsText.setText("FPS: " + String.valueOf(fpsCounter.getFPS()));
+            }
+        }));
     }
 
     private void onGameOver() {
@@ -211,7 +237,9 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     private void updateGameSpeed() {
-        generator.setSpeed(gameSpeed);
+        if (Constants.SHOW_SHOW) {
+            generator.setSpeed(gameSpeed);
+        }
         parallaxRoad.setParallaxChangePerSecond(gameSpeed);
         parallaxFG.setParallaxChangePerSecond(gameSpeed);
         autoParallaxBackground.setParallaxChangePerSecond(gameSpeed);
@@ -290,16 +318,16 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         parallaxRoad.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF, sprite));
         attachToLayer(LAYERS.ROAD_LAYER, parallaxRoad);
 
-        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH*3/2.f,0,Constants.CAMERA_WIDTH*3,300);
-         generator =  new ShowflakeGenerator(particleEmitter,20,30);
-        generator.addParticleInitializer(new VelocityParticleInitializer( -200, 200,350, 500));
-        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
-        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
-        generator.addParticleInitializer(new ExpireParticleInitializer(10f));
-       // parallaxFG.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF,generator));
-          attachToLayer(LAYERS.FRONT_LAYER, generator);
-
-
+        if (Constants.SHOW_SHOW) {
+            final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH*3/2.f,0,Constants.CAMERA_WIDTH*3,300);
+            generator =  new ShowflakeGenerator(particleEmitter,20,30);
+            generator.addParticleInitializer(new VelocityParticleInitializer( -200, 200,350, 500));
+            generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+            generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+//            generator.addParticleInitializer(new ExpireParticleInitializer(3f));
+            // parallaxFG.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF,generator));
+            attachToLayer(LAYERS.FRONT_LAYER, generator);
+        }
 
 
     }

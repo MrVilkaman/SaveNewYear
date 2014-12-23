@@ -18,12 +18,12 @@ public class WaterHollItem extends BaseUnit {
     public WaterHollItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getWaterHoll();
-           sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
+        sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
                 if (mX < -(getWidthScaled() + 50)) {
-                   destroy(false);
+                    destroy(false);
                 }
             }
         };

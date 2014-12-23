@@ -29,7 +29,7 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
     //private final VelocityParticleInitializer velocityParticleInitializer;
 
     private boolean mParticlesSpawnEnabled = true;
-    private int mParticlesMaximum = 250;
+    private int mParticlesMaximum = 200;
     private float mParticlesDueToSpawn = 0;
     private boolean mBlendingEnabled = true;
     private float speed = 0;
@@ -63,10 +63,12 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
             }
 
             particle.onUpdate(pSecondsElapsed);
-            if(particle.isExpired()){
+                T ent = particle.getEntity();
+            if(particle.isExpired()||  ent.getX() <-50 || donnu.zolotarev.savenewyear.Constants.CAMERA_HEIGHT<ent.getY() ){
+
                 mParticles.remove(i);
                 particlesPool.remoteUnit(particle);
-                detachChild(particle.getEntity());
+                detachChild(ent);
                 /*this.moveParticleToEnd(i);*/
             }
         }

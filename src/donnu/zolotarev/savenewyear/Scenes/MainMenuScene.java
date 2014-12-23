@@ -158,14 +158,16 @@ public class MainMenuScene extends BaseScene {
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
 
-        final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,100);
-        ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,10,20);
-        generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
-        generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
-        generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
-        generator.addParticleInitializer(new ExpireParticleInitializer(5f));
+        if (Constants.SHOW_SHOW) {
+            final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,50);
+            ShowflakeGenerator generator =  new ShowflakeGenerator(particleEmitter,10,20);
+            generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
+            generator.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+            generator.addParticleInitializer(new ScaleParticleInitializer<Sprite>(0.5f, 1.5f));
+         //   generator.addParticleInitializer(new ExpireParticleInitializer(3f));
 
-        attachToLayer(LAYERS.SHOW_LAYER,generator);
+            attachToLayer(LAYERS.SHOW_LAYER,generator);
+        }
         //   initShow();
         versionInfoUpdate();
         RectangularShape gpbtn = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getGooglePlay()

@@ -35,11 +35,26 @@ public class MainMenuScene extends BaseScene {
     private static int adCount = 0;
     private ShowflakeGenerator generator;
 
+
     private enum LAYERS{
         TITLE_LAYER,
         SHOW_LAYER,
         BATTON_LAYER
     }
+
+
+    private ISimpleClick onClickShop = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            GameContex.getCurrent().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BaseGameActivity context = GameContex.getCurrent();
+                    Toast.makeText(context,R.string.unavaileble,Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    };
 
     private ISimpleClick onGooglePlayClick = new ISimpleClick() {
         @Override
@@ -55,11 +70,31 @@ public class MainMenuScene extends BaseScene {
             if (GameContex.getActionResolver().getSignedInGPGS()) {
                 GameContex.getActionResolver().getLeaderboardGPGS();
             }else{
+                GameContex.getActionResolver().loginGPGS();
                 GameContex.getCurrent().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         BaseGameActivity context = GameContex.getCurrent();
                         Toast.makeText(context,R.string.leaderboard_unavaileble,Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        }
+    };
+
+    private ISimpleClick onClickAchievement = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            if (GameContex.getActionResolver().getSignedInGPGS()) {
+                GameContex.getActionResolver().getAchievementsGPGS();
+            }else{
+                GameContex.getActionResolver().loginGPGS();
+                GameContex.getCurrent().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseGameActivity context = GameContex.getCurrent();
+                        Toast.makeText(context,R.string.achievement_unavaileble,Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -106,13 +141,28 @@ public class MainMenuScene extends BaseScene {
 
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 - 50,
-                Constants.CAMERA_HEIGHT - 100, WALIGMENT.RIGHT, HALIGMENT.CENTER);
+                Constants.CAMERA_HEIGHT - 190, WALIGMENT.RIGHT, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
         text = main.getString(R.string.main_menu_leaderboards);
         RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
+                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 + 50,
+                Constants.CAMERA_HEIGHT-190, WALIGMENT.LEFT, HALIGMENT.CENTER);
+        registerTouchArea(btn2);
+        attachToLayer(LAYERS.BATTON_LAYER,btn2);
+
+        text = main.getString(R.string.main_menu_achievement);
+        btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickAchievement), Constants.CAMERA_WIDTH / 2 - 50,
+                Constants.CAMERA_HEIGHT - 85, WALIGMENT.RIGHT, HALIGMENT.CENTER);
+        registerTouchArea(btn1);
+        attachToLayer(LAYERS.BATTON_LAYER, btn1);
+
+        text = main.getString(R.string.main_menu_shop);
+        btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickShop), Constants.CAMERA_WIDTH / 2 + 50,
+                Constants.CAMERA_HEIGHT-85, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
 
@@ -175,6 +225,8 @@ public class MainMenuScene extends BaseScene {
         onClickRestart = null;
         onClickLeaderboart = null;
         onGooglePlayClick = null;
+        onClickAchievement = null;
+        onClickShop = null;
         generator = null;
     }
 

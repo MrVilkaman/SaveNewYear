@@ -14,4 +14,7 @@ public interface ActionResolver {
     /** Показать Activity с таблицей рекордов */
     public void getLeaderboardGPGS();
 
+    public void getAchievementsGPGS();
+    public void unlockAchievementGPGS(int achievementId);
+
 }

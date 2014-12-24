@@ -11,11 +11,15 @@
 
     <string name="main_menu_play">Играть</string>
     <string name="main_menu_leaderboards">Рекорды</string>
+    <string name="main_menu_achievement">Достижения</string>
+    <string name="main_menu_shop">Магазин</string>
     <string name="pause_menu_resume">Продолжить</string>
     <string name="pause_menu_restart">Переиграть</string>
     <string name="pause_menu_return_to_menu">Вернуться в меню</string>
     <string name="pause_menu_best_time">Лучшее время %1s</string>
     <string name="you_get_one_dift">Вы получили подарок!</string>
     <string name="you_have_not_gift">Нужно 5 подарков чтобы продолжить!</string>
-    <string name="leaderboard_unavaileble">Рекорды сейчас не доступны!</string>
+    <string name="leaderboard_unavaileble">Рекорды сейчас не доступны! Попробуйе позже!</string>
+    <string name="achievement_unavaileble">Достижения сейчас не доступны! Попробуйе позже!</string>
+    <string name="unavaileble">Данная функция находится в разработке!</string>
 </resources>

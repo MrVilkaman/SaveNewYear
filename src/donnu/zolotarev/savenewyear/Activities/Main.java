@@ -235,6 +235,22 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     }
 
     @Override
+    public void unlockAchievementGPGS(int achievementId) {
+        // открыть достижение с ID achievementId
+        Games.Achievements.unlock(gameHelper.getApiClient(), getString(achievementId));
+
+    }
+
+    @Override
+    public void getAchievementsGPGS() {
+        if (getSignedInGPGS()) {
+            startActivityForResult(
+                    Games.Achievements.getAchievementsIntent(gameHelper
+                            .getApiClient()), 101);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         if (Constants.NEED_PLAY_SERVICE) {

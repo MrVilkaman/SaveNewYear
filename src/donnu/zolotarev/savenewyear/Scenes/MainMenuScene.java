@@ -60,7 +60,6 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onGooglePlayClick = new ISimpleClick() {
         @Override
         public void onClick() {
-//            ((Main)GameContex.getCurrent()).buy();
             AppUtils.rateMe(GameContex.getCurrent());
         }
     };

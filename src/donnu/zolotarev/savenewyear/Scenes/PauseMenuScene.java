@@ -1,6 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
@@ -14,6 +15,7 @@ import org.andengine.entity.Entity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.text.Text;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
@@ -23,6 +25,7 @@ public class PauseMenuScene extends BaseScene {
 
 
     private static final int Y_DELTA = 130;
+    private static Date time;
     private Text timerScore;
     private Text bestTimerScore;
     private RectangularShape resumeButton;
@@ -41,7 +44,7 @@ public class PauseMenuScene extends BaseScene {
     }
 
     private void createButtons(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit){
-        BaseGameActivity main = GameContex.getCurrent();
+        final BaseGameActivity main = GameContex.getCurrent();
         String text = main.getString(R.string.pause_menu_resume);
         resumeButton = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickResume), Constants.CAMERA_WIDTH / 2 ,
@@ -75,6 +78,22 @@ public class PauseMenuScene extends BaseScene {
         registerTouchArea(btn1);
         attachChild(btn1);
 
+        text = main.getString(R.string.share_btn_text);
+        Text text1 = new Text(0,0,TextureManager.getFont(),text,main.getVertexBufferObjectManager()){
+            @Override
+            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+                    AppUtils.share(GameContex.getCurrent(),main.getString(R.string.share_text,Utils.timerFormat(time)));
+                }
+                return true;
+            }
+        };
+        text1.setPosition(Constants.CAMERA_WIDTH -10 - text1.getWidth(),10);
+
+        registerTouchArea(text1);
+        attachChild(text1);
+
+
         timerScore = new Text(0,0, TextureManager.getBigFont(),"01:23.456",main.getVertexBufferObjectManager());
         timerScore = (Text)EasyLayoutsFactory.alihment( timerScore
                 ,Constants.CAMERA_WIDTH/2,-10, WALIGMENT.CENTER, HALIGMENT.TOP);
@@ -95,7 +114,6 @@ public class PauseMenuScene extends BaseScene {
 
     }
 
-
     @Override
     protected void initLayers() {
 
@@ -110,7 +128,8 @@ public class PauseMenuScene extends BaseScene {
         StringBuilder builder = new StringBuilder("x ").append(GameDateHolder.getBonuses().getBonusCount());
         presentScoreView.setText(builder.toString());
         entity.setVisible(isGameOver);
-        timerScore.setText( Utils.timerFormat(time));
+        timerScore.setText(Utils.timerFormat(time));
+        PauseMenuScene.time = time;
         bestTimerScore.setText(GameContex.getCurrent().getString(R.string.pause_menu_best_time, Utils.timerFormat(best)));
     }
 
@@ -122,5 +141,6 @@ public class PauseMenuScene extends BaseScene {
         clearEntityModifiers();
         clearUpdateHandlers();
         clearChildScene();
+        time = null;
     }
 }

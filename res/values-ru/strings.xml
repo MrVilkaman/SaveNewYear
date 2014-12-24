@@ -16,4 +16,10 @@
     <string name="leaderboard_unavaileble">Рекорды сейчас не доступны! Попробуйе позже!</string>
     <string name="achievement_unavaileble">Достижения сейчас не доступны! Попробуйе позже!</string>
     <string name="unavaileble">Данная функция находится в разработке!</string>
+    <string name="share_chooser_text">Поделиться результатом через..</string>
+    <string name="share_btn_text">Поделиться</string>
+    <string name="share_text">Мое время %1s в игре Спасти Новый Год
+        https://play.google.com/store/apps/details?id=donnu.zolotarev.savenewyear
+        Сможешь набрать большое?
+    </string>
 </resources>

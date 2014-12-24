@@ -21,6 +21,7 @@ public class Bonuses{
     }
 
     private void notifyObservers(int bonusCount) {
+        GameDateHolder.getAchievementsHelper().proccessUpdateBonus();
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(bonusCount);
         }

@@ -9,6 +9,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
+import donnu.zolotarev.savenewyear.GameData.AchievementsHelper;
 import donnu.zolotarev.savenewyear.GameData.Bonuses;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
@@ -119,7 +120,7 @@ public class MainMenuScene extends BaseScene {
     }
 
     private void loadData() {
-        GameDateHolder.setBonuses(new Bonuses());
+        GameDateHolder.intit(new Bonuses(),new AchievementsHelper());
     }
 
 

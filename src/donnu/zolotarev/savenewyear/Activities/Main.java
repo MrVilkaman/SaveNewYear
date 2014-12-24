@@ -156,7 +156,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         getEngine().clearUpdateHandlers();
         getEngine().clearDrawHandlers();
         GameContex.setGameActivity(null);
-        GameDateHolder.setBonuses(null);
+        GameDateHolder.clear();
         SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
         if (mainMenu != null) {
@@ -184,6 +184,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
                 @Override
                 public void onSignInSucceeded() {
+                    incrementAchievementGPGS(R.string.achievement_purposeful, 1);
                 //    Toast.makeText(Main.this, "It is work!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -219,7 +220,9 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
     @Override
     public void submitScoreGPGS(long score) {
+
         if (getSignedInGPGS()) {
+        GameDateHolder.getAchievementsHelper().proccessBestTime(score);
             Games.Leaderboards.submitScore(gameHelper.getApiClient(),
                     getString(R.string.leaderboard_normal_mode), score);
         }
@@ -237,8 +240,17 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     @Override
     public void unlockAchievementGPGS(int achievementId) {
         // открыть достижение с ID achievementId
-        Games.Achievements.unlock(gameHelper.getApiClient(), getString(achievementId));
+        if (getSignedInGPGS()) {
+            Games.Achievements.unlock(gameHelper.getApiClient(), getString(achievementId));
+        }
+    }
 
+    @Override
+    public void incrementAchievementGPGS(int achievementId, int val) {
+        // открыть достижение с ID achievementId
+        if (getSignedInGPGS()) {
+            Games.Achievements.increment(gameHelper.getApiClient(), getString(achievementId), val);
+        }
     }
 
     @Override
@@ -344,6 +356,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                                 Toast.makeText(getApplicationContext(), "Purchase for disabling ads done.", Toast.LENGTH_SHORT);
                                 // сохраняем в настройках, что отключили рекламу
                                GameDateHolder.getBonuses().addFromPurchase();
+                                GameDateHolder.getAchievementsHelper().proccessFromPurchase();
                                sendReport("Buy 50 bonus!");
                             }
                         }

@@ -97,7 +97,7 @@ public class TextureManager {
             e.printStackTrace();
         }
 
-        font = FontFactory.createFromAsset(engine.getFontManager(), tm, 256, 256, context.getAssets(), "gfx/BuxtonSketch.ttf", 64, true,
+        font = FontFactory.createFromAsset(engine.getFontManager(), tm, 256, 512, context.getAssets(), "gfx/BuxtonSketch.ttf", 64, true,
                 Color.WHITE_ABGR_PACKED_INT);
         bigFont = FontFactory.createFromAsset(engine.getFontManager(), tm, 512, 512, context.getAssets(), "gfx/BuxtonSketchNumbers.ttf", 128, true,
                 Color.WHITE_ABGR_PACKED_INT);

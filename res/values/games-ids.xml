@@ -5,10 +5,22 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
     <string name="app_id">848828436272</string>
-    <string name="achievement_1">CgkIsJ74kNoYEAIQAQ</string>
-    <string name="achievement_2">CgkIsJ74kNoYEAIQAg</string>
-    <string name="achievement_3">CgkIsJ74kNoYEAIQAw</string>
-    <string name="achievement_4">CgkIsJ74kNoYEAIQBA</string>
-    <string name="achievement_5">CgkIsJ74kNoYEAIQBQ</string>
+    <string name="achievement_start_of_way">CgkIsJ74kNoYEAIQAQ</string>
+    <string name="achievement_artful_runner">CgkIsJ74kNoYEAIQAg</string>
+    <string name="achievement_die_hard">CgkIsJ74kNoYEAIQAw</string>
+    <string name="achievement_cheater">CgkIsJ74kNoYEAIQBA</string>
+    <string name="achievement_a_lover_of_gifts">CgkIsJ74kNoYEAIQBQ</string>
+    <string name="achievement_a_great_lover_of_gifts">CgkIsJ74kNoYEAIQBw</string>
+    <string name="achievement_gather_of_gifts">CgkIsJ74kNoYEAIQCA</string>
+    <string name="achievement_hunter_for_gifts">CgkIsJ74kNoYEAIQCQ</string>
+    <string name="achievement_thrifty">CgkIsJ74kNoYEAIQCg</string>
+    <string name="achievement_for_a_rainy_day">CgkIsJ74kNoYEAIQCw</string>
+    <string name="achievement_gifts_keeper">CgkIsJ74kNoYEAIQDA</string>
+    <string name="achievement_collectors">CgkIsJ74kNoYEAIQDQ</string>
+    <string name="achievement_generous">CgkIsJ74kNoYEAIQDg</string>
+    <string name="achievement_purposeful">CgkIsJ74kNoYEAIQDw</string>
+    <string name="achievement_snowballs_is_a_bad_game">CgkIsJ74kNoYEAIQEA</string>
+    <string name="achievement_walrus">CgkIsJ74kNoYEAIQEQ</string>
+    <string name="achievement_blocked_path">CgkIsJ74kNoYEAIQEg</string>
     <string name="leaderboard_normal_mode">CgkIsJ74kNoYEAIQBg</string>
 </resources>

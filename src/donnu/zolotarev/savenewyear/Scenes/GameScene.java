@@ -523,6 +523,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                         flag2 = false;
                         onGameOver();
                         hero.setGameOverForm(objects.get(0));
+                        GameDateHolder.getAchievementsHelper().proccessDieHeroAchievements(objects.get(0).whoIsThere());
                     }
                 }else {
                     flag2 = true;

@@ -140,15 +140,15 @@ public class MainMenuScene extends BaseScene {
         String text = main.getString(R.string.main_menu_play);
 
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 - 50,
-                Constants.CAMERA_HEIGHT - 190, WALIGMENT.RIGHT, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 + 50,
+                Constants.CAMERA_HEIGHT - 190, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
         text = main.getString(R.string.main_menu_leaderboards);
         RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 + 50,
-                Constants.CAMERA_HEIGHT-190, WALIGMENT.LEFT, HALIGMENT.CENTER);
+                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 - 50,
+                Constants.CAMERA_HEIGHT-190, WALIGMENT.RIGHT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
 

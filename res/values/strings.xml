@@ -10,11 +10,12 @@
     <string name="unknown_error">Unknown error.</string>
 
     <string name="main_menu_play">Играть</string>
-    <string name="main_menu_setting">Настройки</string>
+    <string name="main_menu_leaderboards">Рекорды</string>
     <string name="pause_menu_resume">Продолжить</string>
     <string name="pause_menu_restart">Переиграть</string>
     <string name="pause_menu_return_to_menu">Вернуться в меню</string>
     <string name="pause_menu_best_time">Лучшее время %1s</string>
     <string name="you_get_one_dift">Вы получили подарок!</string>
     <string name="you_have_not_gift">Нужно 5 подарков чтобы продолжить!</string>
+    <string name="leaderboard_unavaileble">Рекорды сейчас не доступны!</string>
 </resources>

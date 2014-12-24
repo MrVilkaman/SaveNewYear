@@ -10,9 +10,10 @@ public class Constants {
     public static final String GOOGLE_PLAY_LINK = "market://details?id=donnu.zolotarev.savenewyear";
 
     public static final boolean SHOW_COLLAPS_ITEM_ZONE = false;
-    public static final boolean SHOW_SHOW = true;
+    public static final boolean SHOW_SNOW = true;
     public static final boolean NEED_ADS = false;
-    public static final boolean NEED_ANALYTICS = true;
+    public static final boolean NEED_ANALYTICS = false;
+    public static final boolean NEED_PLAY_SERVICE = true;
 
     public static final int ADS_SHOW_DELAY = 3;
 

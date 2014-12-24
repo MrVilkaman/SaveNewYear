@@ -238,7 +238,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     }
 
     private void updateGameSpeed() {
-        if (Constants.SHOW_SHOW) {
+        if (Constants.SHOW_SNOW) {
             generator.setSpeed(gameSpeed);
         }
         parallaxRoad.setParallaxChangePerSecond(gameSpeed);
@@ -317,7 +317,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         parallaxRoad.attachParallaxEntity(new ParallaxLayer.ParallaxEntity(-GAME_LAYER_COEF, sprite));
         attachToLayer(LAYERS.ROAD_LAYER, parallaxRoad);
 
-        if (Constants.SHOW_SHOW) {
+        if (Constants.SHOW_SNOW) {
             final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH*3/2.f,0,Constants.CAMERA_WIDTH*3,300);
             generator =  new ShowflakeGenerator(particleEmitter,30,45);
             generator.addParticleInitializer(new VelocityParticleInitializer( -200, 200,350, 500));
@@ -479,7 +479,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private ISimpleClick onClickExit =  new ISimpleClick() {
         @Override
         public void onClick() {
-            publicshScore();
+            GameContex.getActionResolver().submitScoreGPGS(bestTime.getTime());
             saveGame();
 
             back();
@@ -488,14 +488,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
             }
         }
     };
-
-    private void publicshScore() {
-        if (GameContex.getActionResolver().getSignedInGPGS()) {
-            if (bestTime.getTime() < date.getTime()) {
-                GameContex.getActionResolver().submitScoreGPGS((int)gameTime);
-            }
-        }
-    }
 
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {

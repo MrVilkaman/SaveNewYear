@@ -9,7 +9,7 @@ public interface ActionResolver {
     public void loginGPGS();
 
     /** Отправить результат в таблицу рекордов */
-    public void submitScoreGPGS(int score);
+    public void submitScoreGPGS(long score);
 
     /** Показать Activity с таблицей рекордов */
     public void getLeaderboardGPGS();

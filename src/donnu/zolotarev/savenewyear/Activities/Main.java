@@ -172,25 +172,27 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     }
 
     private void initPlayService(){
-        gameHelper = new GameHelper(this, GameHelper.CLIENT_ALL);
-        gameHelper.setConnectOnStart(true);
-        gameHelper.enableDebugLog(true);
-        gameHelper.setup(new GameHelper.GameHelperListener() {
-            @Override
-            public void onSignInFailed() {
-        //        Toast.makeText(Main.this, "Fail =( ", Toast.LENGTH_SHORT).show();
-            }
+        if (Constants.NEED_PLAY_SERVICE) {
+            gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+            gameHelper.setConnectOnStart(true);
+            gameHelper.enableDebugLog(false);
+            gameHelper.setup(new GameHelper.GameHelperListener() {
+                @Override
+                public void onSignInFailed() {
+            //        Toast.makeText(Main.this, "Fail =( ", Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onSignInSucceeded() {
-                Toast.makeText(Main.this, "It is work!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onSignInSucceeded() {
+                //    Toast.makeText(Main.this, "It is work!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public boolean getSignedInGPGS() {
-        return gameHelper.isSignedIn();
+        return Constants.NEED_PLAY_SERVICE && gameHelper.isSignedIn();
     }
 
     @Override
@@ -216,24 +218,28 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     }
 
     @Override
-    public void submitScoreGPGS(int score) {
-        Games.Leaderboards.submitScore(gameHelper.getApiClient(),
-                getString(R.string.leaderboard_normal_mode), score);
+    public void submitScoreGPGS(long score) {
+        if (getSignedInGPGS()) {
+            Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+                    getString(R.string.leaderboard_normal_mode), score);
+        }
     }
 
     @Override
     public void getLeaderboardGPGS() {
-        startActivityForResult(
-                Games.Leaderboards.getAllLeaderboardsIntent(gameHelper
-                        .getApiClient()), 100);
+        if (getSignedInGPGS()) {
+            startActivityForResult(
+                    Games.Leaderboards.getLeaderboardIntent(gameHelper
+                            .getApiClient(), getString(R.string.leaderboard_normal_mode)), 100);
+        }
     }
-
-
 
     @Override
     protected void onStart() {
         super.onStart();
-        gameHelper.onStart(this);
+        if (Constants.NEED_PLAY_SERVICE) {
+            gameHelper.onStart(this);
+        }
 
         if (Constants.NEED_ANALYTICS){
             sendReport("Load game");
@@ -244,13 +250,17 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     @Override
     protected void onStop() {
         super.onStop();
-        gameHelper.onStop();
+        if (Constants.NEED_PLAY_SERVICE) {
+            gameHelper.onStop();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        gameHelper.onActivityResult(requestCode, resultCode, data);
+        if (Constants.NEED_PLAY_SERVICE) {
+            gameHelper.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void sendReport(String message) {
@@ -295,8 +305,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                             Log.d(TAG, "Failed to query inventory: " + result);
                             return;
                         }
-
-
                     }
                 });
             }

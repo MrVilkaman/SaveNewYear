@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
+import android.widget.Toast;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
@@ -48,20 +49,21 @@ public class MainMenuScene extends BaseScene {
         }
     };
 
-    private ISimpleClick onClickSetting = new ISimpleClick() {
+    private ISimpleClick onClickLeaderboart = new ISimpleClick() {
         @Override
         public void onClick() {
             if (GameContex.getActionResolver().getSignedInGPGS()) {
                 GameContex.getActionResolver().getLeaderboardGPGS();
             }else{
-                GameContex.getActionResolver().loginGPGS();
+                GameContex.getCurrent().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseGameActivity context = GameContex.getCurrent();
+                        Toast.makeText(context,R.string.leaderboard_unavaileble,Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            /*GameContex.getCurrent().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(GameContex.getCurrent(), "Пока не готово =( ", Toast.LENGTH_SHORT).show();
-                }
-            });*/
+
         }
     };
 
@@ -108,13 +110,13 @@ public class MainMenuScene extends BaseScene {
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
-        text = main.getString(R.string.main_menu_setting);
+        text = main.getString(R.string.main_menu_leaderboards);
         RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickSetting), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
+                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 + 50, Constants.CAMERA_HEIGHT-100, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
 
-        if (Constants.SHOW_SHOW) {
+        if (Constants.SHOW_SNOW) {
             final RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(Constants.CAMERA_WIDTH_HALF+100,0,Constants.CAMERA_WIDTH+200,50);
             generator =  new ShowflakeGenerator(particleEmitter,10,20);
             generator.addParticleInitializer(new VelocityParticleInitializer( -40, -20,100, 200));
@@ -171,7 +173,7 @@ public class MainMenuScene extends BaseScene {
         clearChildScene();
         onClickPlay = null;
         onClickRestart = null;
-        onClickSetting = null;
+        onClickLeaderboart = null;
         onGooglePlayClick = null;
         generator = null;
     }

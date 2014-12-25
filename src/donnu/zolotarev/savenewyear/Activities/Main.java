@@ -73,17 +73,17 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
                 @Override
                 public void didShowAd() {
-                    sendReport("ads show!");
+                    sendReport("ADS","ads show!","");
                 }
 
                 @Override
                 public void didFailToShowAd(AdBuddizError adBuddizError) {
-                    sendReport("ads error " + adBuddizError.toString());
+                    sendReport("ADS","ads error",adBuddizError.toString());
                 }
 
                 @Override
                 public void didClick() {
-                  sendReport("ads click");
+                  sendReport("ADS","ads click","");
                 }
 
                 @Override
@@ -294,18 +294,42 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     }
 
     public void sendReport(String message) {
-        sendReport(message,null,null);
-    }
-
-    public void sendReport(String message,String key, String value){
         if (Constants.NEED_ANALYTICS) {
             try {
                 Tracker tracker = GoogleAnalytics.getInstance(Main.this).newTracker(Constants.ANALISTYC_TRACER_ID);
                 tracker.setScreenName(message);
-                if (key != null && value != null) {
-                    tracker.set(key,value);
-                }
+
                 tracker.send(new HitBuilders.AppViewBuilder().build());
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public void sendReport(String category,String action, String label){
+        if (Constants.NEED_ANALYTICS) {
+            try {
+                Tracker tracker = GoogleAnalytics.getInstance(Main.this).newTracker(Constants.ANALISTYC_TRACER_ID);
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setAction(action)
+                        .setLabel(label)
+                        .build());
+            } catch (Exception e) {
+            }
+        }
+    }
+    public void sendReport(String category,String action, String label,long value){
+        if (Constants.NEED_ANALYTICS) {
+            try {
+                Tracker tracker = GoogleAnalytics.getInstance(Main.this).newTracker(Constants.ANALISTYC_TRACER_ID);
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setAction(action)
+                        .setLabel(label)
+                        .setValue(value)
+                        .build());
             } catch (Exception e) {
             }
         }
@@ -359,7 +383,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                                 // сохраняем в настройках, что отключили рекламу
                                GameDateHolder.getBonuses().addFromPurchase();
                                 GameDateHolder.getAchievementsHelper().proccessFromPurchase();
-                               sendReport("Buy 50 bonus!");
+                               sendReport("IN_APP","Buy 50 bonus!","");
                             }
                         }
                     }, PAYLOAD);

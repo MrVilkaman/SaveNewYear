@@ -382,7 +382,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     @Override
     public void destroy() {
         GameDateHolder.getBonuses().removeObserver(this);
-        GameContex.getAnalistyc().sendReport("Close gamescreen ", IAnalistyc.GAME_TIME,String.valueOf(gameTime));
         treeCollection.cleer();
         generator.clear();
         generator = null;
@@ -437,7 +436,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
 
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
-                    GameContex.getAnalistyc().sendReport("Resume game from Bonus", IAnalistyc.GAME_TIME,String.valueOf(gameTime));
+                    GameContex.getAnalistyc().sendReport("GAME","Resume game from Bonus", IAnalistyc.GAME_TIME,date.getTime());
                     enabledPauseMenu = true;
                     waveController.addOvertime(4f);
                     waveController.increaseTime();
@@ -481,7 +480,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         public void onClick() {
             GameContex.getActionResolver().submitScoreGPGS(bestTime.getTime());
             saveGame();
-
+            GameContex.getAnalistyc().sendReport("GAME","Close gamescreen", IAnalistyc.GAME_TIME,date.getTime());
             back();
             if (Constants.NEED_ADS) {
                 AdBuddiz.showAd(GameContex.getCurrent());

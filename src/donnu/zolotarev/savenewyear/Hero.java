@@ -1,7 +1,6 @@
 package donnu.zolotarev.savenewyear;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Activities.IAnalistyc;
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
@@ -160,8 +159,7 @@ public class Hero implements ICollisionObject{
         animatedSprite.stopAnimation(2);
         BarrierKind who = collisionObject.whoIsThere();
         physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed());
-        GameContex.getAnalistyc().sendReport("Hero is destroy", IAnalistyc.WHO_IS_ME,who.name());
-
+        GameContex.getAnalistyc().sendReport("GAME","Hero is destroy", who.name());
         if (who == BarrierKind.WATER_HOLL) {
             dieInWaterHoll = true;
             physicsHandler.setVelocityX(-SceneContext.getActiveScene().getGameSpeed()*0.1f);

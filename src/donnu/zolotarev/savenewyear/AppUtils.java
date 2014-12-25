@@ -25,11 +25,11 @@ public class AppUtils {
         return false;
     }
 
-    public static void rateMe(Context context) {
+    public static void open(Context context,String url) {
         if (AppUtils.isOnline(context)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setData(Uri.parse(Constants.GOOGLE_PLAY_LINK));
+            intent.setData(Uri.parse(url));
             context.startActivity(intent);
         }
     }

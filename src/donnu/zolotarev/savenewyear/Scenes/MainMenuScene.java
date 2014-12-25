@@ -37,12 +37,25 @@ public class MainMenuScene extends BaseScene {
     private ShowflakeGenerator generator;
 
 
+
     private enum LAYERS{
         TITLE_LAYER,
         SHOW_LAYER,
         BATTON_LAYER
     }
 
+    private ISimpleClick onVkClick = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            AppUtils.open(GameContex.getCurrent(),Constants.VK_GROUP_URL);
+        }
+    };
+    private ISimpleClick onTwitterClick = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            AppUtils.open(GameContex.getCurrent(),Constants.TWITTER_GROUP_URL);
+        }
+    };
 
     private ISimpleClick onClickShop = new ISimpleClick() {
         @Override
@@ -60,7 +73,7 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onGooglePlayClick = new ISimpleClick() {
         @Override
         public void onClick() {
-            AppUtils.rateMe(GameContex.getCurrent());
+            AppUtils.open(GameContex.getCurrent(),Constants.GOOGLE_PLAY_LINK);
         }
     };
 
@@ -178,11 +191,21 @@ public class MainMenuScene extends BaseScene {
         }
         //   initShow();
         versionInfoUpdate();
-        RectangularShape gpbtn = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getGooglePlay()
-                , main.getVertexBufferObjectManager(),null,null, onGooglePlayClick), Constants.CAMERA_WIDTH +5, -5, WALIGMENT.RIGHT, HALIGMENT.TOP);
-        registerTouchArea(gpbtn);
-        gpbtn.setScale(0.5f);
-        attachToLayer(LAYERS.BATTON_LAYER,gpbtn);
+        RectangularShape googlePlay = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getGooglePlayIcon()
+                , main.getVertexBufferObjectManager(),null,null, onGooglePlayClick), Constants.CAMERA_WIDTH -10, 30, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        registerTouchArea(googlePlay);
+        attachToLayer(LAYERS.BATTON_LAYER,googlePlay);
+
+        float dist = 30;
+        RectangularShape twitter = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getTwitterIcon()
+                , main.getVertexBufferObjectManager(),null,null, onTwitterClick), Constants.CAMERA_WIDTH -10, googlePlay.getHeight()+googlePlay.getY()+ dist, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        registerTouchArea(twitter);
+        attachToLayer(LAYERS.BATTON_LAYER,twitter);
+
+        RectangularShape vk = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getVkIcon()
+                , main.getVertexBufferObjectManager(),null,null, onVkClick), Constants.CAMERA_WIDTH -10, twitter.getHeight()+twitter.getY()+ dist, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        registerTouchArea(vk);
+        attachToLayer(LAYERS.BATTON_LAYER,vk);
     }
 
     private void versionInfoUpdate() {
@@ -227,6 +250,8 @@ public class MainMenuScene extends BaseScene {
         onGooglePlayClick = null;
         onClickAchievement = null;
         onClickShop = null;
+        onVkClick = null;
+        onTwitterClick = null;
         generator = null;
     }
 

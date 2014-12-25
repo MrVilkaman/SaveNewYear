@@ -50,7 +50,9 @@ public class TextureManager {
     private static ITiledTextureRegion heroShedow;
     private static ITiledTextureRegion particlePoint;
     private static ITiledTextureRegion tree;
-    private static ITiledTextureRegion googlePlay;
+    private static ITiledTextureRegion googlePlayIcon;
+    private static ITiledTextureRegion vkIcon;
+    private static ITiledTextureRegion twitterIcon;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -92,7 +94,9 @@ public class TextureManager {
             }
             pauseButton = lib.getTiled(MenuTextures.PAUSE_BUTTON_ID);
             particlePoint = lib.getTiled(MenuTextures.PARTICLE_POINT_ID);
-            googlePlay = lib.getTiled(MenuTextures.GOOGLE_PLAY_ID);
+            googlePlayIcon = lib.getTiled(MenuTextures.GP_ICON_ID);
+            vkIcon = lib.getTiled(MenuTextures.VK_ICON_ID);
+            twitterIcon = lib.getTiled(MenuTextures.TWITTER_ICON_ID);
         } catch (TexturePackParseException e) {
             e.printStackTrace();
         }
@@ -207,7 +211,15 @@ public class TextureManager {
     public static ITiledTextureRegion getTree() {
         return tree;
     }
-    public static ITiledTextureRegion getGooglePlay() {
-        return googlePlay;
+    public static ITiledTextureRegion getGooglePlayIcon() {
+        return googlePlayIcon;
+    }
+
+    public static ITiledTextureRegion getTwitterIcon() {
+        return twitterIcon;
+    }
+
+    public static ITiledTextureRegion getVkIcon() {
+        return vkIcon;
     }
 }

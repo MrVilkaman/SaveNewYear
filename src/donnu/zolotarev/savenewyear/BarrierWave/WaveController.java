@@ -21,7 +21,7 @@ public class WaveController implements IWaveController {
     private float maxTime = 3.3f;
     private float currentTime = maxTime/2;
 
-    private float timeToNextUpdate = 7f;
+    private float timeToNextUpdate = 8f;
     private float currentTimeToNextUpdate = timeToNextUpdate;
 
     private int currentLevel = 0;

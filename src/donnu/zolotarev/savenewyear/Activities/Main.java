@@ -189,6 +189,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                 //    Toast.makeText(Main.this, "It is work!", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 

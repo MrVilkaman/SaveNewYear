@@ -47,8 +47,8 @@ public class BarrierTurn extends PriorityQueue<BarrierKind> {
                             itemType = BarrierKind.WATER_HOLL;      //0.33
                         }
                     }else{
-                        ranNum = Math.abs(random.nextInt()%5);
-                        if (ranNum == 2 ||ranNum == 4) {
+                        ranNum = Math.abs(random.nextInt()%4);
+                        if (ranNum == 2 ) {
                             itemType = BarrierKind.SHOW_BALL;        //0.06
                         }else if (ranNum == 0){
                             itemType = BarrierKind.BONUS;               //0.06

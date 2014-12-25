@@ -4,6 +4,7 @@ import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
+import donnu.zolotarev.savenewyear.MyObserver;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
@@ -21,7 +22,7 @@ import org.andengine.util.color.Color;
 
 import java.util.Date;
 
-public class PauseMenuScene extends BaseScene {
+public class PauseMenuScene extends BaseScene implements MyObserver {
 
 
     private static final int Y_DELTA = 130;
@@ -125,8 +126,8 @@ public class PauseMenuScene extends BaseScene {
 //           detachChild(resumeButton);
 
         }
-        StringBuilder builder = new StringBuilder("x ").append(GameDateHolder.getBonuses().getBonusCount());
-        presentScoreView.setText(builder.toString());
+        GameDateHolder.getBonuses().addObserver(this);
+        update(GameDateHolder.getBonuses().getBonusCount());
         entity.setVisible(isGameOver);
         timerScore.setText(Utils.timerFormat(time));
         PauseMenuScene.time = time;
@@ -135,6 +136,7 @@ public class PauseMenuScene extends BaseScene {
 
     @Override
     public void destroy() {
+        GameDateHolder.getBonuses().removeObserver(this);
         entity.detachChildren();
         entity.detachSelf();
         clearTouchAreas();
@@ -142,5 +144,11 @@ public class PauseMenuScene extends BaseScene {
         clearUpdateHandlers();
         clearChildScene();
         time = null;
+    }
+
+    @Override
+    public void update(int data) {
+        StringBuilder builder = new StringBuilder("x ").append(data);
+        presentScoreView.setText(builder.toString());
     }
 }

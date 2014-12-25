@@ -152,6 +152,12 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         if (Constants.NEED_ADS) {
             AdBuddiz.showAd(this);
         }
+        if (mainMenu != null) {
+            mainMenu.destroy();
+            mainMenu.detachChildren();
+            mainMenu.detachSelf();
+            mainMenu = null;
+        }
         getEngine().setScene(null);
         getEngine().clearUpdateHandlers();
         getEngine().clearDrawHandlers();
@@ -159,12 +165,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         GameDateHolder.clear();
         SceneContext.setActiveScene(null);
         ObjectPoolContex.setBarrierCenter(null);
-        if (mainMenu != null) {
-            mainMenu.destroy();
-            mainMenu.detachChildren();
-            mainMenu.detachSelf();
-            mainMenu = null;
-        }
+
         mHelper = null;
         TextureManager.clear();
         super.onDestroy();

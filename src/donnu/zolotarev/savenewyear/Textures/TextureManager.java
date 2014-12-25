@@ -73,7 +73,6 @@ public class TextureManager {
             road = lib.getTiled(GameTextureId_1.ROAD_ID);
             hero = lib.getTiled(GameTextureId_1.HERO_ID,2,2);
             showBalls = lib.getTiled(GameTextureId_1.SHOWBALLS_ID,2,1);
-            present = lib.getTiled(GameTextureId_1.PRESENT_ID);
             waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
             heroShedow = lib.getTiled(GameTextureId_1.HERO_SHEDOW_ID);
@@ -92,6 +91,7 @@ public class TextureManager {
             }else{
                 gameTitle = lib.getTiled(MenuTextures.GAMENAME_ID);
             }
+            present = lib.getTiled(MenuTextures.PRESENT_ID);
             pauseButton = lib.getTiled(MenuTextures.PAUSE_BUTTON_ID);
             particlePoint = lib.getTiled(MenuTextures.PARTICLE_POINT_ID);
             googlePlayIcon = lib.getTiled(MenuTextures.GP_ICON_ID);

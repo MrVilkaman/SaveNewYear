@@ -48,4 +48,8 @@ public class Bonuses{
         this.bonusCount += BUY_FOR_DOLLAR;
         notifyObservers(bonusCount);
     }
+
+    public void removeObserver(MyObserver gameScene) {
+        observers.remove(gameScene);
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="MenuTextures.png" type="bitmap" width="1024" height="512" pixelformat="RGBA_4444" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:50abaa5af1b71285c251194f43a2ada5:6b5bf696b68a040657f5db9a28032381:6b9dce098c95b19b1d1f4aeeba911180$ -->
+    <!-- $TexturePacker:SmartUpdate:67422842852c6e27dbdf2f3c4bfc0684:1b965b8d2c871fa2377a41c85a7314b1:6b9dce098c95b19b1d1f4aeeba911180$ -->
     <textureregion id="0" src="Buttons.png" x="2" y="298" width="540" height="199" rotated="false" trimmed="true" srcx="4" srcy="3" srcwidth="546" srcheight="204"/>
     <textureregion id="1" src="GP icon.png" x="854" y="120" width="116" height="116" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="116" srcheight="116"/>
     <textureregion id="2" src="GameName.png" x="2" y="2" width="677" height="165" rotated="false" trimmed="true" srcx="9" srcy="4" srcwidth="694" srcheight="170"/>
@@ -10,4 +10,5 @@
     <textureregion id="5" src="Twitter_icon.png" x="681" y="2" width="117" height="117" rotated="false" trimmed="true" srcx="0" srcy="1" srcwidth="117" srcheight="118"/>
     <textureregion id="6" src="VK_icon.png" x="800" y="2" width="117" height="116" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="117" srcheight="116"/>
     <textureregion id="7" src="particle_point.png" x="800" y="120" width="32" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="32" srcheight="32"/>
+    <textureregion id="8" src="present.png" x="854" y="238" width="111" height="92" rotated="false" trimmed="true" srcx="1" srcy="0" srcwidth="112" srcheight="94"/>
 </texture>

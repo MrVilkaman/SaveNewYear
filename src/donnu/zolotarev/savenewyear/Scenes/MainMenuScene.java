@@ -1,17 +1,21 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.GameData.AchievementsHelper;
 import donnu.zolotarev.savenewyear.GameData.Bonuses;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
+import donnu.zolotarev.savenewyear.MyObserver;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
@@ -29,13 +33,26 @@ import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.text.exception.OutOfCharactersException;
 import org.andengine.ui.activity.BaseGameActivity;
 
-public class MainMenuScene extends BaseScene {
+public class MainMenuScene extends BaseScene implements MyObserver {
+
+    private static final String PREF_NAME = "PREF_NAME";
+    private static final String BONUS_COUNT = "BONUS_COUNT";
 
     private static int adCount = 0;
     private ShowflakeGenerator generator;
+    private Text presentScoreView;
 
+    @Override
+    public void update(int data) {
+        try {
+            StringBuilder builder = new StringBuilder("x ").append(data);
+            presentScoreView.setText(builder.toString());
+        } catch (OutOfCharactersException e) {
+        }
+    }
 
 
     private enum LAYERS{
@@ -60,13 +77,14 @@ public class MainMenuScene extends BaseScene {
     private ISimpleClick onClickShop = new ISimpleClick() {
         @Override
         public void onClick() {
-            GameContex.getCurrent().runOnUiThread(new Runnable() {
+            ((Main)GameContex.getCurrent()).buy();
+          /*  GameContex.getCurrent().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     BaseGameActivity context = GameContex.getCurrent();
                     Toast.makeText(context,R.string.unavaileble,Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
     };
 
@@ -129,6 +147,15 @@ public class MainMenuScene extends BaseScene {
         TextureManager.loadMenuSprites();
        initBackground();
        loadData();
+        loadGame();
+        GameDateHolder.getBonuses().addObserver(this);
+        update(GameDateHolder.getBonuses().getBonusCount());
+    }
+
+    private void loadGame(){
+        SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
+
     }
 
     private void loadData() {
@@ -206,6 +233,14 @@ public class MainMenuScene extends BaseScene {
                 , main.getVertexBufferObjectManager(),null,null, onVkClick), Constants.CAMERA_WIDTH -10, twitter.getHeight()+twitter.getY()+ dist, WALIGMENT.RIGHT, HALIGMENT.TOP);
         registerTouchArea(vk);
         attachToLayer(LAYERS.BATTON_LAYER,vk);
+
+        RectangularShape present2 = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()),5,8,WALIGMENT.LEFT, HALIGMENT.TOP);
+
+        presentScoreView = new Text(0,0, TextureManager.getFont(),"x 000",main.getVertexBufferObjectManager());
+        presentScoreView = (Text)EasyLayoutsFactory.alihment( presentScoreView
+                ,present2.getX()+present2.getWidth()+5, present2.getY() +present2.getHeight()+10, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
+        attachChild(present2);
+        attachChild(presentScoreView);
     }
 
     private void versionInfoUpdate() {
@@ -214,7 +249,7 @@ public class MainMenuScene extends BaseScene {
             packinfo = GameContex.getCurrent().getPackageManager().getPackageInfo("donnu.zolotarev.savenewyear", PackageManager.GET_ACTIVITIES);
         } catch (PackageManager.NameNotFoundException e) {
         }
-        Text text = new Text(5,5, TextureManager.getBigFont(),"v" + packinfo.versionName.toString(),GameContex.getCurrent().getVertexBufferObjectManager());
+        Text text = new Text(5,Constants.CAMERA_HEIGHT-40, TextureManager.getBigFont(),"v" + packinfo.versionName.toString(),GameContex.getCurrent().getVertexBufferObjectManager());
         text.setScaleCenter(0,0);
         text.setScale(0.3f);
         attachToLayer(LAYERS.TITLE_LAYER, text);
@@ -237,6 +272,7 @@ public class MainMenuScene extends BaseScene {
 
     @Override
     public void destroy() {
+        GameDateHolder.getBonuses().removeObserver(this);
         generator.clear();
         detachSelf();
         detachChildren();

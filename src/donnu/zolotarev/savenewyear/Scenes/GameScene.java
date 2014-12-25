@@ -57,10 +57,10 @@ import org.andengine.util.color.Color;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate {
+public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCreate, MyObserver {
 
 
-    public static final int GIFT_FOR_LIFE = 1;
+    public static final int GIFT_FOR_LIFE = 5;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -281,12 +281,12 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
         hero = new Hero();
 
-        GameDateHolder.getBonuses().addObserver(new MyObserver() {
-            @Override
-            public void update(int data) {
-                updatePresent(data);
-            }
-        });
+        GameDateHolder.getBonuses().addObserver(this);
+    }
+
+    @Override
+    public void update(int data) {
+        updatePresent(data);
     }
 
     @Override
@@ -381,6 +381,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
 
     @Override
     public void destroy() {
+        GameDateHolder.getBonuses().removeObserver(this);
         GameContex.getAnalistyc().sendReport("Close gamescreen ", IAnalistyc.GAME_TIME,String.valueOf(gameTime));
         treeCollection.cleer();
         generator.clear();
@@ -389,7 +390,6 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         SceneContext.setActiveScene(null);
         ObjectPoolContex.getBarrierCenter().clear();
         ObjectPoolContex.setBarrierCenter(null);
-        GameDateHolder.getBonuses().deleteObservers();
         onClickRestart = null;
         onClickExit = null;
         onClickPause = null;

@@ -9,24 +9,30 @@
     <string name="license_failed">License check failed.</string>
     <string name="unknown_error">Unknown error.</string>
 
-    <string name="main_menu_play">Играть</string>
-    <string name="main_menu_leaderboards">Рекорды</string>
-    <string name="main_menu_achievement">Достижения</string>
-    <string name="main_menu_shop">Магазин</string>
-    <string name="pause_menu_resume">Продолжить</string>
-    <string name="pause_menu_restart">Переиграть</string>
-    <string name="pause_menu_return_to_menu">Вернуться в меню</string>
-    <string name="pause_menu_best_time">Лучшее время %1s</string>
-    <string name="you_get_one_dift">Вы получили подарок!</string>
-    <string name="you_have_not_gift">Нужно 5 подарков чтобы продолжить!</string>
-    <string name="leaderboard_unavaileble">Рекорды сейчас не доступны! Попробуйе позже!</string>
-    <string name="achievement_unavaileble">Достижения сейчас не доступны! Попробуйе позже!</string>
-    <string name="unavaileble">Данная функция находится в разработке!</string>
-    <string name="share_chooser_text">Поделиться результатом через..</string>
-    <string name="share_btn_text">Поделиться</string>
-    <string name="share_text">Мое время %1s в игре Спасти Новый Год
+    <string name="main_menu_play">Play</string>
+    <string name="main_menu_leaderboards">Leaderboard</string>
+    <string name="main_menu_achievement">Achievements</string>
+    <string name="main_menu_shop">Shop</string>
+    <string name="pause_menu_resume">Resume</string>
+    <string name="pause_menu_restart">Replay</string>
+    <string name="pause_menu_return_to_menu">Return to menu</string>
+    <string name="pause_menu_best_time">Best time is %1s</string>
+    <string name="you_get_one_dift">You have received a gift!</string>
+    <string name="you_have_not_gift">5 gifts need to continue!</string>
+    <string name="leaderboard_unavaileble">Records are now available! Please try again later!</string>
+    <string name="achievement_unavaileble">Achievements are now available! Please try again later!</string>
+    <string name="unavaileble"> This feature is in the works!</string>
+    <string name="share_chooser_text">Share the result through ..</string>
+    <string name="share_btn_text">Share It</string>
+    <string name="share_text">My time %1s in the game Save the New Year
         https://play.google.com/store/apps/details?id=donnu.zolotarev.savenewyear
     </string>
-    <string name="pause_menu_how_to_play">Как играть</string>
-    <string name="how_to_play_text">Берешь и играешь</string>
+    <string name="pause_menu_how_to_play">How to play</string>
+    <string name="how_to_play_text">Control of the game: \n
+         To jump tap your finger anywhere on the screen. The tap on the screen when the player is in the air allows land faster. \n
+         By flying snowballs also need to tap . At most two times, small - one. To move through a large hole, you need to press and hold your finger on the brown on the stump in front of it. \n
+         Gifts to collect can be exchanged for an extra life. For every 45 seconds, you get one gift. \n
+        \n
+         Enjoy the game!
+    </string>
 </resources>

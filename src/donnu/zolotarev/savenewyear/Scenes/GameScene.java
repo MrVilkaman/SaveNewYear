@@ -70,7 +70,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
     private static final int GROUND_Y = 561;
     private static final float SPEED_COEF = 1.075f;
 
-    private static final float GIFT_TIME_MAX = 50f;
+    private static final float GIFT_TIME_MAX = 45f;
     private static final long DELAY_GAMEOVER = 1000; //mc
 
     private static final String MAX_TIME = "MAX_TIME";

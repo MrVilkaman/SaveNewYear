@@ -27,4 +27,6 @@
     <string name="share_text">Мое время %1s в игре Спасти Новый Год
         https://play.google.com/store/apps/details?id=donnu.zolotarev.savenewyear
     </string>
+    <string name="pause_menu_how_to_play">Как играть</string>
+    <string name="how_to_play_text">Берешь и играешь</string>
 </resources>

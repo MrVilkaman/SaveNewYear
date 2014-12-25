@@ -24,7 +24,7 @@ public class Hero implements ICollisionObject{
 
     private static final float HERO_X = 150;
 
-    private static final int ANIMATE_SPEED = 110; // hero speed anim
+    private static final int ANIMATE_SPEED = 100; // hero speed anim
     private static final float JUMP_SPEED = 1120;
     private static final float GRAVITY_SPEED = 3750;
     private static final float GRAVITY_SPEED_MAX = 10000;

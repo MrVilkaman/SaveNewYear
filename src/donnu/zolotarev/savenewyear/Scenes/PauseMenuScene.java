@@ -1,5 +1,7 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
@@ -25,7 +27,7 @@ import java.util.Date;
 public class PauseMenuScene extends BaseScene implements MyObserver {
 
 
-    private static final int Y_DELTA = 130;
+    private static final int Y_DELTA = 105;
     private static Date time;
     private Text timerScore;
     private Text bestTimerScore;
@@ -33,6 +35,24 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
     private Text presentScoreView;
 
     private Entity entity;
+    private ISimpleClick onHowToPlay = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            GameContex.getCurrent().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BaseGameActivity context = GameContex.getCurrent();
+                   new AlertDialog.Builder(context).setMessage(R.string.how_to_play_text).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+
+                }
+            });
+        }
+    };
 
     public PauseMenuScene(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit) {
         super();
@@ -68,14 +88,21 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         text = main.getString(R.string.pause_menu_restart);
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickRestart), Constants.CAMERA_WIDTH / 2 ,
-                Constants.CAMERA_HEIGHT/3 + resumeButton.getHeight()+30 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                Constants.CAMERA_HEIGHT/3 + resumeButton.getHeight()+10 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+        registerTouchArea(btn1);
+        attachChild(btn1);
+
+        text = main.getString(R.string.pause_menu_how_to_play);
+        btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onHowToPlay), Constants.CAMERA_WIDTH / 2,
+                Constants.CAMERA_HEIGHT / 3 +2* (btn1.getHeight()+10 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachChild(btn1);
 
         text = main.getString(R.string.pause_menu_return_to_menu);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickExit), Constants.CAMERA_WIDTH / 2,
-                Constants.CAMERA_HEIGHT / 3 +2* (btn1.getHeight()+30 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                Constants.CAMERA_HEIGHT / 3 +3* (btn1.getHeight()+10 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachChild(btn1);
 
@@ -130,13 +157,14 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         update(GameDateHolder.getBonuses().getBonusCount());
         entity.setVisible(isGameOver);
         timerScore.setText(Utils.timerFormat(time));
-        PauseMenuScene.time = time;
+        PauseMenuScene.time = best;
         bestTimerScore.setText(GameContex.getCurrent().getString(R.string.pause_menu_best_time, Utils.timerFormat(best)));
     }
 
     @Override
     public void destroy() {
         GameDateHolder.getBonuses().removeObserver(this);
+        onHowToPlay = null;
         entity.detachChildren();
         entity.detachSelf();
         clearTouchAreas();

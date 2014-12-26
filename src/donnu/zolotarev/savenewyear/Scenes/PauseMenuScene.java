@@ -128,7 +128,7 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
 
         bestTimerScore = new Text(0,0, TextureManager.getBigFont(),GameContex.getCurrent().getString(R.string.pause_menu_best_time,"01:23.456"),main.getVertexBufferObjectManager());
         bestTimerScore = (Text)EasyLayoutsFactory.alihment( bestTimerScore
-                ,Constants.CAMERA_WIDTH/2,timerScore.getHeight()+10, WALIGMENT.CENTER, HALIGMENT.TOP);
+                ,Constants.CAMERA_WIDTH/2,timerScore.getHeight()-5, WALIGMENT.CENTER, HALIGMENT.TOP);
         attachChild(timerScore);
         attachChild(bestTimerScore);
 

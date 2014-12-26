@@ -94,7 +94,10 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
             });
         }
 
-        AppRater.app_launched(this);
+        try {
+            AppRater.app_launched(this);
+        } catch (Exception e) {
+        }
     }
 
 

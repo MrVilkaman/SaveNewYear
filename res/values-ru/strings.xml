@@ -29,4 +29,9 @@
         \n
         Приятной игры!
     </string>
+    <string name="please_rate_me">Если Вам понравилось играть в игру "Спасти новый год", пожалуйста, найдите время, чтобы оценить её. Спасибо за Вашу поддержка!
+    </string>
+    <string name="rate_letter">Напомнить позже</string>
+    <string name="rate_rate">Оценить %1s</string>
+    <string name="rate_no">Нет, спасибо!</string>
 </resources>

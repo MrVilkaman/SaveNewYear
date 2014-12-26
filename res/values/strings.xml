@@ -35,4 +35,10 @@
         \n
          Enjoy the game!
     </string>
+    <string name="please_rate_me">If you enjoy using Save New Year, please take a moment to rate it. Thanks for
+        your support"
+    </string>
+    <string name="rate_letter">Remind me later</string>
+    <string name="rate_rate">Rate %1s</string>
+    <string name="rate_no">No, thanks</string>
 </resources>

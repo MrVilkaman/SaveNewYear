@@ -20,6 +20,7 @@ import donnu.zolotarev.savenewyear.Scenes.BaseScene;
 import donnu.zolotarev.savenewyear.Scenes.MainMenuScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.AppRater;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.billing.util.IabHelper;
 import donnu.zolotarev.savenewyear.billing.util.IabResult;
@@ -92,6 +93,8 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                 }
             });
         }
+
+        AppRater.app_launched(this);
     }
 
 

@@ -1,6 +1,8 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -463,11 +465,24 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
                     showHud(true);
                 }else{
 
-                    ((Main)GameContex.getCurrent()).buy();
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(activity,activity.getString(R.string.you_have_not_gift),Toast.LENGTH_SHORT).show();
+                           new AlertDialog.Builder(activity)
+                                    .setMessage(R.string.you_have_not_gift)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((Main)GameContex.getCurrent()).buy();
+                                        }
+                                    }).setNegativeButton(R.string.rate_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).show();
+
+                           // Toast.makeText(activity,activity.getString(R.string.you_have_not_gift),Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

@@ -27,7 +27,7 @@ import java.util.Date;
 public class PauseMenuScene extends BaseScene implements MyObserver {
 
 
-    private static final int Y_DELTA = 105;
+    private static final int Y_DELTA = 70;
     private static Date time;
     private Text timerScore;
     private Text bestTimerScore;
@@ -92,12 +92,12 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         attachChild(entity);
         entity.setVisible(false);
 
-       /* text = main.getString(R.string.pause_menu_how_to_play);
+        text = main.getString(R.string.pause_menu_how_to_play);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onHowToPlay), Constants.CAMERA_WIDTH / 2,
-                Constants.CAMERA_HEIGHT / 3 +2* (btn1.getHeight()+10 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onHowToPlay,0.7f), Constants.CAMERA_WIDTH / 2,
+                resumeButton.getY()-20, WALIGMENT.CENTER, HALIGMENT.BOTTOM);
         registerTouchArea(btn1);
-        attachChild(btn1);*/
+        attachChild(btn1);
 
         text = main.getString(R.string.pause_menu_return_to_menu);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()

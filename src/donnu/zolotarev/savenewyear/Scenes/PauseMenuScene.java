@@ -66,16 +66,24 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
 
     private void createButtons(ISimpleClick onClickResume, ISimpleClick onClickRestart, ISimpleClick onClickExit){
         final BaseGameActivity main = GameContex.getCurrent();
-        String text = main.getString(R.string.pause_menu_resume);
+
+        String text = main.getString(R.string.pause_menu_restart);
+        RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickRestart), Constants.CAMERA_WIDTH / 2 ,
+                Constants.CAMERA_HEIGHT/2 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+        registerTouchArea(btn1);
+        attachChild(btn1);
+
+         text = main.getString(R.string.pause_menu_resume);
         resumeButton = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickResume), Constants.CAMERA_WIDTH / 2 ,
-                Constants.CAMERA_HEIGHT/3 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickResume,0.7f), Constants.CAMERA_WIDTH - 30,
+                Constants.CAMERA_HEIGHT - 30, WALIGMENT.RIGHT, HALIGMENT.BOTTOM);
         registerTouchArea(resumeButton);
         attachChild(resumeButton);
 
-        Text presentScore = new Text(0, 0, TextureManager.getFont(), "= "+GameScene.GIFT_FOR_LIFE+"x", main.getVertexBufferObjectManager());
-        presentScore = (Text)EasyLayoutsFactory.alihment(presentScore,resumeButton.getX()+resumeButton.getWidth(),resumeButton.getY(),WALIGMENT.LEFT, HALIGMENT.TOP);
-        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), presentScore.getX() +presentScore.getWidth(),presentScore.getY()-20, WALIGMENT.LEFT, HALIGMENT.TOP);
+        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), resumeButton.getX() - 110,resumeButton.getY()-10, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        Text presentScore = new Text(0, 0, TextureManager.getFont(), "x "+GameScene.GIFT_FOR_LIFE+" = ", main.getVertexBufferObjectManager());
+        presentScore = (Text)EasyLayoutsFactory.alihment(presentScore,present.getX()+present.getWidth(),present.getY()+5,WALIGMENT.LEFT, HALIGMENT.TOP);
 
 
                  entity = new Entity();
@@ -84,25 +92,17 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         attachChild(entity);
         entity.setVisible(false);
 
-
-        text = main.getString(R.string.pause_menu_restart);
-        RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickRestart), Constants.CAMERA_WIDTH / 2 ,
-                Constants.CAMERA_HEIGHT/3 + resumeButton.getHeight()+10 + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
-        registerTouchArea(btn1);
-        attachChild(btn1);
-
-        text = main.getString(R.string.pause_menu_how_to_play);
+       /* text = main.getString(R.string.pause_menu_how_to_play);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onHowToPlay), Constants.CAMERA_WIDTH / 2,
                 Constants.CAMERA_HEIGHT / 3 +2* (btn1.getHeight()+10 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
         registerTouchArea(btn1);
-        attachChild(btn1);
+        attachChild(btn1);*/
 
         text = main.getString(R.string.pause_menu_return_to_menu);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickExit), Constants.CAMERA_WIDTH / 2,
-                Constants.CAMERA_HEIGHT / 3 +3* (btn1.getHeight()+10 ) + Y_DELTA, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickExit,0.7f), 30,
+                Constants.CAMERA_HEIGHT - 30, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
         registerTouchArea(btn1);
         attachChild(btn1);
 

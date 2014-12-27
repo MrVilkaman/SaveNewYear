@@ -108,9 +108,11 @@ public  class EasyLayoutsFactory {
     }
 */
 
-
-
     public static RectangularShape create(ITiledTextureRegion textureRegio,VertexBufferObjectManager objectManager,String text, Font font, final ISimpleClick click){
+        return create(textureRegio, objectManager, text, font, click,null);
+    }
+
+    public static RectangularShape create(ITiledTextureRegion textureRegio,VertexBufferObjectManager objectManager,String text, Font font, final ISimpleClick click,Float scale){
         final Sprite btn = new AnimatedSprite(0,0,textureRegio,objectManager){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -127,6 +129,11 @@ public  class EasyLayoutsFactory {
                 return true;
             }
         };
+        if (scale != null) {
+            btn.setScaleCenter(0,0);
+            btn.setScale(scale);
+        }
+
         if (text != null && !text.isEmpty() && font != null) {
             Text text1 = new Text(0,0,font,text,objectManager);
             text1.setPosition(btn.getWidth()/2 - text1.getWidth()/2,btn.getHeight()/2 - text1.getHeight()/2);

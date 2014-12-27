@@ -137,7 +137,7 @@ public class GameScene extends BaseScene implements IActiveGameScene,ICanUnitCre
         setOnSceneTouchListener(new IOnSceneTouchListener() {
             @Override
             public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     hero.jump();
                     return true;
                 }

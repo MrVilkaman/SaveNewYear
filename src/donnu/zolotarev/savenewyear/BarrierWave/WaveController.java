@@ -67,9 +67,9 @@ public class WaveController implements IWaveController {
 
             itemType = BarrierKind.NEW_YEAR_TREE;
             if (random.nextInt()%2 == 0) {
-                item.setStart(55);
+                item.setStart(80);
             }else{
-                item.setStart(-180);
+                item.setStart(-200);
             }
         }
 

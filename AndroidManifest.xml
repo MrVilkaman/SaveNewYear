@@ -33,5 +33,7 @@
 
         <activity android:name="com.purplebrain.adbuddiz.sdk.AdBuddizActivity"
                   android:theme="@android:style/Theme.Translucent" />
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode"/>
     </application>
 </manifest> 

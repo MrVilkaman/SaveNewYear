@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -79,6 +82,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                 @Override
                 public void didFailToShowAd(AdBuddizError adBuddizError) {
                     sendReport("ADS","ads error",adBuddizError.toString());
+                    loadBigBanner();
                 }
 
                 @Override
@@ -98,7 +102,40 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         } catch (Exception e) {
         }
 
+    }
 
+    public void loadBigBanner(){
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final InterstitialAd interstitial = new InterstitialAd(Main.this);
+                interstitial.setAdUnitId(Constants.ADMOB_DS_ID);
+                AdRequest adRequest = new AdRequest.Builder()
+                        .addTestDevice("0941BB9226FB875E4646CDF71CF1D248")
+                        .build();
+
+                interstitial.loadAd(adRequest);
+                interstitial.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        super.onAdFailedToLoad(errorCode);
+                        sendReport("ADS","ADMOD error",errorCode+"");
+
+                    }
+
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        sendReport("ADS","ADMOD Load","");
+                        if (interstitial.isLoaded()){
+                            interstitial.show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
 

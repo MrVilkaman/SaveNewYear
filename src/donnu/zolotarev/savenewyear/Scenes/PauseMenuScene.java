@@ -42,7 +42,7 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
                 @Override
                 public void run() {
                     BaseGameActivity context = GameContex.getCurrent();
-                   new AlertDialog.Builder(context).setMessage(R.string.how_to_play_text).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(context).setMessage(R.string.how_to_play_text).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 

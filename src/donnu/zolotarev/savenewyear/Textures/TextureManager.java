@@ -53,6 +53,8 @@ public class TextureManager {
     private static ITiledTextureRegion googlePlayIcon;
     private static ITiledTextureRegion vkIcon;
     private static ITiledTextureRegion twitterIcon;
+    private static ITiledTextureRegion tapHelp;
+    private static ITiledTextureRegion holdHelp;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -77,6 +79,8 @@ public class TextureManager {
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
             heroShedow = lib.getTiled(GameTextureId_1.HERO_SHEDOW_ID);
             tree = lib.getTiled(GameTextureId_1.TREE_ID,8,1);
+            holdHelp = lib.getTiled(GameTextureId_1.HOLD_HELP_ID);
+            tapHelp = lib.getTiled(GameTextureId_1.TAP_HELP_1_ID);
 
         } catch (TexturePackParseException e) {
             e.printStackTrace();
@@ -221,5 +225,13 @@ public class TextureManager {
 
     public static ITiledTextureRegion getVkIcon() {
         return vkIcon;
+    }
+
+    public static ITiledTextureRegion getTapHelp() {
+        return tapHelp;
+    }
+
+    public static ITiledTextureRegion getHoldHelp() {
+        return holdHelp;
     }
 }

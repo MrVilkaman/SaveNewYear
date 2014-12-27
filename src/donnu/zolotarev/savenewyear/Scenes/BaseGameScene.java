@@ -2,7 +2,9 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
+import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
+import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.Hero;
@@ -10,6 +12,7 @@ import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
+import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
@@ -55,11 +58,14 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
     private ParallaxLayer parallaxRoad;
     private AutoParallaxBackground autoParallaxBackground;
 
+    protected IWaveController waveController;
+
 
     public BaseGameScene() {
         super();
         TextureManager.loadGameSprites();
         SceneContext.setActiveScene(this);
+        waveController = initWaveControllr();
         hero = new Hero();
         setOnSceneTouchListener(new IOnSceneTouchListener() {
             @Override
@@ -71,9 +77,14 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
                 return false;
             }
         });
-
+        createBackGround();
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
+        ObjectPoolContex.setBarrierCenter(new BarrierCenter());
+
+
     }
+
+    protected abstract IWaveController initWaveControllr();
 
     @Override
     public float getGameSpeed() {
@@ -198,5 +209,17 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
         treeCollection = null;
         generator.clear();
         generator = null;
+        hero = null;
+
+        ObjectPoolContex.getBarrierCenter().clear();
+        ObjectPoolContex.setBarrierCenter(null);
+
+        detachChildren();
+        detachSelf();
+        clearTouchAreas();
+        clearEntityModifiers();
+        clearUpdateHandlers();
+        clearChildScene();
+        waveController = null;
     }
 }

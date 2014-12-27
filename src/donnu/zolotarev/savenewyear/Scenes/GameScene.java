@@ -13,7 +13,6 @@ import donnu.zolotarev.savenewyear.Activities.IAnalistyc;
 import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
-import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.MyObserver;
@@ -24,7 +23,6 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
-import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.Engine;
 import org.andengine.engine.handler.timer.ITimerCallback;
@@ -83,29 +81,24 @@ public class GameScene extends BaseGameScene implements  MyObserver {
 
     private Date date = new Date(0);
 
-    private IWaveController waveController;
-
-    public GameScene(){}
 
     public GameScene(ISimpleClick onClickRestart) {
         super();
         this.onClickRestart = onClickRestart;
-        createBackGround();
+
         createHUD();
         initOthers();
-
-
-
-        ObjectPoolContex.setBarrierCenter(new BarrierCenter());
-        waveController = new WaveController(this);
-
         waveController.start();
 
         loadGame();
         updateGameSpeed();
         updatePresent(GameDateHolder.getBonuses().getBonusCount());
-
    //     createFPSBase();
+    }
+
+    @Override
+    protected IWaveController initWaveControllr() {
+        return new WaveController(this);
     }
 
     private void createFPSBase() {
@@ -221,20 +214,12 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     public void destroy() {
         super.destroy();
         GameDateHolder.getBonuses().removeObserver(this);
-        hero = null;
 
-        ObjectPoolContex.getBarrierCenter().clear();
-        ObjectPoolContex.setBarrierCenter(null);
         onClickRestart = null;
         onClickExit = null;
         onClickPause = null;
         onClickResume = null;
-        detachChildren();
-        detachSelf();
-        clearTouchAreas();
-        clearEntityModifiers();
-        clearUpdateHandlers();
-        clearChildScene();
+
         if (pauseMenu != null) {
             pauseMenu.destroy();
             pauseMenu = null;
@@ -242,7 +227,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
 
         pauseMenu = null;
         timerScore = null;
-        waveController = null;
+
 
 
     }

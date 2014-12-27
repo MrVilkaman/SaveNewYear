@@ -315,7 +315,8 @@ public class MainMenuScene extends BaseScene implements MyObserver {
             }
 
             clearChildScene();
-            setChildScene(new GameScene(onClickRestart), false, true, true);
+//            setChildScene(new GameScene(onClickRestart), false, true, true);
+            setChildScene(new HelpScreen(), false, true, true);
         }
     };
 

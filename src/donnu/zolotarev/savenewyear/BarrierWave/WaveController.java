@@ -55,29 +55,6 @@ public class WaveController implements IWaveController {
 
     private void initNextUnit() {
         IBarrier item;
-        /*BarrierKind itemType;
-        do {
-            int ranNum = Math.abs(random.nextInt()%6);
-
-            if ( ranNum == 0 || ranNum == 2 || ranNum == 1 || ranNum == 5) {   // 0.66
-                if (Math.abs(random.nextInt()%2) == 0) {
-                    itemType = BarrierKind.NEW_YEAR_TREE;     //0.33
-                }else{
-                    itemType = BarrierKind.WATER_HOLL;      //0.33
-                }
-            }else{
-                ranNum = Math.abs(random.nextInt()%5);
-                if (ranNum == 2 ||ranNum == 4) {
-                    itemType = BarrierKind.SHOW_BALL;        //0.06
-                }else if (ranNum == 0){
-                    itemType = BarrierKind.BONUS;               //0.06
-                }else {
-                    itemType = BarrierKind.TREE;        //0.2
-                }
-            }
-        } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
-*/    //    itemType = BarrierKind.NEW_YEAR_TREE;
-
         BarrierKind itemType = barrierTurn.poll();
 
         lastItemType = itemType;

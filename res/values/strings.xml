@@ -41,4 +41,8 @@
     <string name="rate_letter">Remind me later</string>
     <string name="rate_rate">Rate %1s</string>
     <string name="rate_no">No, thanks</string>
+    <string name="get_ready">Get ready!</string>
+    <string name="help_congratulations">Congratulations! Now you are ready for this game!</string>
+    <string name="try_again">Do not give up! Try again! Not all is obtained from the first time!</string>
+    <string name="tutorials">Go through a little tutorial that will help you understand the game</string>
 </resources>

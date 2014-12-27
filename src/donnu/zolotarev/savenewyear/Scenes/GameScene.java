@@ -212,6 +212,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
 
     @Override
     public void destroy() {
+        isShowMenuScene = true;
         super.destroy();
         GameDateHolder.getBonuses().removeObserver(this);
 

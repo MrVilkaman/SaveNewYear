@@ -91,13 +91,13 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         entity.attachChild(presentScore);
         attachChild(entity);
         entity.setVisible(false);
-
+/*
         text = main.getString(R.string.pause_menu_how_to_play);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
                         , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onHowToPlay,0.7f), Constants.CAMERA_WIDTH / 2,
                 resumeButton.getY()-20, WALIGMENT.CENTER, HALIGMENT.BOTTOM);
         registerTouchArea(btn1);
-        attachChild(btn1);
+        attachChild(btn1);*/
 
         text = main.getString(R.string.pause_menu_return_to_menu);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()

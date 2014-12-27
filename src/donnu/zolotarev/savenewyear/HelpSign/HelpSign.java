@@ -8,6 +8,8 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 public class HelpSign extends Sprite {
 
+    private float alphaTime;
+
     public enum HelpEnum{
         TAP,
         HOLD
@@ -24,7 +26,11 @@ public class HelpSign extends Sprite {
 
     public HelpSign(ITextureRegion pTextureRegion) {
         super(Constants.CAMERA_WIDTH_HALF+250, Constants.CAMERA_HEIGHT - pTextureRegion.getHeight(), pTextureRegion, GameContex.getCurrent().getVertexBufferObjectManager());
+
     }
 
-
+    @Override
+    protected void onManagedUpdate(float pSecondsElapsed) {
+        super.onManagedUpdate(pSecondsElapsed);
+    }
 }

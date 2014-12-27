@@ -37,7 +37,6 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import playservice.basegameutils.GameHelper;
 
 public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnalistyc{
-
     static final int RC_REQUEST = 10001;
     private static final String TAG = "BILLING";
     private static final String PAYLOAD = "12321312321";
@@ -98,6 +97,8 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
             AppRater.app_launched(this);
         } catch (Exception e) {
         }
+
+
     }
 
 

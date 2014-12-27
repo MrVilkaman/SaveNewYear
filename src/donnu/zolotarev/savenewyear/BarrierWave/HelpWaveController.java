@@ -17,6 +17,7 @@ public class HelpWaveController implements IWaveController{
 
     private float maxTime = 3f;
     private float currentTime = maxTime;
+    private boolean isReady = true;
 
     public HelpWaveController(IHelpCommander stop) {
         this.stop = stop;
@@ -26,7 +27,13 @@ public class HelpWaveController implements IWaveController{
         barrierTurn.add(BarrierKind.NEW_YEAR_TREE);
         barrierTurn.add(BarrierKind.WATER_HOLL);
         barrierTurn.add(BarrierKind.WATER_HOLL);
-        barrierTurn.add(BarrierKind.WATER_HOLL);
+        barrierTurn.add(BarrierKind.TREE);
+        barrierTurn.add(BarrierKind.TREE);
+        barrierTurn.add(BarrierKind.SHOW_BALL);
+        barrierTurn.add(BarrierKind.SHOW_BALL);
+        barrierTurn.add(BarrierKind.SHOW_BALL);
+        barrierTurn.add(BarrierKind.BONUS);
+        barrierTurn.add(BarrierKind.BONUS);
     }
 
     @Override
@@ -34,7 +41,13 @@ public class HelpWaveController implements IWaveController{
         if (isStart) {
             currentTime -= delta;
 
+            if(currentTime <0.2 && isReady){
+                isReady = false;
+                stop.ready();
+            }
+
             if(currentTime <0){
+                isReady = true;
                 currentTime = maxTime;
                 initNextUnit();
             }
@@ -64,6 +77,10 @@ public class HelpWaveController implements IWaveController{
     private void initNextUnit() {
         IBarrier item;
         BarrierKind itemType = barrierTurn.poll();
+        BarrierKind e = barrierTurn.peek();
+        if ( e == itemType && e != BarrierKind.SHOW_BALL) {
+            isReady = false;
+        }
         if (itemType  == null) {
             stop.finish();
             isStart = false;

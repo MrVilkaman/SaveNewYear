@@ -201,7 +201,6 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
 
     @Override
     public void destroy() {
-        SceneContext.setActiveScene(null);
         parallaxFG = null;
         parallaxRoad = null;
         autoParallaxBackground = null;
@@ -221,5 +220,6 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
         clearUpdateHandlers();
         clearChildScene();
         waveController = null;
+        SceneContext.setActiveScene(null);
     }
 }

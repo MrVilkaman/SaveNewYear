@@ -15,6 +15,7 @@ import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
 import donnu.zolotarev.savenewyear.GameData.AchievementsHelper;
 import donnu.zolotarev.savenewyear.GameData.Bonuses;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
+import donnu.zolotarev.savenewyear.GameData.Setting;
 import donnu.zolotarev.savenewyear.MyObserver;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
@@ -40,6 +41,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
 
     private static final String PREF_NAME = "PREF_NAME";
     private static final String BONUS_COUNT = "BONUS_COUNT";
+    private static final String PREF_SETTINGS = "PREF_SETTINGS";
 
     private static int adCount = 0;
     private ShowflakeGenerator generator;
@@ -155,11 +157,23 @@ public class MainMenuScene extends BaseScene implements MyObserver {
     private void loadGame(){
         SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
+        GameDateHolder.getSetting().setNeedTutorials(pref.getBoolean(PREF_SETTINGS,true));
 
     }
 
+    private void saveGame() {
+        GameContex.getCurrent().runOnUiThread(new Runnable() {
+            public void run() {
+                SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+                pref.edit().putInt(BONUS_COUNT, GameDateHolder.getBonuses().getBonusCount());
+                pref.edit().putBoolean(PREF_SETTINGS, GameDateHolder.getSetting().isNeedTutorials())
+                .commit();
+            }
+        });
+    }
+
     private void loadData() {
-        GameDateHolder.intit(new Bonuses(),new AchievementsHelper());
+        GameDateHolder.intit(new Bonuses(),new AchievementsHelper(),new Setting());
     }
 
 
@@ -293,30 +307,38 @@ public class MainMenuScene extends BaseScene implements MyObserver {
 
     @Override
     public void onPause() {
+        saveGame();
         if (getChildScene() != null) {
             ((IActivityCallback)getChildScene()).onPause();
         }
     }
+
+
 
     private ISimpleClick onClickRestart =  new ISimpleClick() {
         @Override
         public void onClick() {
             System.gc();
             if (getChildScene() != null) {
+                saveGame();
                 ((IActivityCallback)getChildScene()).destroy();
             }
-            if (Constants.NEED_ADS) {
-                if (adCount == Constants.ADS_SHOW_DELAY) {
-                    adCount = 0;
-                    AdBuddiz.showAd(GameContex.getCurrent());
-                }else{
-                    adCount++;
-                }
-            }
+
 
             clearChildScene();
-//            setChildScene(new GameScene(onClickRestart), false, true, true);
-            setChildScene(new HelpScreen(), false, true, true);
+            if (GameDateHolder.getSetting().isNeedTutorials()) {
+                setChildScene(new HelpScreen(onClickRestart), false, true, true);
+            }else {
+                if (Constants.NEED_ADS) {
+                    if (adCount == Constants.ADS_SHOW_DELAY) {
+                        adCount = 0;
+                        AdBuddiz.showAd(GameContex.getCurrent());
+                    }else{
+                        adCount++;
+                    }
+                }
+                 setChildScene(new GameScene(onClickRestart), false, true, true);
+            }
         }
     };
 

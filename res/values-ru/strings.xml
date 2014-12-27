@@ -34,4 +34,8 @@
     <string name="rate_letter">Напомнить позже</string>
     <string name="rate_rate">Оценить %1s</string>
     <string name="rate_no">Нет, спасибо!</string>
+    <string name="get_ready">Приготовтесь!</string>
+    <string name="help_congratulations">Поздравляю! Теперь вы готовы к настоящей игре!</string>
+    <string name="try_again">Не сдавайтесь! Попробуйте еще раз! Не у всех получается с первого раза!</string>
+    <string name="tutorials">Пройдите небольшой туториал, который поможет вам разобраться в игре</string>
 </resources>

@@ -60,7 +60,6 @@ public class Hero implements ICollisionObject{
                     physicsHandler.setAccelerationY(GRAVITY_SPEED);
                     isFly = false;
                 }else{
-
                     shedow.setScale(1 - (herY - mY) / herY);
                 }
                 if (!dieInWaterHoll) {

@@ -273,7 +273,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                                     hero.restart();
                                     isNotGameOver = true;
                                 }
-                            }, 2000);
+                            }, 2500);
 
                         }
                     });

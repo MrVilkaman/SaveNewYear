@@ -102,6 +102,8 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         } catch (Exception e) {
         }
 
+      //  loadBigBanner();
+
     }
 
     public void loadBigBanner(){

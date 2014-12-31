@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.Scenes;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
+import android.widget.Toast;
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.HelpWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.IHelpCommander;
@@ -92,8 +93,9 @@ public class HelpScreen extends  BaseGameScene{
                 GameContex.getCurrent().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        isPause = true;
-                        new AlertDialog.Builder(GameContex.getCurrent())
+                      //  isPause = true;
+                        Toast.makeText(GameContex.getCurrent(),R.string.get_ready,Toast.LENGTH_SHORT).show();
+                       /* new AlertDialog.Builder(GameContex.getCurrent())
                                 .setMessage(R.string.get_ready)
                                 .setCancelable(false)
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -101,7 +103,7 @@ public class HelpScreen extends  BaseGameScene{
                                     public void onClick(DialogInterface dialog, int which) {
                                         isPause = false;
                                     }
-                                }).show();
+                                }).show();*/
                     }
                 });
             }

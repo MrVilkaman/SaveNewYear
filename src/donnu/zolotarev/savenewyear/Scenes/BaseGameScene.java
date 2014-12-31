@@ -201,14 +201,15 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
 
     @Override
     public void destroy() {
-        parallaxFG = null;
-        parallaxRoad = null;
-        autoParallaxBackground = null;
+
         treeCollection.cleer();
         treeCollection = null;
         generator.clear();
         generator = null;
         hero = null;
+        parallaxFG = null;
+        parallaxRoad = null;
+        autoParallaxBackground = null;
 
         ObjectPoolContex.getBarrierCenter().clear();
         ObjectPoolContex.setBarrierCenter(null);

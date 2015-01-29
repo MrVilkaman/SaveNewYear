@@ -1,28 +1,26 @@
 package donnu.zolotarev.savenewyear.BarrierWave;
 
 import java.util.PriorityQueue;
-import java.util.Random;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
-import donnu.zolotarev.savenewyear.Barriers.IBarrier;
-import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 
-public class HelpWaveController implements IWaveController{
+public class HelpWaveController extends BaseWave{
 
 
-    private final PriorityQueue<BarrierKind> barrierTurn;
-    private final Random random;
     private final IHelpCommander stop;
-    private boolean isStart = false;
-
     private float maxTime = 3f;
     private float currentTime = maxTime;
     private boolean isReady = true;
 
     public HelpWaveController(IHelpCommander stop) {
+        super();
         this.stop = stop;
-        random = new Random();
-        barrierTurn = new PriorityQueue<BarrierKind>();
+        currentTime = maxTime;
+    }
+
+    @Override
+    protected PriorityQueue<BarrierKind> getTurn() {
+        PriorityQueue<BarrierKind> barrierTurn = new PriorityQueue<BarrierKind>();
         barrierTurn.add(BarrierKind.NEW_YEAR_TREE);
         barrierTurn.add(BarrierKind.NEW_YEAR_TREE);
         barrierTurn.add(BarrierKind.WATER_HOLL);
@@ -34,6 +32,7 @@ public class HelpWaveController implements IWaveController{
         barrierTurn.add(BarrierKind.SHOW_BALL);
         barrierTurn.add(BarrierKind.BONUS);
         barrierTurn.add(BarrierKind.BONUS);
+        return barrierTurn;
     }
 
     @Override
@@ -49,34 +48,13 @@ public class HelpWaveController implements IWaveController{
             if(currentTime <0){
                 isReady = true;
                 currentTime = maxTime;
-                initNextUnit();
+                initNextUnit(barrierTurn.poll());
             }
         }
     }
 
     @Override
-    public void start() {
-        isStart = true;
-    }
-
-    @Override
-    public void getNext() {
-
-    }
-
-    @Override
-    public void addOvertime(float delta) {
-
-    }
-
-    @Override
-    public void increaseTime() {
-
-    }
-
-    private void initNextUnit() {
-        IBarrier item;
-        BarrierKind itemType = barrierTurn.poll();
+    protected void initNextUnit(BarrierKind itemType) {
         BarrierKind e = barrierTurn.peek();
         if ( e == itemType && e != BarrierKind.SHOW_BALL) {
             isReady = false;
@@ -86,23 +64,7 @@ public class HelpWaveController implements IWaveController{
             isStart = false;
             return;
         }
-        if (itemType == BarrierKind.TREE) {
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-            item.setStart(95);
-        }else if(itemType == BarrierKind.BONUS){
-            item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
-
-            itemType = BarrierKind.NEW_YEAR_TREE;
-            if (random.nextInt()%2 == 0) {
-                item.setStart(80);
-            }else{
-                item.setStart(-200);
-            }
-        }
-
-        item = ObjectPoolContex.getBarrierCenter().getUnit(itemType);
-        addOvertime(item.getOverTime());
-        item.setStart();
-
+        super.initNextUnit(itemType);
     }
+
 }

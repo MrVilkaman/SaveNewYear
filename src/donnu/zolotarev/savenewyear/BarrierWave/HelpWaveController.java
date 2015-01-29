@@ -1,11 +1,11 @@
 package donnu.zolotarev.savenewyear.BarrierWave;
 
+import java.util.PriorityQueue;
+import java.util.Random;
+
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
-
-import java.util.PriorityQueue;
-import java.util.Random;
 
 public class HelpWaveController implements IWaveController{
 
@@ -88,7 +88,7 @@ public class HelpWaveController implements IWaveController{
         }
         if (itemType == BarrierKind.TREE) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-            item.setStart(70);
+            item.setStart(95);
         }else if(itemType == BarrierKind.BONUS){
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
 

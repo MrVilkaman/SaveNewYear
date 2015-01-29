@@ -5,7 +5,6 @@ import java.util.Random;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
-import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierTurn;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
@@ -31,13 +30,13 @@ public class WaveController implements IWaveController {
     public WaveController(ICanUnitCreate unitCreate) {
         this.unitCreate = unitCreate;
         random = new Random();
-      /*  barrierTurn = new PriorityQueue<BarrierKind>(){
+        barrierTurn = new PriorityQueue<BarrierKind>(){
             @Override
             public BarrierKind poll() {
-                return BarrierKind.SHOW_BALL;
+                return BarrierKind.TREE;
             }
-        };*/
-        barrierTurn = new BarrierTurn();
+        };
+      //  barrierTurn = new BarrierTurn();
     }
 
     @Override
@@ -65,7 +64,7 @@ public class WaveController implements IWaveController {
 
         if (itemType == BarrierKind.TREE) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-            item.setStart(70);
+            item.setStart(95);
         }else if(itemType == BarrierKind.BONUS){
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
 

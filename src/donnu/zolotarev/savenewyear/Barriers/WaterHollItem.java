@@ -1,16 +1,17 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Scenes.SceneContext;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
+
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Utils;
 
 public class WaterHollItem extends BaseUnit {
 
@@ -55,7 +56,7 @@ public class WaterHollItem extends BaseUnit {
     @Override
     public void setStart(float offset) {
         super.setStart(offset);
-        sprite.setScaleX(3f);
+        sprite.setScaleX(2.85f);
         rect.setScale(0.70f, 1.3f);
     }
 

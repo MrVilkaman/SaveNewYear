@@ -1,12 +1,12 @@
 package donnu.zolotarev.savenewyear.BarrierWave;
 
+import java.util.Random;
+
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
 import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierTurn;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 import donnu.zolotarev.savenewyear.Utils.Utils;
-
-import java.util.Random;
 
 public class WaveController implements IWaveController {
 
@@ -15,17 +15,16 @@ public class WaveController implements IWaveController {
     private final BarrierTurn barrierTurn;
 
     private boolean isStart = false;
-    private ICanUnitCreate unitCreate;
+    private final ICanUnitCreate unitCreate;
 
     private float minTime = 1.2f;
     private float maxTime = 3.3f;
     private float currentTime = maxTime/2;
 
-    private float timeToNextUpdate = 8f;
+    private final float timeToNextUpdate = 8f;
     private float currentTimeToNextUpdate = timeToNextUpdate;
 
     private int currentLevel = 0;
-    private BarrierKind lastItemType;
 
 
     public WaveController(ICanUnitCreate unitCreate) {
@@ -56,8 +55,6 @@ public class WaveController implements IWaveController {
     private void initNextUnit() {
         IBarrier item;
         BarrierKind itemType = barrierTurn.poll();
-
-        lastItemType = itemType;
 
         if (itemType == BarrierKind.TREE) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);

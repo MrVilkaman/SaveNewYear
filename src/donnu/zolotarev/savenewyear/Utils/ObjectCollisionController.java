@@ -1,10 +1,10 @@
 package donnu.zolotarev.savenewyear.Utils;
 
-import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
-import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 
 public class ObjectCollisionController<E extends ICollisionObject> {
 
@@ -54,5 +54,10 @@ public class ObjectCollisionController<E extends ICollisionObject> {
             }
         }
         return iShapes;
+    }
+
+    public int size() {
+        if (objects == null) return 0;
+        return objects.size();
     }
 }

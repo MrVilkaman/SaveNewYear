@@ -137,7 +137,10 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         initBackground();
         loadData();
         loadGame();
-//        GameDateHolder.getBonuses().buy(-10);
+        // todo Debugmode
+        if (Constants.DEV_MODE) {
+            GameDateHolder.getBonuses().setBonusCount(100);
+        }
         chackDay();
         GameDateHolder.getBonuses().addObserver(this);
         update(GameDateHolder.getBonuses().getBonusCount());

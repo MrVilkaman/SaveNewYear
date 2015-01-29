@@ -39,7 +39,7 @@ import donnu.zolotarev.savenewyear.Utils.Utils;
 public class GameScene extends BaseGameScene implements  MyObserver {
 
 
-    public static final int GIFT_FOR_LIFE = 5;
+    public static final int GIFT_FOR_LIFE = 1;
     private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
@@ -78,9 +78,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     };
     private int updateTimerCounter = 0;
 
-
     private Date date = new Date(0);
-
 
     public GameScene(ISimpleClick onClickRestart) {
         super();
@@ -186,7 +184,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     }
 
 
-
     @Override
     public void onKeyPressed(int keyCode, KeyEvent event) {
         if (enabledPauseMenu){
@@ -262,7 +259,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                     waveController.increaseTime();
                     speedUp();
                     updateGameSpeed();
-                    activity.runOnUiThread(new Runnable() {
+                   /* activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
@@ -276,7 +273,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                             }, 2500);
 
                         }
-                    });
+                    });*/
                     clearChildScene();
                     GameDateHolder.getBonuses().buy(GIFT_FOR_LIFE);
                     isShowMenuScene = false;
@@ -345,8 +342,14 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                 }else {
                     flag2 = true;
                 }
+                waveController.update(pSecondsElapsed,isNotGameOver);
+            }else {
+                if(treeCollection.size() == 0){
+                    isNotGameOver = true;
+                    hero.restart();
+                }
             }
-            waveController.update(pSecondsElapsed,isNotGameOver);
+
         }
         super.onManagedUpdate(pSecondsElapsed);
     }

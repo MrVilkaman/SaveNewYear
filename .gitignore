@@ -30,8 +30,8 @@ proguard/
 *.idea
 .idea
 	# pic
-*.png
-*.jpg
+#*.png
+#*.jpg
 *.mp3
 
 /!_Res

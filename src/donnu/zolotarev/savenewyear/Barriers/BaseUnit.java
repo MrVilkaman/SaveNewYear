@@ -1,14 +1,15 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
+import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.shape.RectangularShape;
+
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
-import org.andengine.engine.handler.physics.PhysicsHandler;
-import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.shape.RectangularShape;
 
 public abstract class BaseUnit implements ICollisionObject,IBarrier {
     protected static final int START_X_OFFSET = 150;
@@ -21,7 +22,7 @@ public abstract class BaseUnit implements ICollisionObject,IBarrier {
         updateSpeed();
         IActiveGameScene scene = SceneContext.getActiveScene();
         scene.attachSelfToCollection(this);
-        sprite.setPosition(Constants.CAMERA_WIDTH+50,561-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,561-sprite.getHeight());
         sprite.setIgnoreUpdate(false);
         sprite.setVisible(true);
         physicsHandler.setEnabled(true);

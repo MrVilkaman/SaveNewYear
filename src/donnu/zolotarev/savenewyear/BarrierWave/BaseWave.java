@@ -5,9 +5,12 @@ import java.util.Random;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Barriers.IBarrier;
+import donnu.zolotarev.savenewyear.Barriers.WaterHollItem;
 import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 
 abstract class  BaseWave implements IWaveController{
+
+    private static final float WATER_HOLL_OFFSET = 95;
 
     protected float currentTime;
     protected final Random random;
@@ -27,7 +30,14 @@ abstract class  BaseWave implements IWaveController{
 
         if (itemType == BarrierKind.TREE) {
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.WATER_HOLL);
-            item.setStart(95);
+            int pos = random.nextInt()%3;
+            if (pos == 1) {
+                item.setStart(WATER_HOLL_OFFSET);
+            }else if (pos == 0){
+                 ((WaterHollItem)item).setStart(WATER_HOLL_OFFSET,true);
+            }else{
+                ((WaterHollItem)item).setStart(WATER_HOLL_OFFSET,false);
+            }
         }else if(itemType == BarrierKind.BONUS){
             item = ObjectPoolContex.getBarrierCenter().getUnit(BarrierKind.BONUS);
 

@@ -64,4 +64,16 @@ public class WaterHollItem extends BaseUnit {
     public BarrierKind getKind() {
         return BarrierKind.WATER_HOLL;
     }
+
+    public float getSize(){
+        return sprite.getWidthScaled();
+    }
+
+    public void setStart(float offset, boolean b) {
+        sprite.setScaleX(2.85f);
+        rect.setScale(0.70f, 1.3f);
+        super.setStart(offset + (b ?sprite.getWidthScaled()/-2.5f:sprite.getWidthScaled()/1.9f));
+        sprite.setScaleX(2.85f);
+        rect.setScale(0.70f, 1.3f);
+    }
 }

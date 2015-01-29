@@ -1,6 +1,8 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -21,6 +23,8 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.ui.activity.BaseGameActivity;
 
+import java.util.Date;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
@@ -33,6 +37,7 @@ import donnu.zolotarev.savenewyear.MyObserver;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.DateEventProcessor;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
@@ -43,6 +48,8 @@ public class MainMenuScene extends BaseScene implements MyObserver {
     private static final String PREF_NAME = "PREF_NAME";
     private static final String BONUS_COUNT = "BONUS_COUNT";
     private static final String PREF_SETTINGS = "PREF_SETTINGS";
+    private static final String LAST_ENTER_TIME = "LAST_ENTER_TIME";
+    private static final String ENTER_TIME_BONUS = "ENTER_TIME_BONUS";
 
     private static int adCount = 0;
     private ShowflakeGenerator generator;
@@ -50,7 +57,6 @@ public class MainMenuScene extends BaseScene implements MyObserver {
     @Override
     public void update(int data) {
     }
-
 
     private enum LAYERS{
         TITLE_LAYER,
@@ -132,8 +138,47 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         loadData();
         loadGame();
 //        GameDateHolder.getBonuses().buy(-10);
+        chackDay();
         GameDateHolder.getBonuses().addObserver(this);
         update(GameDateHolder.getBonuses().getBonusCount());
+    }
+
+    private void chackDay() {
+       final BaseGameActivity context = GameContex.getCurrent();
+        SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
+        DateEventProcessor processor = new DateEventProcessor(pref.getLong(LAST_ENTER_TIME,0));
+        if (!processor.isEnterToday()) {
+        final int count;
+        if (processor.isEnterYesToday()) {
+            count = pref.getInt(ENTER_TIME_BONUS,0)+1;
+        }else{
+            count = 1;
+        }
+
+        pref.edit()
+                .putInt(ENTER_TIME_BONUS,count)
+                .putLong(LAST_ENTER_TIME,new Date().getTime())
+                .commit();
+
+
+            context.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String text = context.getString(R.string.get_every_day_bonus, count);
+                    GameDateHolder.getBonuses().buy(-count);
+                    new AlertDialog.Builder(GameContex.getCurrent())
+                            .setMessage(text)
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
+                }
+            });
+        }
     }
 
     private void loadGame(){

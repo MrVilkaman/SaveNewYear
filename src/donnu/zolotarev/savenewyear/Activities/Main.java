@@ -153,7 +153,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         return engineOptions;
     }
 
-
     @Override
     protected void onCreateResources() {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");

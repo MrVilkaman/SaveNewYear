@@ -155,7 +155,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
         });
     }
 
-
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
         // выделение памяти под цифры, чтобы не было  рывков!
@@ -190,7 +189,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     public void update(int data) {
         updatePresent(data);
     }
-
 
     @Override
     public void onKeyPressed(int keyCode, KeyEvent event) {

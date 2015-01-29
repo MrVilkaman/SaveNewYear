@@ -1,25 +1,26 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
+import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.color.Color;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 import donnu.zolotarev.savenewyear.Utils.Utils;
-import org.andengine.engine.handler.physics.PhysicsHandler;
-import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.region.ITiledTextureRegion;
-import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.color.Color;
 
 public class ShowBallsItem extends BaseUnit {
 
 
     private final Rectangle rect2;
     private int currentFrame;
+    private float speedX;
 
     public ShowBallsItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
@@ -34,13 +35,13 @@ public class ShowBallsItem extends BaseUnit {
             }
         };
         rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager()){
-            @Override
+           /* @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     updateFrame();
                 }
                 return true;
-            }
+            }*/
 
         };
         rect2 = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
@@ -58,7 +59,7 @@ public class ShowBallsItem extends BaseUnit {
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         SceneContext.getActiveScene().registerTouchArea(rect);
-        physicsHandler.setAccelerationY(900);
+//        physicsHandler.setAccelerationY(900);
     }
 
     @Override
@@ -99,14 +100,12 @@ public class ShowBallsItem extends BaseUnit {
     }
 
     public void setStart(){
+        speedX = Utils.random(150f, 300f);
         super.setStart();
-        float speedY = Utils.random(230f,320f);
-        physicsHandler.setVelocityY(-speedY);
-        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,speedY-sprite.getHeight()+10);
-        double r = Math.random();
-        currentFrame =  (r<0.5)? 0 : 1;
-//        currentFrame =  (r<0.5)? 0 : (r<0.92)? 1 : 2;
+        physicsHandler.setAngularVelocity(-speedX);
+        currentFrame = 1; //(r<0.5)? 0 : 1;
         updateFrame();
+
     }
 
     @Override
@@ -114,8 +113,7 @@ public class ShowBallsItem extends BaseUnit {
         return BarrierKind.SHOW_BALL;
     }
 
-    @Override
-    public void updateSpeed(){
-        physicsHandler.setVelocityX(-Utils.random(1150,1450));
+    public void updateSpeed() {
+        physicsHandler.setVelocityX(-(SceneContext.getActiveScene().getGameSpeed()+speedX));
     }
 }

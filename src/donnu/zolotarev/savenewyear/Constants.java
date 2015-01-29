@@ -16,7 +16,7 @@ public class Constants {
 
     public static final boolean SHOW_COLLAPS_ITEM_ZONE = false;
     public static final boolean SHOW_SNOW = true;
-    public static final boolean NEED_ADS = true; //!DEV_MODE;
+    public static final boolean NEED_ADS = !DEV_MODE;
     public static final boolean NEED_ANALYTICS = !DEV_MODE;
     public static final boolean NEED_PLAY_SERVICE = !DEV_MODE;
 

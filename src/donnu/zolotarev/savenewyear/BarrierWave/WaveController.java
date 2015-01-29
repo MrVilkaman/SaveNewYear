@@ -1,5 +1,6 @@
 package donnu.zolotarev.savenewyear.BarrierWave;
 
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
@@ -12,7 +13,7 @@ public class WaveController implements IWaveController {
 
     private static final int MAX_LEVEL = 10;
     private final Random random;
-    private final BarrierTurn barrierTurn;
+    private final PriorityQueue<BarrierKind> barrierTurn;
 
     private boolean isStart = false;
     private final ICanUnitCreate unitCreate;
@@ -30,6 +31,12 @@ public class WaveController implements IWaveController {
     public WaveController(ICanUnitCreate unitCreate) {
         this.unitCreate = unitCreate;
         random = new Random();
+      /*  barrierTurn = new PriorityQueue<BarrierKind>(){
+            @Override
+            public BarrierKind poll() {
+                return BarrierKind.SHOW_BALL;
+            }
+        };*/
         barrierTurn = new BarrierTurn();
     }
 

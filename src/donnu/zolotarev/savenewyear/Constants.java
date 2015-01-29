@@ -12,7 +12,7 @@ public class Constants {
     public static final String TWITTER_GROUP_URL = "https://twitter.com/ZaharZolotarev";
 
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
     public static final boolean SHOW_COLLAPS_ITEM_ZONE = false;
     public static final boolean SHOW_SNOW = true;

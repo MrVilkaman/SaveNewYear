@@ -1,16 +1,27 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+
+import org.andengine.engine.Engine;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.text.Text;
+import org.andengine.entity.util.FPSCounter;
+import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.color.Color;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Activities.IAnalistyc;
-import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.WaveController;
 import donnu.zolotarev.savenewyear.Constants;
@@ -24,17 +35,6 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 import donnu.zolotarev.savenewyear.Utils.Utils;
-import org.andengine.engine.Engine;
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
-import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.text.Text;
-import org.andengine.entity.util.FPSCounter;
-import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.color.Color;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class GameScene extends BaseGameScene implements  MyObserver {
 
@@ -282,25 +282,10 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                     isShowMenuScene = false;
                     showHud(true);
                 }else{
-
-                    activity.runOnUiThread(new Runnable() {
+                    GameContex.getCurrent().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                           new AlertDialog.Builder(activity)
-                                    .setMessage(R.string.you_have_not_gift)
-                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            ((Main)GameContex.getCurrent()).buy();
-                                        }
-                                    }).setNegativeButton(R.string.rate_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                        }
-                                    }).show();
-
-                           // Toast.makeText(activity,activity.getString(R.string.you_have_not_gift),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GameContex.getCurrent(),R.string.you_have_not_gift,Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -380,7 +365,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     private void loadGame(){
         SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         bestTime = new Date(pref.getLong(MAX_TIME,0));
-        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
+//        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
 
     }
 

@@ -6,9 +6,22 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+
+import org.andengine.entity.Entity;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
+import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
+import org.andengine.entity.particle.initializer.ScaleParticleInitializer;
+import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
+import org.andengine.entity.scene.background.SpriteBackground;
+import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
+import org.andengine.ui.activity.BaseGameActivity;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Activities.Main;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
@@ -24,18 +37,6 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.EasyLayoutsFactory;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
-import org.andengine.entity.Entity;
-import org.andengine.entity.IEntity;
-import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
-import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
-import org.andengine.entity.particle.initializer.ScaleParticleInitializer;
-import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
-import org.andengine.entity.scene.background.SpriteBackground;
-import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
-import org.andengine.entity.text.exception.OutOfCharactersException;
-import org.andengine.ui.activity.BaseGameActivity;
 
 public class MainMenuScene extends BaseScene implements MyObserver {
 
@@ -45,15 +46,9 @@ public class MainMenuScene extends BaseScene implements MyObserver {
 
     private static int adCount = 0;
     private ShowflakeGenerator generator;
-    private Text presentScoreView;
 
     @Override
     public void update(int data) {
-        try {
-            StringBuilder builder = new StringBuilder("x ").append(data);
-            presentScoreView.setText(builder.toString());
-        } catch (OutOfCharactersException e) {
-        }
     }
 
 
@@ -76,24 +71,10 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         }
     };
 
-    private ISimpleClick onClickShop = new ISimpleClick() {
-        @Override
-        public void onClick() {
-            ((Main)GameContex.getCurrent()).buy();
-          /*  GameContex.getCurrent().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    BaseGameActivity context = GameContex.getCurrent();
-                    Toast.makeText(context,R.string.unavaileble,Toast.LENGTH_SHORT).show();
-                }
-            });*/
-        }
-    };
-
     private ISimpleClick onGooglePlayClick = new ISimpleClick() {
         @Override
         public void onClick() {
-            AppUtils.open(GameContex.getCurrent(),Constants.GOOGLE_PLAY_LINK);
+            AppUtils.open(GameContex.getCurrent(), Constants.GOOGLE_PLAY_LINK);
         }
     };
 
@@ -147,17 +128,18 @@ public class MainMenuScene extends BaseScene implements MyObserver {
     public MainMenuScene() {
         super();
         TextureManager.loadMenuSprites();
-       initBackground();
-       loadData();
+        initBackground();
+        loadData();
         loadGame();
+//        GameDateHolder.getBonuses().buy(-10);
         GameDateHolder.getBonuses().addObserver(this);
         update(GameDateHolder.getBonuses().getBonusCount());
     }
 
     private void loadGame(){
         SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT,0));
-        GameDateHolder.getSetting().setNeedTutorials(pref.getBoolean(PREF_SETTINGS,true));
+        GameDateHolder.getBonuses().setBonusCount(pref.getInt(BONUS_COUNT, 0));
+        GameDateHolder.getSetting().setNeedTutorials(pref.getBoolean(PREF_SETTINGS, true));
 
     }
 
@@ -194,17 +176,11 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         String text = main.getString(R.string.main_menu_play);
 
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 + 50,
-                Constants.CAMERA_HEIGHT - 190, WALIGMENT.LEFT, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2,
+                Constants.CAMERA_HEIGHT - 190, WALIGMENT.CENTER, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
-        text = main.getString(R.string.main_menu_leaderboards);
-        RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 - 50,
-                Constants.CAMERA_HEIGHT-190, WALIGMENT.RIGHT, HALIGMENT.CENTER);
-        registerTouchArea(btn2);
-        attachToLayer(LAYERS.BATTON_LAYER,btn2);
 
         text = main.getString(R.string.main_menu_achievement);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
@@ -213,10 +189,10 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
-        text = main.getString(R.string.main_menu_shop);
-        btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(),text,TextureManager.getFont(), onClickShop), Constants.CAMERA_WIDTH / 2 + 50,
-                Constants.CAMERA_HEIGHT-85, WALIGMENT.LEFT, HALIGMENT.CENTER);
+        text = main.getString(R.string.main_menu_leaderboards);
+        RectangularShape btn2 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickLeaderboart), Constants.CAMERA_WIDTH / 2 + 50,
+                Constants.CAMERA_HEIGHT - 85, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn2);
         attachToLayer(LAYERS.BATTON_LAYER,btn2);
 
@@ -247,14 +223,6 @@ public class MainMenuScene extends BaseScene implements MyObserver {
                 , main.getVertexBufferObjectManager(),null,null, onVkClick), Constants.CAMERA_WIDTH -10, twitter.getHeight()+twitter.getY()+ dist, WALIGMENT.RIGHT, HALIGMENT.TOP);
         registerTouchArea(vk);
         attachToLayer(LAYERS.BATTON_LAYER,vk);
-
-        RectangularShape present2 = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()),5,8,WALIGMENT.LEFT, HALIGMENT.TOP);
-
-        presentScoreView = new Text(0,0, TextureManager.getFont(),"x 000",main.getVertexBufferObjectManager());
-        presentScoreView = (Text)EasyLayoutsFactory.alihment( presentScoreView
-                ,present2.getX()+present2.getWidth()+5, present2.getY() +present2.getHeight()+10, WALIGMENT.LEFT, HALIGMENT.BOTTOM);
-        attachChild(present2);
-        attachChild(presentScoreView);
     }
 
     private void versionInfoUpdate() {
@@ -299,7 +267,6 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         onClickLeaderboart = null;
         onGooglePlayClick = null;
         onClickAchievement = null;
-        onClickShop = null;
         onVkClick = null;
         onTwitterClick = null;
         generator = null;

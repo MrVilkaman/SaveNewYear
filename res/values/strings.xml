@@ -18,7 +18,7 @@
     <string name="pause_menu_return_to_menu">Return to menu</string>
     <string name="pause_menu_best_time">Best time is %1s</string>
     <string name="you_get_one_dift">You have received a gift!</string>
-    <string name="you_have_not_gift">Not enough gifts to continue! Would you like to buy them?</string>
+    <string name="you_have_not_gift">Not enough gifts to continue!</string>
     <string name="leaderboard_unavaileble">Records are now available! Please try again later!</string>
     <string name="achievement_unavaileble">Achievements are now available! Please try again later!</string>
     <string name="unavaileble"> This feature is in the works!</string>

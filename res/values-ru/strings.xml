@@ -12,7 +12,7 @@
     <string name="pause_menu_return_to_menu">Вернуться в меню</string>
     <string name="pause_menu_best_time">Лучшее время %1s</string>
     <string name="you_get_one_dift">Вы получили подарок!</string>
-    <string name="you_have_not_gift">Не достаточно подарков чтобы продолжить! Желаете их купить?</string>
+    <string name="you_have_not_gift">Не достаточно подарков чтобы продолжить!</string>
     <string name="leaderboard_unavaileble">Рекорды сейчас не доступны! Попробуйе позже!</string>
     <string name="achievement_unavaileble">Достижения сейчас не доступны! Попробуйе позже!</string>
     <string name="unavaileble">Данная функция находится в разработке!</string>
@@ -31,10 +31,12 @@
     </string>
     <string name="please_rate_me">Если Вам понравилось играть в игру "Спасти новый год", пожалуйста, найдите время, чтобы оценить её. Спасибо за Вашу поддержка!
     </string>
+
     <string name="rate_letter">Напомнить позже</string>
     <string name="rate_rate">Оценить %1s</string>
     <string name="rate_no">Нет, спасибо!</string>
-    <string name="get_ready">Приготовтесь!</string>
+
+    <string name="get_ready">Приготовьтесь!</string>
     <string name="help_congratulations">Поздравляю! Теперь вы готовы к настоящей игре!</string>
     <string name="try_again">Не сдавайтесь! Попробуйте еще раз! Не у всех получается с первого раза!</string>
     <string name="tutorials">Пройдите небольшой туториал, который поможет вам разобраться в игре</string>

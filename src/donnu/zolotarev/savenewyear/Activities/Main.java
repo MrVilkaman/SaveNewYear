@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -16,6 +17,16 @@ import com.google.android.gms.games.Games;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.purplebrain.adbuddiz.sdk.AdBuddizDelegate;
 import com.purplebrain.adbuddiz.sdk.AdBuddizError;
+
+import org.andengine.audio.music.MusicFactory;
+import org.andengine.engine.camera.Camera;
+import org.andengine.engine.options.EngineOptions;
+import org.andengine.engine.options.ScreenOrientation;
+import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.andengine.entity.scene.Scene;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
+
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.R;
@@ -29,14 +40,6 @@ import donnu.zolotarev.savenewyear.billing.util.IabHelper;
 import donnu.zolotarev.savenewyear.billing.util.IabResult;
 import donnu.zolotarev.savenewyear.billing.util.Inventory;
 import donnu.zolotarev.savenewyear.billing.util.Purchase;
-import org.andengine.audio.music.MusicFactory;
-import org.andengine.engine.camera.Camera;
-import org.andengine.engine.options.EngineOptions;
-import org.andengine.engine.options.ScreenOrientation;
-import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
-import org.andengine.entity.scene.Scene;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
 import playservice.basegameutils.GameHelper;
 
 public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnalistyc{
@@ -139,7 +142,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
             }
         });
     }
-
 
     @Override
     public EngineOptions onCreateEngineOptions() {

@@ -19,4 +19,5 @@ public interface ActionResolver {
     public void incrementAchievementGPGS(int achievementId,int value);
 
 
+    public void showAds();
 }

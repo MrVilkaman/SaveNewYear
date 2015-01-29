@@ -1,6 +1,5 @@
 package donnu.zolotarev.savenewyear.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +13,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.games.Games;
-import com.purplebrain.adbuddiz.sdk.AdBuddiz;
-import com.purplebrain.adbuddiz.sdk.AdBuddizDelegate;
-import com.purplebrain.adbuddiz.sdk.AdBuddizError;
 
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
@@ -65,39 +61,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                 GoogleAnalytics.getInstance(this).dispatchLocalHits();
             } catch (Exception e) {
             }
-        }
-
-        if (Constants.NEED_ADS) {
-            AdBuddiz.setPublisherKey(Constants.ADS_ID);
-            AdBuddiz.cacheAds(this);
-            final Activity activity = this;
-            AdBuddiz.setDelegate(new AdBuddizDelegate() {
-                @Override
-                public void didCacheAd() {
-
-                }
-
-                @Override
-                public void didShowAd() {
-                    sendReport("ADS","ads show!","");
-                }
-
-                @Override
-                public void didFailToShowAd(AdBuddizError adBuddizError) {
-                    sendReport("ADS","ads error",adBuddizError.toString());
-                    loadBigBanner();
-                }
-
-                @Override
-                public void didClick() {
-                  sendReport("ADS","ads click","");
-                }
-
-                @Override
-                public void didHideAd() {
-
-                }
-            });
         }
 
         try {
@@ -196,9 +159,6 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
     @Override
     protected void onDestroy() {
-        if (Constants.NEED_ADS) {
-            AdBuddiz.showAd(this);
-        }
         if (mainMenu != null) {
             mainMenu.destroy();
             mainMenu.detachChildren();
@@ -449,5 +409,10 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         return PAYLOAD.equals(payload);
     }
 
-
+    @Override
+    public void showAds() {
+        if (Constants.NEED_ADS) {
+            loadBigBanner();
+        }
+    }
 }

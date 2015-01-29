@@ -9,8 +9,6 @@ import android.content.pm.PackageManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.purplebrain.adbuddiz.sdk.AdBuddiz;
-
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
@@ -51,7 +49,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
     private static final String LAST_ENTER_TIME = "LAST_ENTER_TIME";
     private static final String ENTER_TIME_BONUS = "ENTER_TIME_BONUS";
 
-    private static int adCount = 0;
+
     private ShowflakeGenerator generator;
 
     @Override
@@ -344,14 +342,6 @@ public class MainMenuScene extends BaseScene implements MyObserver {
             if (GameDateHolder.getSetting().isNeedTutorials()) {
                 setChildScene(new HelpScreen(onClickRestart), false, true, true);
             }else {
-                if (Constants.NEED_ADS) {
-                    if (adCount == Constants.ADS_SHOW_DELAY) {
-                        adCount = 0;
-                        AdBuddiz.showAd(GameContex.getCurrent());
-                    }else{
-                        adCount++;
-                    }
-                }
                  setChildScene(new GameScene(onClickRestart), false, true, true);
             }
         }

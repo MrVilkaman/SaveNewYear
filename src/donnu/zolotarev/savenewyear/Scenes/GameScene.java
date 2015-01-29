@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.handler.timer.ITimerCallback;
@@ -57,7 +56,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     private Text presentScore;
 
     private float giftTime = 0;
-
+    private static int adCount = 1;
 
     private ISimpleClick onClickRestart;
     private boolean isNotGameOver = true;
@@ -140,6 +139,15 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                     bestTime = date;
                 }
                 saveGame();
+                if (Constants.NEED_ADS) {
+
+                    if (adCount == Constants.ADS_SHOW_DELAY) {
+                        adCount = 1;
+                    GameContex.getActionResolver().showAds();
+                    }else{
+                        adCount++;
+                    }
+                }
             }
         },DELAY_GAMEOVER);
 
@@ -250,8 +258,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                 isShowMenuScene = false;
                 showHud(true);
             }else{
-
-
                 if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
                     GameContex.getAnalistyc().sendReport("GAME","Resume game from Bonus", IAnalistyc.GAME_TIME,date.getTime());
                     enabledPauseMenu = true;
@@ -259,21 +265,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                     waveController.increaseTime();
                     speedUp();
                     updateGameSpeed();
-                   /* activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    hero.restart();
-                                    isNotGameOver = true;
-                                }
-                            }, 2500);
-
-                        }
-                    });*/
                     clearChildScene();
                     GameDateHolder.getBonuses().buy(GIFT_FOR_LIFE);
                     isShowMenuScene = false;
@@ -297,8 +288,10 @@ public class GameScene extends BaseGameScene implements  MyObserver {
             saveGame();
             GameContex.getAnalistyc().sendReport("GAME","Close gamescreen", IAnalistyc.GAME_TIME,date.getTime());
             back();
-            if (Constants.NEED_ADS) {
-                AdBuddiz.showAd(GameContex.getCurrent());
+            if (Constants.NEED_ADS) {//todo !!
+                if (adCount != 0) {
+                GameContex.getActionResolver().showAds();
+                }
             }
         }
     };

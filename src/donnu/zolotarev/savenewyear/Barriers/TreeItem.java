@@ -2,7 +2,7 @@ package donnu.zolotarev.savenewyear.Barriers;
 
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
@@ -28,7 +28,7 @@ public class TreeItem extends BaseUnit {
     public TreeItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getTree();
-        sprite = new AnimatedSprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
+        sprite = new Sprite(Constants.CAMERA_WIDTH+50,0, he, gameActivity.getVertexBufferObjectManager()){
             @Override
             protected void onManagedUpdate(float pSecondsElapsed) {
                 super.onManagedUpdate(pSecondsElapsed);
@@ -37,7 +37,6 @@ public class TreeItem extends BaseUnit {
                 }
             }
         };
-        ((AnimatedSprite)sprite).setCurrentTileIndex(7);
         rect = new Rectangle(0, 0, sprite.getWidth(),sprite.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
         rect.setScale(1f, 1f);//0.75f);
@@ -67,7 +66,6 @@ public class TreeItem extends BaseUnit {
         physicsHandler.setEnabled(false);
         sprite.setRotation(90f);
 
-       //((AnimatedSprite)sprite).setCurrentTileIndex(7);
     }
 
     @Override

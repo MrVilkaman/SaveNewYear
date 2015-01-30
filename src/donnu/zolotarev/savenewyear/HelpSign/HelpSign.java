@@ -1,14 +1,13 @@
 package donnu.zolotarev.savenewyear.HelpSign;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
-public class HelpSign extends Sprite {
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
 
-    private float alphaTime;
+public class HelpSign extends Sprite {
 
     public enum HelpEnum{
         TAP,
@@ -16,12 +15,7 @@ public class HelpSign extends Sprite {
     }
 
     public static HelpSign get(HelpEnum anEnum){
-        if (anEnum == HelpEnum.TAP) {
             return new HelpSign(TextureManager.getTapHelp());
-        }else {
-            return new HelpSign(TextureManager.getHoldHelp());
-        }
-
     }
 
     public HelpSign(ITextureRegion pTextureRegion) {

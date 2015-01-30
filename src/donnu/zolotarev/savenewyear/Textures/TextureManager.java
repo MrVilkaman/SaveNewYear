@@ -1,9 +1,7 @@
 package donnu.zolotarev.savenewyear.Textures;
 
 import android.content.Context;
-import donnu.zolotarev.savenewyear.R;
-import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
-import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
+
 import org.andengine.engine.Engine;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
@@ -18,6 +16,10 @@ import org.andengine.util.texturepack.TexturePack;
 import org.andengine.util.texturepack.TexturePackLoader;
 import org.andengine.util.texturepack.TexturePackTextureRegionLibrary;
 import org.andengine.util.texturepack.exception.TexturePackParseException;
+
+import donnu.zolotarev.savenewyear.R;
+import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
+import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
 
 public class TextureManager {
 
@@ -54,7 +56,6 @@ public class TextureManager {
     private static ITiledTextureRegion vkIcon;
     private static ITiledTextureRegion twitterIcon;
     private static ITiledTextureRegion tapHelp;
-    private static ITiledTextureRegion holdHelp;
 
 
     public static void initTextures(Context context, Engine engine){
@@ -78,8 +79,7 @@ public class TextureManager {
             waterHoll = lib.getTiled(GameTextureId_1.WATER_HOLL_ID);
             newYearTree = lib.getTiled(GameTextureId_1.NEW_YEAR_TREE_ID);
             heroShedow = lib.getTiled(GameTextureId_1.HERO_SHEDOW_ID);
-            tree = lib.getTiled(GameTextureId_1.TREE_ID,8,1);
-            holdHelp = lib.getTiled(GameTextureId_1.HOLD_HELP_ID);
+            tree = lib.getTiled(GameTextureId_1.TREE_ONE_ID);
             tapHelp = lib.getTiled(GameTextureId_1.TAP_HELP_1_ID);
 
         } catch (TexturePackParseException e) {
@@ -231,7 +231,4 @@ public class TextureManager {
         return tapHelp;
     }
 
-    public static ITiledTextureRegion getHoldHelp() {
-        return holdHelp;
-    }
 }

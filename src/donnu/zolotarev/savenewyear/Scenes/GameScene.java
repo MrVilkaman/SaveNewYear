@@ -50,7 +50,9 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     private static final String PREF_NAME = "PREF_NAME";
     private static final String BONUS_COUNT = "BONUS_COUNT";
 
+    private static final float MAX_SPEED = 1200;
 
+    private float defSpeed;
     private boolean flag2 = true;
 
     private Text presentScore;
@@ -125,10 +127,13 @@ public class GameScene extends BaseGameScene implements  MyObserver {
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
+
             @Override
             public void run() {
                 enabledPauseMenu = false;
                 isNotGameOver = false;
+                defSpeed = getGameSpeed();
+                setGameSpeed(MAX_SPEED);
                 //isShowMenuScene = true;
                 if (pauseMenu == null) {
                     pauseMenu = new PauseMenuScene(onClickResume, onClickRestart, onClickExit);
@@ -231,9 +236,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
 
         pauseMenu = null;
         timerScore = null;
-
-
-
     }
 
     private void showPause() {
@@ -333,10 +335,11 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                 }else {
                     flag2 = true;
                 }
-                waveController.update(pSecondsElapsed,isNotGameOver);
+                waveController.update(pSecondsElapsed);
             }else {
                 if(treeCollection.size() == 0){
                     isNotGameOver = true;
+                    setGameSpeed(defSpeed);
                     hero.restart();
                 }
             }

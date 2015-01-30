@@ -100,7 +100,7 @@ public class ShowBallsItem extends BaseUnit {
     }
 
     public void setStart(){
-        speedX = Utils.random(150f, 300f);
+        speedX = Utils.random(150f, 400f);
         super.setStart();
         physicsHandler.setAngularVelocity(-speedX);
         currentFrame = 1; //(r<0.5)? 0 : 1;

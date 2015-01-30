@@ -175,7 +175,7 @@ public class HelpScreen extends  BaseGameScene{
             }
 
 
-            waveController.update(pSecondsElapsed,false);
+            waveController.update(pSecondsElapsed);
 
             super.onManagedUpdate(pSecondsElapsed);
         }

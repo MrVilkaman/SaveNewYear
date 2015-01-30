@@ -3,6 +3,7 @@ package donnu.zolotarev.savenewyear.BarrierWave;
 import java.util.PriorityQueue;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
+import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierTurn;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
 public class WaveController extends BaseWave {
@@ -10,8 +11,8 @@ public class WaveController extends BaseWave {
     private static final int MAX_LEVEL = 10;
     private final ICanUnitCreate unitCreate;
 
-    private float minTime = 1.2f;
-    private float maxTime = 3.3f;
+    private float minTime = 1.3f;
+    private float maxTime = 3.0f;
 
 
     private final float timeToNextUpdate = 8f;
@@ -28,17 +29,17 @@ public class WaveController extends BaseWave {
 
     @Override
     protected PriorityQueue<BarrierKind> getTurn() {
-//        return new BarrierTurn();
-        return new PriorityQueue<BarrierKind>(){
+        return new BarrierTurn();
+      /*  return new PriorityQueue<BarrierKind>(){
             @Override
             public BarrierKind poll() {
                 return BarrierKind.TREE;
             }
-        };
+        };*/
     }
 
     @Override
-    public void update(float delta, boolean isNotGameOver) {
+    public void update(float delta) {
         if (isStart) {
             currentTime -= delta;
             if(currentTime <0){
@@ -46,11 +47,11 @@ public class WaveController extends BaseWave {
                 initNextUnit(barrierTurn.poll());
             }
             currentTimeToNextUpdate -=delta;
-            if(isNotGameOver && currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
+            if(currentTimeToNextUpdate <0 && currentLevel != MAX_LEVEL ){
                 currentLevel++;
                 unitCreate.increaseGameSpeed();
-                minTime *=0.93;
-                maxTime *=0.89;
+                minTime *=0.955;
+                maxTime *=0.93;
                 currentTimeToNextUpdate = timeToNextUpdate;
             }
         }

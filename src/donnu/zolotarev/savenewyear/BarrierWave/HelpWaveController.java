@@ -36,7 +36,7 @@ public class HelpWaveController extends BaseWave{
     }
 
     @Override
-    public void update(float delta, boolean isNotGameOver) {
+    public void update(float delta) {
         if (isStart) {
             currentTime -= delta;
 

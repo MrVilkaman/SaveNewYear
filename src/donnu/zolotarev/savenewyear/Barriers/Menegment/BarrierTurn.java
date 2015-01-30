@@ -1,9 +1,9 @@
 package donnu.zolotarev.savenewyear.Barriers.Menegment;
 
-import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
-
 import java.util.PriorityQueue;
 import java.util.Random;
+
+import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 
 public class BarrierTurn extends PriorityQueue<BarrierKind> {
 
@@ -37,26 +37,26 @@ public class BarrierTurn extends PriorityQueue<BarrierKind> {
             BarrierKind itemType;
             BarrierKind lastItemType = null;
             for (int i=0;i<GENERATE_TURN;i++) {
-                do {
-                    int ranNum = Math.abs(random.nextInt()%6);
+//                do {
+                    int ranNum = Math.abs(random.nextInt()%5);
 
-                    if ( ranNum == 0 || ranNum == 2 || ranNum == 1 || ranNum == 5) {   // 0.66
+                    if ( ranNum == 0 || ranNum == 4 || ranNum == 1 ) {   // 0.60
                         if (Math.abs(random.nextInt()%2) == 0) {
-                            itemType = BarrierKind.NEW_YEAR_TREE;     //0.33
+                            itemType = BarrierKind.NEW_YEAR_TREE;     //0.30
                         }else{
-                            itemType = BarrierKind.WATER_HOLL;      //0.33
+                            itemType = BarrierKind.WATER_HOLL;      //0.30
                         }
                     }else{
-                        ranNum = Math.abs(random.nextInt()%4);
+                        ranNum = Math.abs(random.nextInt()%3);
                         if (ranNum == 2 ) {
-                            itemType = BarrierKind.SHOW_BALL;        //0.06
+                            itemType = BarrierKind.SHOW_BALL;        //0.13
                         }else if (ranNum == 0){
-                            itemType = BarrierKind.BONUS;               //0.06
+                            itemType = BarrierKind.BONUS;               //0.13
                         }else {
-                            itemType = BarrierKind.TREE;        //0.2
+                            itemType = BarrierKind.TREE;        //0.13
                         }
                     }
-                } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
+//                } while (itemType == lastItemType && itemType != BarrierKind.NEW_YEAR_TREE && itemType != BarrierKind.WATER_HOLL );
                 lastItemType = itemType;
                 offer(itemType);
             }

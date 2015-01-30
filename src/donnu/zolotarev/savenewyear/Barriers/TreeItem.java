@@ -24,7 +24,6 @@ public class TreeItem extends BaseUnit {
     private float animTime = 0;
     private boolean needBuild = false;
     private boolean animatedFinish = false;
-    private float defSpeed;
 
     public TreeItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
@@ -74,14 +73,13 @@ public class TreeItem extends BaseUnit {
     @Override
     public void setStart() {
         super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,581-sprite.getHeight());
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,591-sprite.getHeight());
 
         animatedFinish = true;
         needBuild = false;
 //        rect.setScaleY(0.2f);
         IActiveGameScene sc = SceneContext.getActiveScene();
-        defSpeed = sc.getGameSpeed();
-        sc.setGameSpeed(defSpeed < 800?defSpeed :800);
+
     }
 
     @Override
@@ -99,8 +97,6 @@ public class TreeItem extends BaseUnit {
 
     @Override
     public void destroy(Boolean withAnimate) {
-        SceneContext.getActiveScene().setGameSpeed(defSpeed);
-//        sprite.setRotation(0);
         super.destroy(withAnimate);
     }
 

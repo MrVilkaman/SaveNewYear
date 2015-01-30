@@ -156,12 +156,9 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         }else{
             count = 1;
         }
-
         pref.edit()
                 .putInt(ENTER_TIME_BONUS,count)
-                .putLong(LAST_ENTER_TIME,new Date().getTime())
                 .commit();
-
 
             context.runOnUiThread(new Runnable() {
                 @Override
@@ -180,6 +177,10 @@ public class MainMenuScene extends BaseScene implements MyObserver {
                 }
             });
         }
+        pref.edit()
+
+                .putLong(LAST_ENTER_TIME,new Date().getTime())
+                .commit();
     }
 
     private void loadGame(){

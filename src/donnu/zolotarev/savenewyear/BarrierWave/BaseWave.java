@@ -43,9 +43,9 @@ abstract class  BaseWave implements IWaveController{
 
             itemType = BarrierKind.NEW_YEAR_TREE;
             if (random.nextInt()%2 == 0) {
-                item.setStart(80);
+                item.setStart(120);
             }else{
-                item.setStart(-200);
+                item.setStart(-150);
             }
         }
 

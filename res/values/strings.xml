@@ -47,4 +47,6 @@
     <string name="tutorials">Go through a little tutorial that will help you understand the game</string>
 
     <string name="get_every_day_bonus">Ты получил %1s подарок! Заходи в игру каждый день и получай больше подарков!</string>
+    <string name="try_again_btn">Повторить</string>
+    <string name="skip_tutorial_btn">Пропустить</string>
 </resources>

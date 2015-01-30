@@ -4,19 +4,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.BarrierWave.HelpWaveController;
 import donnu.zolotarev.savenewyear.BarrierWave.IHelpCommander;
 import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
-import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
 import donnu.zolotarev.savenewyear.Constants;
 import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
 import donnu.zolotarev.savenewyear.HelpSign.HelpSign;
 import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
-
-import java.util.ArrayList;
 
 public class HelpScreen extends  BaseGameScene{
 
@@ -93,17 +93,7 @@ public class HelpScreen extends  BaseGameScene{
                 GameContex.getCurrent().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                      //  isPause = true;
                         Toast.makeText(GameContex.getCurrent(),R.string.get_ready,Toast.LENGTH_SHORT).show();
-                       /* new AlertDialog.Builder(GameContex.getCurrent())
-                                .setMessage(R.string.get_ready)
-                                .setCancelable(false)
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        isPause = false;
-                                    }
-                                }).show();*/
                     }
                 });
             }
@@ -142,41 +132,17 @@ public class HelpScreen extends  BaseGameScene{
             ArrayList<ICollisionObject> col = treeCollection.get();
             if (!col.isEmpty()) {
                 ICollisionObject bar = col.get(0);
-
-                    if (bar.whoIsThere() == BarrierKind.SHOW_BALL) {
-                        if (!isShowHelp) {
-                            showHelp(HelpSign.HelpEnum.TAP);
-                        }
-                        if (tapHelp != null) {
-                            float[] pos = bar.getShape().getSceneCenterCoordinates();
-                            tapHelp.setPosition(pos[0],pos[1]);
-                        }
-                    } else if (2<= col.size() && col.get(1).whoIsThere()== BarrierKind.TREE){
-                        if (!isShowHelp) {
-                            showHelp(HelpSign.HelpEnum.HOLD);
-                        }
-                        if (tapHelp != null) {
-                            float[] pos = bar.getShape().getSceneCenterCoordinates();
-                            tapHelp.setPosition(pos[0]-280,pos[1]-50);
-                        }
-                    } else {
-                        float x = bar.getShape().getSceneCenterCoordinates()[0];
-                        if (!isShowHelp && x  < Constants.CAMERA_WIDTH-200) {
-                            showHelp(HelpSign.HelpEnum.TAP);
-                        }
-
-                        if (isShowHelp && x < 150) {
-                            hideHelp();
-                        }
-                    }
-
+                float x = bar.getShape().getSceneCenterCoordinates()[0];
+                if (!isShowHelp && x  < Constants.CAMERA_WIDTH-300) {
+                    showHelp(HelpSign.HelpEnum.TAP);
+                }
+                if (isShowHelp && x < 150) {
+                    hideHelp();
+                }
             }else{
                 hideHelp();
             }
-
-
             waveController.update(pSecondsElapsed);
-
             super.onManagedUpdate(pSecondsElapsed);
         }
     }
@@ -189,7 +155,7 @@ public class HelpScreen extends  BaseGameScene{
                 new AlertDialog.Builder(GameContex.getCurrent())
                         .setMessage(R.string.try_again)
                         .setCancelable(false)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.try_again_btn, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 GameContex.getCurrent().runOnUpdateThread(new Runnable() {
@@ -198,6 +164,20 @@ public class HelpScreen extends  BaseGameScene{
                                         onClickRestart.onClick();
                                     }
                                 });
+
+                            }
+                        })
+                        .setNegativeButton(R.string.skip_tutorial_btn, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GameContex.getCurrent().runOnUpdateThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        GameDateHolder.getSetting().setNeedTutorials(false);
+                                        onClickRestart.onClick();
+                                    }
+                                });
+
                             }
                         }).show();
             }

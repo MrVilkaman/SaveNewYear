@@ -215,6 +215,7 @@ public class TextureManager {
     public static ITiledTextureRegion getTree() {
         return tree;
     }
+
     public static ITiledTextureRegion getGooglePlayIcon() {
         return googlePlayIcon;
     }

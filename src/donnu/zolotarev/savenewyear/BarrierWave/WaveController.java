@@ -3,7 +3,6 @@ package donnu.zolotarev.savenewyear.BarrierWave;
 import java.util.PriorityQueue;
 
 import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
-import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierTurn;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
 public class WaveController extends BaseWave {
@@ -29,13 +28,13 @@ public class WaveController extends BaseWave {
 
     @Override
     protected PriorityQueue<BarrierKind> getTurn() {
-        return new BarrierTurn();
-      /*  return new PriorityQueue<BarrierKind>(){
+//        return new BarrierTurn();
+        return new PriorityQueue<BarrierKind>(){
             @Override
             public BarrierKind poll() {
-                return BarrierKind.TREE;
+                return BarrierKind.SHOW_BALL;
             }
-        };*/
+        };
     }
 
     @Override

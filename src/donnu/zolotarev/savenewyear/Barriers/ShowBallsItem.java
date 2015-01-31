@@ -34,18 +34,8 @@ public class ShowBallsItem extends BaseUnit {
                 }
             }
         };
-        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager()){
-           /* @Override
-            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    updateFrame();
-                }
-                return true;
-            }*/
-
-        };
+        rect = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
         rect2 = new Rectangle(0, 0, he.getWidth(),he.getHeight(), gameActivity.getVertexBufferObjectManager());
-       // rect.setScaleCenter(he.getWidth() / 2, he.getHeight());
         rect2.setColor(Color.RED);
         rect2.setAlpha(0.5f);
         rect.setScale(3.5f, 3.5f);
@@ -59,12 +49,16 @@ public class ShowBallsItem extends BaseUnit {
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         SceneContext.getActiveScene().registerTouchArea(rect);
-//        physicsHandler.setAccelerationY(900);
     }
 
     @Override
     public boolean checkHit(IGetShape object) {
-        return object.getShape().collidesWith(rect2);
+        boolean flag = object.getShape().collidesWith(rect2);
+        if (flag && speedX != 0f) {
+            speedX = 0f;
+            updateSpeed();
+        }
+        return flag;
     }
 
     @Override
@@ -102,7 +96,6 @@ public class ShowBallsItem extends BaseUnit {
     public void setStart(){
         speedX = Utils.random(150f, 400f);
         super.setStart();
-        physicsHandler.setAngularVelocity(-speedX);
         currentFrame = 1; //(r<0.5)? 0 : 1;
         updateFrame();
 
@@ -114,6 +107,7 @@ public class ShowBallsItem extends BaseUnit {
     }
 
     public void updateSpeed() {
+        physicsHandler.setAngularVelocity(-speedX);
         physicsHandler.setVelocityX(-(SceneContext.getActiveScene().getGameSpeed()+speedX));
     }
 }

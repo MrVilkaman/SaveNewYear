@@ -32,7 +32,7 @@ public class WaveController extends BaseWave {
         return new PriorityQueue<BarrierKind>(){
             @Override
             public BarrierKind poll() {
-                return BarrierKind.SHOW_BALL;
+                return BarrierKind.TREE;
             }
         };
     }

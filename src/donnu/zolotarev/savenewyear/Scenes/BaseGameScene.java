@@ -1,19 +1,5 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
-import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
-import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
-import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
-import donnu.zolotarev.savenewyear.Hero;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
-import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
-import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
-import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
@@ -30,6 +16,21 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import java.util.ArrayList;
+
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.BarrierWave.ICanUnitCreate;
+import donnu.zolotarev.savenewyear.BarrierWave.IWaveController;
+import donnu.zolotarev.savenewyear.Barriers.BaseUnit;
+import donnu.zolotarev.savenewyear.Barriers.Menegment.BarrierCenter;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.FallingShow.ShowflakeGenerator;
+import donnu.zolotarev.savenewyear.Hero;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
+import donnu.zolotarev.savenewyear.Utils.ObjectCollisionController;
+import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
+import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 
 public abstract class BaseGameScene extends BaseScene  implements IActiveGameScene,ICanUnitCreate {
 
@@ -192,6 +193,7 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
     @Override
     public void attachSelfToCollection(ICollisionObject collisionObject) {
         treeCollection.add(collisionObject);
+        getChildByIndex(LAYERS.GAME_LAYER.ordinal()).sortChildren();
     }
 
     @Override

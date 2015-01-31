@@ -1,14 +1,14 @@
 package donnu.zolotarev.savenewyear.GameData;
 
-import donnu.zolotarev.savenewyear.MyObserver;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import donnu.zolotarev.savenewyear.MyObserver;
 
 public class Bonuses{
 
     private static final int BUY_FOR_DOLLAR = 50;
-    private List<MyObserver> observers = new ArrayList<MyObserver>();
+    private final List<MyObserver> observers = new ArrayList<MyObserver>();
     private int bonusCount;
 
     public int getBonusCount() {

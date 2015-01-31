@@ -8,14 +8,14 @@ public class HelpWaveController extends BaseWave{
 
 
     private final IHelpCommander stop;
-    private float maxTime = 3f;
-    private float currentTime = maxTime;
+    private final float MAX_TIME = 3f;
+    private float currentTime = MAX_TIME;
     private boolean isReady = true;
 
     public HelpWaveController(IHelpCommander stop) {
         super();
         this.stop = stop;
-        currentTime = maxTime;
+        currentTime = MAX_TIME;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class HelpWaveController extends BaseWave{
 
             if(currentTime <0){
                 isReady = true;
-                currentTime = maxTime;
+                currentTime = MAX_TIME;
                 initNextUnit(barrierTurn.poll());
             }
         }

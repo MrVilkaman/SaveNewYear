@@ -1,15 +1,17 @@
 package donnu.zolotarev.savenewyear.Scenes;
 
 import android.view.KeyEvent;
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
+
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActivityCallback;
+
 public abstract class BaseScene extends Scene implements IActivityCallback {
 
-    public BaseScene() {
+    BaseScene() {
         setBackgroundEnabled(true);
         initLayers();
     }

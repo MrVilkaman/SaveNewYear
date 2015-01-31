@@ -21,6 +21,7 @@ import donnu.zolotarev.savenewyear.R;
 import donnu.zolotarev.savenewyear.Textures.Ids.GameTextureId_1;
 import donnu.zolotarev.savenewyear.Textures.Ids.MenuTextures;
 
+@SuppressWarnings("MagicNumber")
 public class TextureManager {
 
 

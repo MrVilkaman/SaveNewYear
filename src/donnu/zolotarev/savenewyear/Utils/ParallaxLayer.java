@@ -30,7 +30,6 @@ public class ParallaxLayer extends Entity {
     private Camera mCamera;
 
     private float mCameraPreviousX;
-    private float mCameraOffsetX;
 
     private float	mLevelWidth = 0;
 
@@ -104,7 +103,7 @@ public class ParallaxLayer extends Entity {
     protected void onManagedUpdate(float pSecondsElapsed) {
 
         if(mIsScrollable && mCameraPreviousX != this.mCamera.getCenterX()){
-            mCameraOffsetX = mCameraPreviousX - this.mCamera.getCenterX();
+            float mCameraOffsetX = mCameraPreviousX - this.mCamera.getCenterX();
             mCameraPreviousX = this.mCamera.getCenterX();
 
             this.mParallaxScrollValue += mCameraOffsetX * this.mParallaxScrollFactor;

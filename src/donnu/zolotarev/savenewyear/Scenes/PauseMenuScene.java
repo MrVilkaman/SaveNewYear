@@ -2,6 +2,17 @@ package donnu.zolotarev.savenewyear.Scenes;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import org.andengine.entity.Entity;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.text.Text;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.color.Color;
+
+import java.util.Date;
+
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.AppUtils;
 import donnu.zolotarev.savenewyear.Constants;
@@ -14,16 +25,8 @@ import donnu.zolotarev.savenewyear.Utils.EasyLayouts.HALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.ISimpleClick;
 import donnu.zolotarev.savenewyear.Utils.EasyLayouts.WALIGMENT;
 import donnu.zolotarev.savenewyear.Utils.Utils;
-import org.andengine.entity.Entity;
-import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.text.Text;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.color.Color;
 
-import java.util.Date;
-
+@SuppressWarnings("MagicNumber")
 public class PauseMenuScene extends BaseScene implements MyObserver {
 
 
@@ -31,7 +34,6 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
     private static Date time;
     private Text timerScore;
     private Text bestTimerScore;
-    private RectangularShape resumeButton;
     private Text presentScoreView;
 
     private Entity entity;
@@ -75,14 +77,14 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
         attachChild(btn1);
 
          text = main.getString(R.string.pause_menu_resume);
-        resumeButton = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickResume,0.7f), Constants.CAMERA_WIDTH - 30,
+        RectangularShape resumeButton = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickResume, 0.7f), Constants.CAMERA_WIDTH - 30,
                 Constants.CAMERA_HEIGHT - 30, WALIGMENT.RIGHT, HALIGMENT.BOTTOM);
         registerTouchArea(resumeButton);
         attachChild(resumeButton);
 
-        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), resumeButton.getX() - 110,resumeButton.getY()-10, WALIGMENT.RIGHT, HALIGMENT.TOP);
-        Text presentScore = new Text(0, 0, TextureManager.getFont(), "x "+GameScene.GIFT_FOR_LIFE+" = ", main.getVertexBufferObjectManager());
+        RectangularShape present = EasyLayoutsFactory.alihment(createSprite(TextureManager.getPresent()), resumeButton.getX() - 110, resumeButton.getY()-10, WALIGMENT.RIGHT, HALIGMENT.TOP);
+        Text presentScore = new Text(0, 0, TextureManager.getFont(), "x "+Constants.GIFT_FOR_LIFE+" = ", main.getVertexBufferObjectManager());
         presentScore = (Text)EasyLayoutsFactory.alihment(presentScore,present.getX()+present.getWidth(),present.getY()+5,WALIGMENT.LEFT, HALIGMENT.TOP);
 
 
@@ -147,11 +149,6 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
     }
 
     public void setTime(Date time, Date best, boolean isGameOver) {
-        if (isGameOver) {
-//            unregisterTouchArea(resumeButton);
-//           detachChild(resumeButton);
-
-        }
         GameDateHolder.getBonuses().addObserver(this);
         update(GameDateHolder.getBonuses().getBonusCount());
         entity.setVisible(isGameOver);
@@ -175,7 +172,6 @@ public class PauseMenuScene extends BaseScene implements MyObserver {
 
     @Override
     public void update(int data) {
-        StringBuilder builder = new StringBuilder("x ").append(data);
-        presentScoreView.setText(builder.toString());
+        presentScoreView.setText("x " + data);
     }
 }

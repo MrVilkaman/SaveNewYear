@@ -11,9 +11,11 @@ import donnu.zolotarev.savenewyear.Utils.ObjectPoolContex;
 abstract class  BaseWave implements IWaveController{
 
     private static final float WATER_HOLL_OFFSET = 95;
+    private static final int RIGHT_GIFT_OFFSET = 120;
+    private static final int LEFT_GIFT_OFFSET = -150;
 
     protected float currentTime;
-    protected final Random random;
+    private final Random random;
     protected final PriorityQueue<BarrierKind> barrierTurn;
 
     protected boolean isStart = false;
@@ -43,9 +45,9 @@ abstract class  BaseWave implements IWaveController{
 
             itemType = BarrierKind.NEW_YEAR_TREE;
             if (random.nextInt()%2 == 0) {
-                item.setStart(120);
+                item.setStart(RIGHT_GIFT_OFFSET);
             }else{
-                item.setStart(-150);
+                item.setStart(LEFT_GIFT_OFFSET);
             }
         }
 

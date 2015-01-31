@@ -1,12 +1,19 @@
 package donnu.zolotarev.savenewyear.Barriers.Menegment;
 
-import donnu.zolotarev.savenewyear.Barriers.*;
 import org.andengine.util.adt.pool.GenericPool;
 import org.andengine.util.adt.pool.MultiPool;
 
+import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
+import donnu.zolotarev.savenewyear.Barriers.BonusItem;
+import donnu.zolotarev.savenewyear.Barriers.IBarrier;
+import donnu.zolotarev.savenewyear.Barriers.NewYearTreeItem;
+import donnu.zolotarev.savenewyear.Barriers.ShowBallsItem;
+import donnu.zolotarev.savenewyear.Barriers.TreeItem;
+import donnu.zolotarev.savenewyear.Barriers.WaterHollItem;
+
 public class BarrierCenter implements IBarrierCenter {
 
-    private MultiPool<IBarrier> genericPool;
+    private final MultiPool<IBarrier> genericPool;
 
     public BarrierCenter() {
         genericPool = new MultiPool<IBarrier>();

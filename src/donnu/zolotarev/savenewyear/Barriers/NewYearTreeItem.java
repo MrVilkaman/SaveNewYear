@@ -1,10 +1,5 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Scenes.SceneContext;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
@@ -12,8 +7,18 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Utils;
+
 public class NewYearTreeItem extends BaseUnit {
 
+    private static final float SCALE_RANGE_L = -10f;
+    private static final float SCALE_RANGE_R = 10f;
+
+    @SuppressWarnings("MagicNumber")
     public NewYearTreeItem() {
 
         BaseGameActivity gameActivity = GameContex.getCurrent();
@@ -41,19 +46,20 @@ public class NewYearTreeItem extends BaseUnit {
         sprite.setIgnoreUpdate(true);
         sprite.setVisible(false);
         physicsHandler.setEnabled(false);
+        Y_OFFSET = (int)sprite.getHeight();
 
     }
 
     @Override
     public void setStart() {
         super.setStart();
-        float scale = Utils.random(-10f, 10f)/100;
+        float scale = Utils.random(SCALE_RANGE_L, SCALE_RANGE_R)/100;
         sprite.setScale(1-scale,1+scale);
     }
 
     @Override
     public void setStart(float offset) {
-        float scale = Utils.random(-10f, 10f)/100;
+        float scale = Utils.random(-SCALE_RANGE_L, SCALE_RANGE_R)/100;
         sprite.setScale(1-scale,1+scale);
         super.setStart(offset);
     }

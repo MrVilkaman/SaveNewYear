@@ -9,13 +9,17 @@ import org.andengine.util.color.Color;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.Scenes.BaseGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
 public class WaterHollItem extends BaseUnit {
 
+    private static final float SCALE_RANGE_L = -10f;
+    private static final float SCALE_RANGE_R = 10f;
 
+    @SuppressWarnings("MagicNumber")
     public WaterHollItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getWaterHoll();
@@ -43,16 +47,19 @@ public class WaterHollItem extends BaseUnit {
         sprite.setIgnoreUpdate(true);
         sprite.setVisible(false);
         physicsHandler.setEnabled(false);
+        Y_OFFSET = (int)sprite.getHeight()-15;
     }
 
+    @SuppressWarnings("MagicNumber")
     public void setStart(){
         super.setStart();
         rect.setScale(0.60f, 1.3f);
-        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,575-sprite.getHeight());
-        float scale = Utils.random(-10f, 10f)/100;
+        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET, BaseGameScene.GROUND_Y-Y_OFFSET);
+        float scale = Utils.random(SCALE_RANGE_L, SCALE_RANGE_R)/100;
         sprite.setScaleX(1-scale);
     }
 
+    @SuppressWarnings("MagicNumber")
     @Override
     public void setStart(float offset) {
         super.setStart(offset);
@@ -69,6 +76,7 @@ public class WaterHollItem extends BaseUnit {
         return sprite.getWidthScaled();
     }
 
+    @SuppressWarnings("MagicNumber")
     public void setStart(float offset, boolean b) {
         sprite.setScaleX(2.85f);
         rect.setScale(0.70f, 1.3f);

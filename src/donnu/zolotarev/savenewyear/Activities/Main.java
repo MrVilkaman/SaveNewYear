@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -39,11 +38,10 @@ import donnu.zolotarev.savenewyear.billing.util.Purchase;
 import playservice.basegameutils.GameHelper;
 
 public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnalistyc{
-    static final int RC_REQUEST = 10001;
+    private static final int RC_REQUEST = 10001;
     private static final String TAG = "BILLING";
     private static final String PAYLOAD = "12321312321";
-    private Camera camera;
-        private BaseScene mainMenu;
+    private BaseScene mainMenu;
     private IabHelper mHelper;
     private GameHelper gameHelper;
 
@@ -72,7 +70,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
     }
 
-    public void loadBigBanner(){
+    void loadBigBanner(){
 
         runOnUiThread(new Runnable() {
             @Override
@@ -108,10 +106,10 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
 
     @Override
     public EngineOptions onCreateEngineOptions() {
-        camera = new Camera(0,0, Constants.CAMERA_WIDTH,Constants.CAMERA_HEIGHT);
+        Camera camera = new Camera(0, 0, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED,
                 new FillResolutionPolicy()
-                ,camera);
+                , camera);
         engineOptions.getAudioOptions().setNeedsMusic(true);
         return engineOptions;
     }
@@ -262,6 +260,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         }
     }
 
+    @SuppressWarnings("MagicNumber")
     @Override
     public void getAchievementsGPGS() {
         if (getSignedInGPGS()) {
@@ -386,7 +385,7 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                                 return;
                             }
                             if (info.getSku().equals(Constants.BUY_ITEM_ID)) {
-                                Toast.makeText(getApplicationContext(), "Purchase for disabling ads done.", Toast.LENGTH_SHORT);
+//                                Toast.makeText(getApplicationContext(), "Purchase for disabling ads done.", Toast.LENGTH_SHORT);
                                 // сохраняем в настройках, что отключили рекламу
                                GameDateHolder.getBonuses().addFromPurchase();
                                 GameDateHolder.getAchievementsHelper().proccessFromPurchase();

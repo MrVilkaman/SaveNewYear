@@ -9,22 +9,14 @@ import donnu.zolotarev.savenewyear.Textures.TextureManager;
 
 public class HelpSign extends Sprite {
 
-    public enum HelpEnum{
-        TAP,
-        HOLD
-    }
-
-    public static HelpSign get(HelpEnum anEnum){
+    public static HelpSign get(){
             return new HelpSign(TextureManager.getTapHelp());
     }
 
+    @SuppressWarnings("MagicNumber")
     public HelpSign(ITextureRegion pTextureRegion) {
         super(Constants.CAMERA_WIDTH_HALF+250, Constants.CAMERA_HEIGHT - pTextureRegion.getHeight(), pTextureRegion, GameContex.getCurrent().getVertexBufferObjectManager());
 
     }
 
-    @Override
-    protected void onManagedUpdate(float pSecondsElapsed) {
-        super.onManagedUpdate(pSecondsElapsed);
-    }
 }

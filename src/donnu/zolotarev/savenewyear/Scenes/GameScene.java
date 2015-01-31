@@ -38,8 +38,6 @@ import donnu.zolotarev.savenewyear.Utils.Utils;
 public class GameScene extends BaseGameScene implements  MyObserver {
 
 
-    public static final int GIFT_FOR_LIFE = 1;
-    private static final float PARALLAX_CHANGE_PER_SECOND = 10;
     private  static final int UPDATE_TIMER_COUNTER_MAX = 6;
 
 
@@ -49,8 +47,8 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     private static final String MAX_TIME = "MAX_TIME";
     private static final String PREF_NAME = "PREF_NAME";
     private static final String BONUS_COUNT = "BONUS_COUNT";
+    private static final float DELAY_AFTER_BONUS_RESUME = 1f;
 
-    private static final float MAX_SPEED = 1200;
 
     private float defSpeed;
     private boolean flag2 = true;
@@ -79,7 +77,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     };
     private int updateTimerCounter = 0;
 
-    private Date date = new Date(0);
+    private final Date date = new Date(0);
 
     public GameScene(ISimpleClick onClickRestart) {
         super();
@@ -100,6 +98,8 @@ public class GameScene extends BaseGameScene implements  MyObserver {
         return new WaveController(this);
     }
 
+    //todo FPS BAR
+    @SuppressWarnings("MagicNumber")
     private void createFPSBase() {
         final FPSCounter fpsCounter = new FPSCounter();
         Engine engine = GameContex.getCurrent().getEngine();
@@ -160,6 +160,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
         });
     }
 
+    @SuppressWarnings("MagicNumber")
     private void createHUD() {
         BaseGameActivity main = GameContex.getCurrent();
         // выделение памяти под цифры, чтобы не было  рывков!
@@ -258,15 +259,15 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                 isShowMenuScene = false;
                 showHud(true);
             }else{
-                if (GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
+                if (Constants.GIFT_FOR_LIFE <= GameDateHolder.getBonuses().getBonusCount()) {
                     GameContex.getAnalistyc().sendReport("GAME","Resume game from Bonus", IAnalistyc.GAME_TIME,date.getTime());
                     enabledPauseMenu = true;
-                    waveController.addOvertime(4f);
+                    waveController.addOvertime(DELAY_AFTER_BONUS_RESUME);
                     waveController.increaseTime();
                     speedUp();
                     updateGameSpeed();
                     clearChildScene();
-                    GameDateHolder.getBonuses().buy(GIFT_FOR_LIFE);
+                    GameDateHolder.getBonuses().buy(Constants.GIFT_FOR_LIFE);
                     isShowMenuScene = false;
                     showHud(true);
                 }else{
@@ -367,7 +368,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     }
 
     public void updatePresent(Integer data){
-        StringBuilder builder = new StringBuilder("x ").append(data);
-        presentScore.setText(builder.toString());
+        presentScore.setText("x "+data);
     }
 }

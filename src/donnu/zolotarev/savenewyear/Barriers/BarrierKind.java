@@ -5,7 +5,7 @@ public enum BarrierKind {
     WATER_HOLL,                  // 0.3
     SHOW_BALL,                   // 0.08
     TREE,                        // 0.24
-    BarrierKind, BONUS                        // 0.08
+    BONUS                        // 0.08
 
 }
 

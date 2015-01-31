@@ -34,6 +34,8 @@ import donnu.zolotarev.savenewyear.Utils.ParallaxLayer;
 
 public abstract class BaseGameScene extends BaseScene  implements IActiveGameScene,ICanUnitCreate {
 
+    private static final double SPEED_UP_COEF = 0.9;
+
     protected enum LAYERS{
         ROAD_LAYER,
         GAME_LAYER,
@@ -44,15 +46,18 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
     private static final float BACKGROUND_LAYER_SPEED = 0.6f;
     private static final float FRONT_LAYER_COEF = 1.3f;
     private static final float GAME_LAYER_COEF = 1f;
-    private static final int GROUND_Y = 561;
-    private static final float SPEED_COEF = 1.075f;
+    public static final int GROUND_Y = 561;
+    private static final float SPEED_COEF = 1.03f;
 
-    private float gameSpeed = 550;
+    protected static final float MIN_SPEED = 550;
+    static final float MAX_SPEED = 1100;
+
+    private float gameSpeed = MIN_SPEED;
     private float gameGroundY = GROUND_Y;
 
-    protected Hero hero;
+    Hero hero;
 
-    protected ObjectCollisionController<ICollisionObject> treeCollection;
+    ObjectCollisionController<ICollisionObject> treeCollection;
     private ShowflakeGenerator generator;
 
     private ParallaxLayer parallaxFG;
@@ -62,7 +67,7 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
     protected IWaveController waveController;
 
 
-    public BaseGameScene() {
+    BaseGameScene() {
         super();
         TextureManager.loadGameSprites();
         SceneContext.setActiveScene(this);
@@ -81,8 +86,6 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
         createBackGround();
         treeCollection =  new ObjectCollisionController<ICollisionObject>();
         ObjectPoolContex.setBarrierCenter(new BarrierCenter());
-
-
     }
 
     protected abstract IWaveController initWaveControllr();
@@ -111,15 +114,18 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
     @Override
     public void increaseGameSpeed(){
         gameSpeed *=SPEED_COEF;
-        updateGameSpeed();
+        if (MAX_SPEED < gameSpeed ) {
+            gameSpeed =  MAX_SPEED;
+        }
+            updateGameSpeed();
     }
 
-    protected void speedUp() {
-        gameSpeed *= 0.9;
+    void speedUp() {
+        gameSpeed *= SPEED_UP_COEF;
     }
 
 
-    protected void updateGameSpeed() {
+    void updateGameSpeed() {
         if (Constants.SHOW_SNOW) {
             generator.setSpeed(gameSpeed);
         }
@@ -140,7 +146,8 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
         }
     }
 
-    protected void createBackGround() {
+    @SuppressWarnings("MagicNumber")
+    void createBackGround() {
         BaseGameActivity main = GameContex.getCurrent();
         autoParallaxBackground = new AutoParallaxBackground(0f,0f,0f,gameSpeed);
         IAreaShape background = new Sprite(0,0, TextureManager.getGameBG(),main.getVertexBufferObjectManager());
@@ -175,7 +182,7 @@ public abstract class BaseGameScene extends BaseScene  implements IActiveGameSce
 
     }
 
-    protected void attachToLayer(LAYERS layer, IEntity entity){
+    void attachToLayer(LAYERS layer, IEntity entity){
         getChildByIndex(layer.ordinal()).attachChild(entity);
     }
 

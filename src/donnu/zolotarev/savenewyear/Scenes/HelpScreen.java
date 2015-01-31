@@ -21,6 +21,8 @@ import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
 public class HelpScreen extends  BaseGameScene{
 
 
+    private static final int SHOW_HELP_DIST = 300;
+    private static final int HIDE_HELP_DIST = 150;
     private static boolean inFirst = true;
     private ISimpleClick onClickRestart;
     private boolean flag2 = true;
@@ -133,10 +135,10 @@ public class HelpScreen extends  BaseGameScene{
             if (!col.isEmpty()) {
                 ICollisionObject bar = col.get(0);
                 float x = bar.getShape().getSceneCenterCoordinates()[0];
-                if (!isShowHelp && x  < Constants.CAMERA_WIDTH-300) {
-                    showHelp(HelpSign.HelpEnum.TAP);
+                if (!isShowHelp && x  < Constants.CAMERA_WIDTH- SHOW_HELP_DIST) {
+                    showHelp();
                 }
-                if (isShowHelp && x < 150) {
+                if (isShowHelp && x < HIDE_HELP_DIST) {
                     hideHelp();
                 }
             }else{
@@ -186,11 +188,11 @@ public class HelpScreen extends  BaseGameScene{
     }
 
 
-    private void showHelp(HelpSign.HelpEnum helpSign) {
+    private void showHelp() {
         if (isShowHelp) {
             hideHelp();
         }
-        tapHelp = HelpSign.get(helpSign);
+        tapHelp = HelpSign.get();
         attachToLayer(LAYERS.HUD_LAYER,tapHelp);
         isShowHelp = true;
     }

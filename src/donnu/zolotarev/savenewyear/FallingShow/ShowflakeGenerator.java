@@ -29,7 +29,7 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
     //private final VelocityParticleInitializer velocityParticleInitializer;
 
     private boolean mParticlesSpawnEnabled = true;
-    private int mParticlesMaximum = 200;
+    private final  static int mParticlesMaximum = 200;
     private float mParticlesDueToSpawn = 0;
     private boolean mBlendingEnabled = true;
     private float speed = 0;
@@ -50,6 +50,7 @@ public class ShowflakeGenerator<T extends IEntity> extends Entity {
         particlesPool.clear();
     }
 
+    @SuppressWarnings("MagicNumber")
     @Override
     protected void onManagedUpdate(float pSecondsElapsed) {
         super.onManagedUpdate(pSecondsElapsed);

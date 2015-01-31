@@ -1,11 +1,5 @@
 package donnu.zolotarev.savenewyear.Barriers;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
-import donnu.zolotarev.savenewyear.Scenes.SceneContext;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
@@ -13,8 +7,16 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Constants;
+import donnu.zolotarev.savenewyear.GameData.GameDateHolder;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
+
 public class BonusItem extends BaseUnit {
 
+    @SuppressWarnings("Magic number")
     public BonusItem() {
 
         BaseGameActivity gameActivity = GameContex.getCurrent();
@@ -41,6 +43,7 @@ public class BonusItem extends BaseUnit {
         sprite.setIgnoreUpdate(true);
         sprite.setVisible(false);
         physicsHandler.setEnabled(false);
+        Y_OFFSET = (int)sprite.getHeight()+5;
     }
 
 

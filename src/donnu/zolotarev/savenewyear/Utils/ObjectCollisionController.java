@@ -44,8 +44,6 @@ public class ObjectCollisionController<E extends ICollisionObject> {
 
     public ArrayList<E> haveCollision(IGetShape object){
         iShapes.clear();
-    //     it = objects.iterator();
-        ;
        for (int i = objects.size()-1; 0<=i;i--){
            E it =  objects.get(i);
             if(it.checkHit(object)&& !it.getShape().isIgnoreUpdate() ){

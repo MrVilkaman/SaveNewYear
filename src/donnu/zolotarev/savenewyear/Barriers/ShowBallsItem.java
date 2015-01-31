@@ -15,8 +15,11 @@ import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 import donnu.zolotarev.savenewyear.Utils.Utils;
 
+@SuppressWarnings("MagicNumber")
 public class ShowBallsItem extends BaseUnit {
 
+    private static final float SPEED_MIN = 150f;
+    private static final float SPEED_MAX = 400f;
 
     private final Rectangle rect2;
     private int currentFrame;
@@ -49,6 +52,7 @@ public class ShowBallsItem extends BaseUnit {
         sprite.registerUpdateHandler(physicsHandler);
         SceneContext.getActiveScene().attachToGameLayers(sprite, true);
         SceneContext.getActiveScene().registerTouchArea(rect);
+        Y_OFFSET = (int)sprite.getHeight()-8;
     }
 
     @Override
@@ -94,7 +98,7 @@ public class ShowBallsItem extends BaseUnit {
     }
 
     public void setStart(){
-        speedX = Utils.random(150f, 400f);
+        speedX = Utils.random(SPEED_MIN, SPEED_MAX);
         super.setStart();
         currentFrame = 1; //(r<0.5)? 0 : 1;
         updateFrame();

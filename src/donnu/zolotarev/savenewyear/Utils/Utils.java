@@ -6,7 +6,8 @@ import java.util.Locale;
 
 public class Utils {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.S", Locale.ENGLISH);
+    private static final float ACCURACY = 0.0001f;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.S", Locale.ENGLISH);
 
     public static float random(float lower, float upper){
         return Math.round(Math.random() * (upper - lower)) + lower;
@@ -17,7 +18,7 @@ public class Utils {
     }
 
     public static boolean equals(float numb1,float numb2){
-        return equals(numb1,numb2,0.0001f);
+        return equals(numb1,numb2, ACCURACY);
     }
 
     public static boolean equals(float numb1,float numb2, float accuracy){

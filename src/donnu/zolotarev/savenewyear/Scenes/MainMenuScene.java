@@ -158,7 +158,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         }
         pref.edit()
                 .putInt(ENTER_TIME_BONUS,count)
-                .commit();
+                .apply();
 
             context.runOnUiThread(new Runnable() {
                 @Override
@@ -180,7 +180,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         pref.edit()
 
                 .putLong(LAST_ENTER_TIME,new Date().getTime())
-                .commit();
+                .apply();
     }
 
     private void loadGame(){
@@ -196,7 +196,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
                 SharedPreferences pref = GameContex.getCurrent().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
                 pref.edit().putInt(BONUS_COUNT, GameDateHolder.getBonuses().getBonusCount());
                 pref.edit().putBoolean(PREF_SETTINGS, GameDateHolder.getSetting().isNeedTutorials())
-                .commit();
+                .apply();
             }
         });
     }
@@ -213,11 +213,12 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         }
     }
 
+    @SuppressWarnings("MagicNumber")
     private void initBackground() {
         BaseGameActivity main = GameContex.getCurrent();
 
         setBackground(new SpriteBackground(new Sprite(0, 0, TextureManager.getMenuBG(), main.getVertexBufferObjectManager())));
-        RectangularShape title = EasyLayoutsFactory.alihment(createSprite(TextureManager.getGameTitle()), Constants.CAMERA_WIDTH / 2, 20, WALIGMENT.CENTER, HALIGMENT.TOP);
+         RectangularShape title = EasyLayoutsFactory.alihment(createSprite(TextureManager.getGameTitle()), Constants.CAMERA_WIDTH / 2, 20, WALIGMENT.CENTER, HALIGMENT.TOP);
         attachToLayer(LAYERS.TITLE_LAYER,title);
 
         String text = main.getString(R.string.main_menu_play);
@@ -272,13 +273,14 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         attachToLayer(LAYERS.BATTON_LAYER,vk);
     }
 
+    @SuppressWarnings("MagicNumber")
     private void versionInfoUpdate() {
         PackageInfo packinfo = null;
         try {
             packinfo = GameContex.getCurrent().getPackageManager().getPackageInfo("donnu.zolotarev.savenewyear", PackageManager.GET_ACTIVITIES);
         } catch (PackageManager.NameNotFoundException e) {
         }
-        Text text = new Text(5,Constants.CAMERA_HEIGHT-40, TextureManager.getBigFont(),"v" + packinfo.versionName.toString(),GameContex.getCurrent().getVertexBufferObjectManager());
+        Text text = new Text(5,Constants.CAMERA_HEIGHT-40, TextureManager.getBigFont(),"v" + packinfo.versionName,GameContex.getCurrent().getVertexBufferObjectManager());
         text.setScaleCenter(0,0);
         text.setScale(0.3f);
         attachToLayer(LAYERS.TITLE_LAYER, text);

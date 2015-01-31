@@ -9,22 +9,19 @@ import org.andengine.util.color.Color;
 
 import donnu.zolotarev.savenewyear.Activities.GameContex;
 import donnu.zolotarev.savenewyear.Constants;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
+import donnu.zolotarev.savenewyear.Scenes.BaseGameScene;
 import donnu.zolotarev.savenewyear.Scenes.SceneContext;
 import donnu.zolotarev.savenewyear.Textures.TextureManager;
 import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
 
 public class TreeItem extends BaseUnit {
 
-    private static final float TIME_ROTATION_TREE = 1f;
-    private static final float OVER_TIME = 0.5f;
+    private static final float OVER_TIME = 0.9f;
+    private static final int TREE_OFFSET = 40;
 
-    private float FRAME_TIME = 0.01f;
     private final Rectangle rect2;
-    private float animTime = 0;
-    private boolean needBuild = false;
-    private boolean animatedFinish = false;
 
+    @SuppressWarnings("MagicNumber")
     public TreeItem() {
         BaseGameActivity gameActivity = GameContex.getCurrent();
         ITiledTextureRegion he = TextureManager.getTree();
@@ -65,18 +62,7 @@ public class TreeItem extends BaseUnit {
         sprite.setVisible(false);
         physicsHandler.setEnabled(false);
         sprite.setRotation(90f);
-
-    }
-
-    @Override
-    public void setStart() {
-        super.setStart();
-        sprite.setPosition(Constants.CAMERA_WIDTH+START_X_OFFSET,591-sprite.getHeight());
-
-        animatedFinish = true;
-        needBuild = false;
-//        rect.setScaleY(0.2f);
-        IActiveGameScene sc = SceneContext.getActiveScene();
+        Y_OFFSET = (int)sprite.getHeight()-35;
 
     }
 
@@ -85,17 +71,11 @@ public class TreeItem extends BaseUnit {
         if (object.getShape().collidesWith(rect2)) return true;
 
         if (object.getShape().collidesWith(rect)) {
-            SceneContext.getActiveScene().setGroudY(521);
+            SceneContext.getActiveScene().setGroudY(BaseGameScene.GROUND_Y- TREE_OFFSET);
         } else {
-            SceneContext.getActiveScene().setGroudY(561);
+            SceneContext.getActiveScene().setGroudY(BaseGameScene.GROUND_Y);
         }
         return false;
-
-    }
-
-    @Override
-    public void destroy(Boolean withAnimate) {
-        super.destroy(withAnimate);
     }
 
     @Override

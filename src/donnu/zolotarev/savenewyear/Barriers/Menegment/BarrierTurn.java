@@ -29,8 +29,8 @@ public class BarrierTurn extends PriorityQueue<BarrierKind> {
         new Thread(runnable).run();
     }
 
-    Runnable runnable = new Runnable() {
-        public Random random = new Random();
+    private final Runnable runnable = new Runnable() {
+        public final Random random = new Random();
 
         @Override
         public void run() {

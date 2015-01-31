@@ -1,13 +1,5 @@
 package donnu.zolotarev.savenewyear;
 
-import donnu.zolotarev.savenewyear.Activities.GameContex;
-import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
-import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
-import donnu.zolotarev.savenewyear.Scenes.SceneContext;
-import donnu.zolotarev.savenewyear.Textures.TextureManager;
-import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
-import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
-import donnu.zolotarev.savenewyear.Utils.Utils;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
@@ -19,6 +11,16 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
+import donnu.zolotarev.savenewyear.Activities.GameContex;
+import donnu.zolotarev.savenewyear.Barriers.BarrierKind;
+import donnu.zolotarev.savenewyear.Scenes.BaseGameScene;
+import donnu.zolotarev.savenewyear.Scenes.Interfaces.IActiveGameScene;
+import donnu.zolotarev.savenewyear.Scenes.SceneContext;
+import donnu.zolotarev.savenewyear.Textures.TextureManager;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.ICollisionObject;
+import donnu.zolotarev.savenewyear.Utils.Interfaces.IGetShape;
+import donnu.zolotarev.savenewyear.Utils.Utils;
+
 public class Hero implements ICollisionObject{
 
     private static final float HERO_X = 150;
@@ -27,6 +29,7 @@ public class Hero implements ICollisionObject{
     private static final float JUMP_SPEED = 1120;
     private static final float GRAVITY_SPEED = 3750;
     private static final float GRAVITY_SPEED_MAX = 10000;
+    private static final float SPEED_AFTER_RESTART = 0.2f;
 
     private final AnimatedSprite animatedSprite;
     private final PhysicsHandler physicsHandler;
@@ -34,14 +37,14 @@ public class Hero implements ICollisionObject{
     private final Rectangle rect;
     private final PhysicsHandler shedowPhysicsHandler;
 
-    // todo убрать константу!
-    private float groundY = 561;
+
 
     private boolean isFly = false;
     private boolean die = false;
     private boolean dieInWaterHoll = false;
     private boolean dieDelay = false;
 
+    @SuppressWarnings("MagicNumber")
     public Hero() {
         ITiledTextureRegion he = TextureManager.getHero();
         BaseGameActivity main = GameContex.getCurrent();
@@ -63,7 +66,7 @@ public class Hero implements ICollisionObject{
                     shedow.setScale(1 - (herY - mY) / herY);
                 }
                 if (!dieInWaterHoll) {
-                    shedow.setVisible(Utils.equals(gameLayers.getGroundY(), 561,10f));
+                    shedow.setVisible(Utils.equals(gameLayers.getGroundY(), BaseGameScene.GROUND_Y,10f));
                 }
 
                 if(HERO_X < mX){
@@ -109,6 +112,7 @@ public class Hero implements ICollisionObject{
         animatedSprite.animate(new long[]{ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED, ANIMATE_SPEED},new int[]{0,1,2,3,2,1},true);
     }
 
+    @SuppressWarnings("MagicNumber")
     public void jump(){
         if (!die) {
             if (!isFly) {
@@ -126,10 +130,6 @@ public class Hero implements ICollisionObject{
 
     public IEntity getSprite() {
         return rect;
-    }
-
-    public void setGroundY(float groundY) {
-        this.groundY = groundY;
     }
 
     @Override
@@ -168,6 +168,7 @@ public class Hero implements ICollisionObject{
         }
     }
 
+    @SuppressWarnings("MagicNumber")
     public void restart() {
         die = false;
         shedow.setScale(1);
@@ -175,7 +176,7 @@ public class Hero implements ICollisionObject{
         shedow.setVisible(true);
         animatedSprite.setX(-(animatedSprite.getScaleX()+130));
         shedow.setX(-(animatedSprite.getScaleX()+130)+15);
-        float v = SceneContext.getActiveScene().getGameSpeed()*0.2f;
+        float v = SceneContext.getActiveScene().getGameSpeed()* SPEED_AFTER_RESTART;
         physicsHandler.setVelocityX(v);
         shedowPhysicsHandler.setVelocityX(v);
         animateStart();

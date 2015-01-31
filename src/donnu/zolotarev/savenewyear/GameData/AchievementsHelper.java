@@ -6,6 +6,16 @@ import donnu.zolotarev.savenewyear.R;
 
 public class AchievementsHelper {
 
+    private static final int UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_1 = 30000;
+    private static final int UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_2 = 90000;
+    private static final int UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_3 = 180000;
+    private static final int UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_4 = 300000;
+
+    private static final int UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_1 = 10;
+    private static final int UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_2 = 30;
+    private static final int UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_3 = 75;
+    private static final int UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_4 = 200;
+
     public void proccessDieHeroAchievements(BarrierKind kind){
         switch (kind){
             case WATER_HOLL:
@@ -21,14 +31,14 @@ public class AchievementsHelper {
     }
 
     public void proccessBestTime(long time){
-        if ( 30000 <=time) {
+        if ( UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_1 <=time) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_start_of_way);
         }
-        if ( 90000  <=time) {
+        if ( UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_2 <=time) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_artful_runner);
-        } if ( 180000 <=time) {
+        } if ( UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_3 <=time) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_die_hard);
-        } if ( 300000 <=time) {
+        } if ( UNLOCK_ACHIEVEMENT_BEST_TIME_LEVEL_4 <=time) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_cheater);
         }
     }
@@ -40,13 +50,13 @@ public class AchievementsHelper {
         GameContex.getActionResolver().incrementAchievementGPGS(R.string.achievement_gather_of_gifts, 1);
         GameContex.getActionResolver().incrementAchievementGPGS(R.string.achievement_hunter_for_gifts, 1);
         Bonuses bonuses = GameDateHolder.getBonuses();
-        if (bonuses.getBonusCount() >= 10) {
+        if (bonuses.getBonusCount() >= UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_1) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_thrifty);
-        } if (bonuses.getBonusCount() >= 30) {
+        } if (bonuses.getBonusCount() >= UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_2) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_for_a_rainy_day);
-        } if (bonuses.getBonusCount() >= 75) {
+        } if (bonuses.getBonusCount() >= UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_3) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_gifts_keeper);
-        } if (bonuses.getBonusCount() >= 200) {
+        } if (bonuses.getBonusCount() >= UNLOCK_ACHIEVEMENT_BONUS_COUNT_LEVEL_4) {
             GameContex.getActionResolver().unlockAchievementGPGS(R.string.achievement_collectors);
         }
     }

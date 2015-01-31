@@ -78,6 +78,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     private int updateTimerCounter = 0;
 
     private final Date date = new Date(0);
+    private boolean isOnPause = false;
 
     public GameScene(ISimpleClick onClickRestart) {
         super();
@@ -214,6 +215,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
         if (enabledPauseMenu){
             if (!isShowMenuScene){
                 showPause();
+                isOnPause = !isNotGameOver;
             }
         }
     }
@@ -239,6 +241,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
     }
 
     private void showPause() {
+        isOnPause = false;
         saveGame();
         showHud(false);
         isShowMenuScene = true;
@@ -253,7 +256,7 @@ public class GameScene extends BaseGameScene implements  MyObserver {
         @Override
         public void onClick() {
             final BaseGameActivity activity = GameContex.getCurrent();
-            if (isNotGameOver) {
+            if (isNotGameOver || isOnPause) {
                 clearChildScene();
                 isShowMenuScene = false;
                 showHud(true);

@@ -205,7 +205,6 @@ public class GameScene extends BaseGameScene implements  MyObserver {
                 isShowMenuScene = false;
                 clearChildScene();
                 showHud(true);
-                //back();
             }
         }
     }

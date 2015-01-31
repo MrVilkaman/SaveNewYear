@@ -16,18 +16,18 @@ public class Constants {
     public static final String TWITTER_GROUP_URL = "https://twitter.com/ZaharZolotarev";
 
 
-    public static final boolean DEV_MODE = true;
+    public static final boolean DEV_MODE = false;
 
     public static final boolean SHOW_COLLAPS_ITEM_ZONE = false;
     public static final boolean SHOW_SNOW = true;
     public static final boolean NEED_ADS = !DEV_MODE;
-    public static final boolean NEED_ANALYTICS = false &&!DEV_MODE;
+    public static final boolean NEED_ANALYTICS = !DEV_MODE;
     public static final boolean NEED_PLAY_SERVICE = !DEV_MODE;
 
     public static final int ADS_SHOW_DELAY = 3;
 
     public static final String ADS_ID = "506f4ce5-b429-4a50-944a-3d71a6dc8bbf";
-    public static final String ADMOB_DS_ID = "ca-app-pub-3472836589086047/9503363019    ";
+    public static final String ADMOB_DS_ID = "ca-app-pub-3472836589086047/9503363019";
 
 
     public static final String ANALISTYC_TRACER_ID =  "UA-56368026-4";

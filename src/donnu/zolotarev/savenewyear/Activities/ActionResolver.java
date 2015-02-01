@@ -20,4 +20,5 @@ public interface ActionResolver {
 
 
     public void showAds();
+    public void openAdLink();
 }

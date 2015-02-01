@@ -49,4 +49,5 @@
     <string name="get_every_day_bonus">You got %1s gifts! Come to the game every day and get more gifts!</string>
     <string name="try_again_btn">Again</string>
     <string name="skip_tutorial_btn">Skip</string>
+    <string name="main_menu_more_game">More games</string>
 </resources>

@@ -12,6 +12,10 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.games.Games;
+import com.revmob.RevMob;
+import com.revmob.RevMobAdsListener;
+import com.revmob.ads.fullscreen.RevMobFullscreen;
+import com.revmob.ads.link.RevMobLink;
 
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
@@ -45,6 +49,9 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
     private IabHelper mHelper;
     private GameHelper gameHelper;
 
+    private RevMobFullscreen revFull;
+    private RevMobLink revLink;
+
     @Override
     protected void onCreate(Bundle pSavedInstanceState) {
         super.onCreate(pSavedInstanceState);
@@ -67,7 +74,11 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
         }
 
       //  loadBigBanner();
-
+        if (Constants.NEED_ADS) {
+            RevMob revmob = RevMob.start(this); // RevMob Media ID configured in the AndroidManifest.xml file
+            revFull = revmob.createFullscreen(this,list);
+            revLink = revmob.createAdLink(this, list);
+        }
     }
 
     void loadBigBanner(){
@@ -87,7 +98,9 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
                     public void onAdFailedToLoad(int errorCode) {
                         super.onAdFailedToLoad(errorCode);
                         sendReport("ADS","ADMOD error",errorCode+"");
-
+                        if (revFull != null) {
+                            revFull.show();
+                        }
                     }
 
 
@@ -162,6 +175,13 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
             mainMenu.detachChildren();
             mainMenu.detachSelf();
             mainMenu = null;
+        }
+        if (revLink != null) {
+            revLink.cancel();
+            revLink = null;
+        }
+        if (revFull != null) {
+            revFull = null;
         }
         getEngine().setScene(null);
         getEngine().clearUpdateHandlers();
@@ -414,4 +434,63 @@ public class Main extends SimpleBaseGameActivity implements ActionResolver,IAnal
             loadBigBanner();
         }
     }
+
+    @Override
+    public void openAdLink() {
+        if (revLink != null) {
+            revLink.open();
+        }
+    }
+
+    private RevMobAdsListener list = new RevMobAdsListener() {
+        @Override
+        public void onRevMobSessionIsStarted() {
+
+        }
+
+        @Override
+        public void onRevMobSessionNotStarted(String s) {
+            sendReport("ADS","Revmob error",s);
+        }
+
+        @Override
+        public void onRevMobAdReceived() {
+
+        }
+
+        @Override
+        public void onRevMobAdNotReceived(String s) {
+            sendReport("ADS","Revmob error",s);
+        }
+
+        @Override
+        public void onRevMobAdDisplayed() {
+            sendReport("ADS","Revmob Displayed","");
+        }
+
+        @Override
+        public void onRevMobAdDismiss() {
+
+        }
+
+        @Override
+        public void onRevMobAdClicked() {
+            sendReport("ADS","Revmob Clicked","");
+        }
+
+        @Override
+        public void onRevMobEulaIsShown() {
+
+        }
+
+        @Override
+        public void onRevMobEulaWasAcceptedAndDismissed() {
+
+        }
+
+        @Override
+        public void onRevMobEulaWasRejected() {
+
+        }
+    };
 }

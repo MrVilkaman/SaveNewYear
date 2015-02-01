@@ -52,6 +52,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
 
     private ShowflakeGenerator generator;
 
+
     @Override
     public void update(int data) {
     }
@@ -61,6 +62,13 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         SHOW_LAYER,
         BATTON_LAYER
     }
+
+    private ISimpleClick onClickMoreGame = new ISimpleClick() {
+        @Override
+        public void onClick() {
+            GameContex.getActionResolver().openAdLink();
+        }
+    };
 
     private ISimpleClick onVkClick = new ISimpleClick() {
         @Override
@@ -224,11 +232,19 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         String text = main.getString(R.string.main_menu_play);
 
         RectangularShape btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
-                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2,
-                Constants.CAMERA_HEIGHT - 190, WALIGMENT.CENTER, HALIGMENT.CENTER);
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickPlay), Constants.CAMERA_WIDTH / 2 + 50,
+                Constants.CAMERA_HEIGHT - 190, WALIGMENT.LEFT, HALIGMENT.CENTER);
         registerTouchArea(btn1);
         attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
+
+         text = main.getString(R.string.main_menu_more_game);
+
+         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
+                        , main.getVertexBufferObjectManager(), text, TextureManager.getFont(), onClickMoreGame), Constants.CAMERA_WIDTH / 2 - 50,
+                Constants.CAMERA_HEIGHT - 190, WALIGMENT.RIGHT, HALIGMENT.CENTER);
+        registerTouchArea(btn1);
+        attachToLayer(LAYERS.BATTON_LAYER, btn1);
 
         text = main.getString(R.string.main_menu_achievement);
         btn1 = EasyLayoutsFactory.alihment(EasyLayoutsFactory.create(TextureManager.getButtons()
@@ -318,6 +334,7 @@ public class MainMenuScene extends BaseScene implements MyObserver {
         onClickAchievement = null;
         onVkClick = null;
         onTwitterClick = null;
+        onClickMoreGame = null;
         generator = null;
     }
 
@@ -339,7 +356,6 @@ public class MainMenuScene extends BaseScene implements MyObserver {
                 saveGame();
                 ((IActivityCallback)getChildScene()).destroy();
             }
-
 
             clearChildScene();
             if (GameDateHolder.getSetting().isNeedTutorials()) {

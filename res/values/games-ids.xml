@@ -4,6 +4,7 @@ Google Play game services IDs.
 Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
+    <string name="revmob_id">54cde4827c9d55e309451793</string>
     <string name="app_id">848828436272</string>
     <string name="achievement_start_of_way">CgkIsJ74kNoYEAIQAQ</string>
     <string name="achievement_artful_runner">CgkIsJ74kNoYEAIQAg</string>
